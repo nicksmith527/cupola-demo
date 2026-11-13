@@ -125,27 +125,65 @@ Object.assign(SampleSource.prototype, {
   // Cumulative tickets by days before the performance, plus what similar
   // shows (same genre) had sold on the same day.
   getPerfCurve(p) {
+    if (!this._curves) this._curves = new Map();
+    const key = p.id + ":" + p.sold;
+    if (this._curves.has(key)) return this._curves.get(key);
     const onSale = p.onSaleDays;
     const end = Math.max(0, p.daysOut);
     const tNow = 1 - end / onSale;
-    const r = rng(hash(p.id));
+    const r = rng(hash(p.id + "curve"));
+    // Each show gets its own selling pattern; similar shows use the genre's
+    // typical shape. Profiles: strong on-sale (subscribers), late surge
+    // (walk-up crowds), steady, or a mid-campaign push.
+    const kind = ["onsale", "late", "steady", "push"][hash(p.title) % 4];
+    const P = {
+      onsale: { a: 0.45 + r() * 0.15, k: 18, pow: 1.8 },
+      late: { a: 0.08 + r() * 0.08, k: 10, pow: 3.6 + r() },
+      steady: { a: 0.12, k: 8, pow: 1.15 + r() * 0.25 },
+      push: { a: 0.2, k: 12, pow: 2.2, bumpAt: 0.35 + r() * 0.3, bump: 0.12 + r() * 0.1 },
+    }[kind];
+    const mine = (t) => {
+      t = Math.min(1, Math.max(0, t));
+      let v = P.a * (1 - Math.exp(-t * P.k)) + (1 - P.a) * Math.pow(t, P.pow);
+      if (P.bump) v += P.bump * (1 / (1 + Math.exp(-(t - P.bumpAt) * 40)) - 1 / (1 + Math.exp(P.bumpAt * 40)));
+      return v;
+    };
+    // Shape up to 14 days ago, then the last 14 days match p.sold14 exactly,
+    // so a stall or a spurt shows up in the line.
+    const d14 = Math.min(onSale, end + 14);
+    const t14 = 1 - d14 / onSale;
+    // Played shows: the final two weeks usually carry about a fifth of sales.
+    const recent = p.daysOut < 0 ? Math.round(p.sold * (0.16 + r() * 0.12)) : Math.min(p.sold, p.sold14);
+    const pre = Math.max(0, p.sold - recent);
     const pts = [];
     let last = 0;
     for (let d = onSale; d >= end; d--) {
       const t = 1 - d / onSale;
-      const v = Math.max(last, Math.round((p.sold * shape(t)) / Math.max(0.02, shape(tNow)) * (1 + (r() - 0.5) * 0.05 * (1 - t))));
+      let v;
+      if (d >= d14) v = (pre * mine(t)) / Math.max(0.02, mine(t14));
+      else {
+        const f = (mine(t) - mine(t14)) / Math.max(1e-6, mine(tNow) - mine(t14));
+        v = pre + recent * Math.max(0, Math.min(1, f));
+      }
+      // Day-to-day noise: weekends, email drops.
+      v *= 1 + (r() - 0.5) * 0.07 * Math.min(1, t * 3);
+      v = Math.max(last, Math.round(v));
       pts.push({ daysOut: d, sold: v, bench: Math.round((p.benchmarkSold * shape(t)) / Math.max(0.02, shape(tNow))) });
       last = v;
     }
     pts[pts.length - 1].sold = p.sold;
+    for (let i = pts.length - 2; i >= 0; i--) pts[i].sold = Math.min(pts[i].sold, pts[i + 1].sold);
     // Where similar shows usually finish, for the rest of the axis.
     const ahead = [];
     for (let d = end - 1; d >= 0; d--) {
       const t = 1 - d / onSale;
       ahead.push({ daysOut: d, bench: Math.round((p.benchmarkSold * shape(t)) / Math.max(0.02, shape(tNow))) });
     }
-    return { onSale, pts, ahead };
+    const out = { onSale, pts, ahead, kind };
+    this._curves.set(key, out);
+    return out;
   },
+
 
   // ---- House: load-in by zone ---------------------------------------------
   // Performances with arrival data: last night (complete) and tonight

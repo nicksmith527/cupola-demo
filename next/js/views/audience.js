@@ -6,9 +6,11 @@ import { int, money, moneyK, esc } from "../ui/format.js";
 import { showTip, hideTip, tipHtml } from "../ui/tooltip.js";
 import { strip, setStat, toast } from "../ui/mini.js";
 
-const RAMP = ["#e3eefc", "#cde2fb", "#b7d3f6", "#9ec5f4", "#86b6ef", "#6da7ec", "#5598e7", "#3987e5", "#2a78d6", "#1c5cab"];
+const RAMP = document.documentElement.dataset.skin === "gulf"
+  ? ["#e6f4f2", "#d0ebe8", "#b5ded9", "#97cfc9", "#78bfb8", "#58aea7", "#3a9c96", "#1d8783", "#0f7c7a", "#0b5f5e"]
+  : ["#e3eefc", "#cde2fb", "#b7d3f6", "#9ec5f4", "#86b6ef", "#6da7ec", "#5598e7", "#3987e5", "#2a78d6", "#1c5cab"];
 const rampColor = (t) => RAMP[Math.min(RAMP.length - 1, Math.floor(t * RAMP.length))];
-const SEG_COLORS = { Champions: "#1c5cab", Loyal: "#3987e5", Promising: "#1baf7a", "Needs attention": "#eda100", Hibernating: "#9aa3b2", Middle: "#c6ccd7" };
+const SEG_COLORS = { Champions: "var(--accent, #1c5cab)", Loyal: "var(--series-1)", Promising: "#1baf7a", "Needs attention": "#eda100", Hibernating: "#9aa3b2", Middle: "#c6ccd7" };
 
 function csv(rows) {
   const cols = ["constituent_id", "segment", "recency_score", "frequency_score", "monetary_score", "days_since_last_purchase", "orders", "spend"];

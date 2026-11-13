@@ -37,7 +37,7 @@ body.next { font-size: 14px; }
 .appbar .status, .appbar .market { color: #c4d0e1; }
 .appbar .market select { background: var(--navy-2); color: #fff; border-color: #2c4366; }
 .appbar .refresh-ring .track { stroke: #2c4366; }
-.appbar .refresh-ring .prog { stroke: #7fb0ee; }
+.appbar .refresh-ring .prog { stroke: var(--accent-light, #7fb0ee); }
 .appbar .refresh-btn { background: var(--navy-2); border-color: #2c4366; color: #fff; padding: 3px 9px; font-size: 14px; }
 .appbar .nav {
   border: 0; padding: 4px 18px 10px; gap: 6px; background: none;
@@ -105,12 +105,12 @@ footer { color: var(--text-muted); }
 .ring .small { font: 500 10px var(--font); fill: var(--text-muted); }
 .kv { display: grid; grid-template-columns: auto auto; gap: 3px 14px; font-size: 13px; color: var(--text-secondary); justify-content: start; }
 .kv b { color: var(--text-primary); font-variant-numeric: tabular-nums; font-weight: 600; text-align: right; }
-.go { display: inline-flex; align-items: center; gap: 4px; font-size: 12.5px; font-weight: 600; color: #1c5cab; text-decoration: none; margin-top: 10px; background: none; border: 0; padding: 0; cursor: pointer; }
+.go { display: inline-flex; align-items: center; gap: 4px; font-size: 12.5px; font-weight: 600; color: var(--accent, #1c5cab); text-decoration: none; margin-top: 10px; background: none; border: 0; padding: 0; cursor: pointer; }
 .go:hover { text-decoration: underline; }
 .mini-list { display: flex; flex-direction: column; }
 .mini-row { display: grid; grid-template-columns: minmax(0, 1fr) 90px 54px; gap: 12px; align-items: center; padding: 8px 0; border-top: 1px solid var(--grid); font-size: 13px; color: inherit; text-decoration: none; }
 .mini-row:first-child { border-top: 0; }
-a.mini-row:hover .name { color: #1c5cab; }
+a.mini-row:hover .name { color: var(--accent, #1c5cab); }
 .mini-row .name { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: 550; }
 .mini-row .meta { font-size: 11.5px; color: var(--text-muted); }
 .mini-row .num { text-align: right; font-variant-numeric: tabular-nums; font-weight: 600; }
@@ -161,7 +161,7 @@ a.re-tag:hover { background: #e5d8fa; }
 .dr-row .chip { font-size: 11.5px; padding: 2px 8px; }
 .dr-band { display: flex; align-items: center; gap: 10px; padding: 12px 10px 6px; font-size: 11px; font-weight: 650; letter-spacing: .06em; text-transform: uppercase; color: var(--text-muted); }
 .dr-band .pill { text-transform: none; letter-spacing: 0; font-weight: 500; }
-.dr-band.today { color: #1c5cab; }
+.dr-band.today { color: var(--accent, #1c5cab); }
 .dr-band.today::after { content: ""; flex: 1; border-top: 2px solid var(--series-1); }
 .dr-week { padding: 10px 10px 4px; font-size: 11.5px; font-weight: 600; color: var(--text-secondary); background: var(--surface-2); border-radius: 6px; margin-top: 8px; }
 .dr-detail { padding: 10px 12px 16px; border-bottom: 1px solid var(--border); background: #f1f6fd; animation: fade .3s ease both; cursor: default; }
@@ -195,7 +195,7 @@ a.re-tag:hover { background: #e5d8fa; }
 .re-card .vs { display: flex; gap: 14px; font-size: 12px; color: var(--text-secondary); margin-top: 8px; flex-wrap: wrap; }
 .re-card .vs b { font-variant-numeric: tabular-nums; }
 .pos { color: var(--good); } .neg { color: var(--critical); }
-.back { display: inline-flex; gap: 6px; align-items: center; font-size: 13px; font-weight: 600; color: #1c5cab; text-decoration: none; margin-bottom: 10px; }
+.back { display: inline-flex; gap: 6px; align-items: center; font-size: 13px; font-weight: 600; color: var(--accent, #1c5cab); text-decoration: none; margin-bottom: 10px; }
 .insights { display: flex; flex-direction: column; gap: 8px; margin: 0; padding: 0; list-style: none; font-size: 13px; color: var(--text-secondary); }
 .insights li { padding-left: 16px; position: relative; }
 .insights li::before { content: ""; position: absolute; left: 2px; top: 7px; width: 6px; height: 6px; border-radius: 50%; background: var(--series-1); }
@@ -214,7 +214,7 @@ a.re-tag:hover { background: #e5d8fa; }
 .zone-track { grid-column: 1 / -1; height: 10px; border-radius: 5px; background: var(--surface-2); overflow: hidden; display: flex; }
 .zone-track i { display: block; height: 100%; transition: width .5s ease; }
 .seat.in { fill: var(--series-1); stroke: none; }
-.seat.due { fill: #bcd4f3; stroke: none; }
+.seat.due { fill: var(--accent-soft, #bcd4f3); stroke: none; }
 .next .seatmap { max-height: 560px; }
 
 /* ---------- Audience ---------- */
@@ -227,7 +227,7 @@ a.re-tag:hover { background: #e5d8fa; }
 .explain { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
 .explain div { font-size: 12.5px; color: var(--text-secondary); }
 .explain b { display: block; font-size: 13px; color: var(--text-primary); margin-bottom: 2px; }
-.explain .letter { display: inline-grid; place-items: center; width: 22px; height: 22px; border-radius: 6px; background: #e5eefb; color: #1c5cab; font-weight: 700; font-size: 12px; margin-right: 6px; }
+.explain .letter { display: inline-grid; place-items: center; width: 22px; height: 22px; border-radius: 6px; background: #e5eefb; color: var(--accent, #1c5cab); font-weight: 700; font-size: 12px; margin-right: 6px; }
 @media (max-width: 700px) { .explain { grid-template-columns: minmax(0, 1fr); } }
 details.what { margin-bottom: var(--gap); }
 details.what summary { cursor: pointer; font-weight: 600; font-size: 13.5px; list-style: none; display: flex; gap: 8px; align-items: center; }
@@ -282,7 +282,7 @@ details.what .body { margin-top: 12px; }
 }
 
 /* ---------- Scheduled-refresh label ---------- */
-.sched-dot { color: #7fb0ee; font-size: 14px; line-height: 1; }
+.sched-dot { color: var(--accent-light, #7fb0ee); font-size: 14px; line-height: 1; }
 
 /* ---------- House plan triggers ---------- */
 .trig {
@@ -317,3 +317,111 @@ details.what .body { margin-top: 12px; }
   .scrub { min-width: 0; }
   .view-head .seg { max-width: 100%; }
 }
+
+/* ==================================================================
+   Gulf Coast skin (html[data-skin="gulf"]): Tampa Bay by default, or
+   ?skin=gulf. Same app, different brand and layout: warm sand page,
+   teal and coral, serif headings, a left sidebar on wide screens,
+   floating cards and tiles, and the Snapshot columns swapped.
+   ================================================================== */
+html[data-skin="gulf"] {
+  --page: #f7f4ee;
+  --surface-1: #ffffff;
+  --surface-2: #f2eee6;
+  --border: #ebe5d9;
+  --grid: #f0ebe1;
+  --text-primary: #1d2b2b;
+  --text-secondary: #475656;
+  --text-muted: #7f8b8a;
+  --neutral-mark: #cfd6d4;
+  --series-1: #0f7c7a; /* teal  */
+  --series-2: #ef6a4c; /* coral */
+  --series-3: #3a6fb0; /* bay blue */
+  --series-4: #e8a33d; /* sun */
+  --accent: #0b6664;
+  --accent-light: #6fbfb9;
+  --accent-soft: #bfe3df;
+  --navy: #0b3d3c;
+  --navy-2: #11504e;
+  --radius: 16px;
+  --gap: 18px;
+  --serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+}
+html[data-skin="gulf"] body { background: var(--page); }
+html[data-skin="gulf"] .view-head h1,
+html[data-skin="gulf"] .pr-head h2 { font-family: var(--serif); font-weight: 600; font-size: 26px; letter-spacing: 0; }
+html[data-skin="gulf"] .card h2, html[data-skin="gulf"] .pr-card h3 { font-family: var(--serif); font-size: 15px; font-weight: 600; }
+html[data-skin="gulf"] .eyebrow { color: var(--series-2); }
+
+/* App bar: white with a teal brand and underlined tabs. */
+html[data-skin="gulf"] .appbar { background: #fff; color: var(--text-primary); box-shadow: 0 1px 0 var(--border); }
+html[data-skin="gulf"] .appbar .brand-name { color: var(--navy); font-family: var(--serif); font-size: 20px; }
+html[data-skin="gulf"] .appbar .brand-sub,
+html[data-skin="gulf"] .appbar .status,
+html[data-skin="gulf"] .appbar .market { color: var(--text-muted); }
+html[data-skin="gulf"] .appbar .market select { background: var(--surface-2); color: var(--text-primary); border-color: var(--border); }
+html[data-skin="gulf"] .sched-dot { color: var(--series-2); }
+html[data-skin="gulf"] .appbar .nav a { color: var(--text-secondary); border-radius: 0; padding: 8px 4px; margin-right: 14px; border-bottom: 2px solid transparent; }
+html[data-skin="gulf"] .appbar .nav a:hover { background: none; color: var(--text-primary); }
+html[data-skin="gulf"] .appbar .nav a[aria-current="page"] { background: none; color: var(--navy); border-bottom-color: var(--series-2); font-weight: 650; }
+
+/* Wide screens: left sidebar instead of a top bar. */
+@media (min-width: 1100px) {
+  html[data-skin="gulf"] .appbar {
+    position: fixed; top: 0; bottom: 0; left: 0; width: 232px;
+    display: flex; flex-direction: column; box-shadow: 1px 0 0 var(--border); overflow-y: auto;
+  }
+  html[data-skin="gulf"] .appbar .topbar { flex-direction: column; align-items: stretch; gap: 14px; padding: 22px 20px 14px; }
+  html[data-skin="gulf"] .appbar .brand { flex-wrap: wrap; margin: 0; }
+  html[data-skin="gulf"] .appbar .brand-sub { flex-basis: 100%; font-size: 12px; }
+  html[data-skin="gulf"] .appbar .status { flex-direction: column; align-items: stretch; gap: 10px; }
+  html[data-skin="gulf"] .appbar .market { justify-content: space-between; }
+  html[data-skin="gulf"] .appbar .market select { width: 130px; }
+  html[data-skin="gulf"] .appbar .refresh { white-space: normal; font-size: 11.5px; line-height: 1.4; }
+  html[data-skin="gulf"] .appbar .nav { flex-direction: column; gap: 2px; padding: 8px 12px 20px; border-top: 1px solid var(--border); overflow: visible; }
+  html[data-skin="gulf"] .appbar .nav a { margin: 0; padding: 9px 12px; border-radius: 10px; border-bottom: 0; }
+  html[data-skin="gulf"] .appbar .nav a[aria-current="page"] { background: var(--surface-2); box-shadow: inset 3px 0 0 var(--series-2); }
+  html[data-skin="gulf"] main#view, html[data-skin="gulf"] footer { margin-left: 232px; }
+  html[data-skin="gulf"] main#view { max-width: none; padding: 28px 36px 48px; }
+}
+
+/* Cards float (no borders, soft shadow). */
+html[data-skin="gulf"] .card,
+html[data-skin="gulf"] .pr-card { border: 0; box-shadow: 0 1px 2px rgba(29,43,43,.05), 0 8px 24px -16px rgba(29,43,43,.22); }
+
+/* Stats as separate tiles with a teal edge, not one strip. */
+html[data-skin="gulf"] .strip { background: none; border: 0; box-shadow: none; gap: 12px; overflow: visible; }
+html[data-skin="gulf"] .stat {
+  background: var(--surface-1); border: 0; border-radius: 14px; padding: 14px 16px 14px 18px;
+  box-shadow: inset 4px 0 0 var(--series-1), 0 8px 24px -18px rgba(29,43,43,.3);
+}
+html[data-skin="gulf"] .stat:nth-child(2) { box-shadow: inset 4px 0 0 var(--series-2), 0 8px 24px -18px rgba(29,43,43,.3); }
+html[data-skin="gulf"] .stat:nth-child(3) { box-shadow: inset 4px 0 0 var(--series-4), 0 8px 24px -18px rgba(29,43,43,.3); }
+html[data-skin="gulf"] .stat:nth-child(4) { box-shadow: inset 4px 0 0 var(--series-3), 0 8px 24px -18px rgba(29,43,43,.3); }
+html[data-skin="gulf"] .stat .value { font-family: var(--serif); font-size: 27px; font-weight: 600; }
+@media (max-width: 700px) {
+  html[data-skin="gulf"] .stat, html[data-skin="gulf"] .stat:nth-child(even) { border: 0; }
+}
+
+/* Snapshot: tonight, phones and alerts on the left; Coming up on the right. */
+@media (min-width: 761px) {
+  html[data-skin="gulf"] .cols.snap { grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); }
+  html[data-skin="gulf"] .cols.snap > :first-child { order: 2; }
+}
+
+/* Daily sales: coral "today" line, softer week bands. */
+html[data-skin="gulf"] .dr-band.today { color: var(--series-2); }
+html[data-skin="gulf"] .dr-band.today::after { border-top-color: var(--series-2); }
+html[data-skin="gulf"] .dr-week { background: none; border-bottom: 1px solid var(--border); border-radius: 0; font-family: var(--serif); font-size: 13px; }
+html[data-skin="gulf"] .seg { background: var(--surface-2); }
+html[data-skin="gulf"] .chip.cross { background: #e2f1ef; color: var(--accent); }
+html[data-skin="gulf"] .re-tag { color: #b2482f; background: #fde9e3; }
+html[data-skin="gulf"] .attn-bar { border-color: #f4d6b4; }
+html[data-skin="gulf"] .btn.primary { background: var(--accent); border-color: var(--accent); }
+html[data-skin="gulf"] .callout { border-left-color: var(--series-2); }
+html[data-skin="gulf"] .spark .area { fill: rgba(15,124,122,.1); }
+html[data-skin="gulf"] .ring .prog { stroke: var(--series-1); }
+html[data-skin="gulf"] .pr-tabs button[aria-selected="true"] { background: var(--accent); border-color: var(--accent); }
+html[data-skin="gulf"] .explain .letter { background: #e2f1ef; color: var(--accent); }
+html[data-skin="gulf"] .geo-hero .hero-main { background: linear-gradient(135deg, #0b5f5e, #0f7c7a 60%, #2a9d8f); }
+@media (max-width: 600px) { .appbar .look { display: none; } }

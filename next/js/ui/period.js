@@ -126,7 +126,7 @@ function chart(days) {
       const lab = days.length <= 16 ? `<text x="${x + bw / 2}" y="${H - 6}" text-anchor="middle" class="pr-ax">${days.length <= 8 ? d.date.toLocaleDateString("en-US", { weekday: "short" }) : d.date.getDate()}</text>` : "";
       const val = days.length <= 8 ? `<text x="${x + bw / 2}" y="${H - M.b - h - 5}" text-anchor="middle" class="pr-val">${int(d.tickets)}</text>` : "";
       const bwid = Math.min(bw * 0.72, 64);
-      return `<rect x="${x + (bw - bwid) / 2}" y="${H - M.b - h}" width="${bwid}" height="${h}" rx="3" fill="${wk ? "#1c5cab" : "#7fb0ee"}" ${d.settling ? 'fill-opacity=".55"' : ""}><title>${dShort(d.date)}: ${int(d.tickets)} tickets, ${money(d.revenue)}</title></rect>${val}${lab}`;
+      return `<rect x="${x + (bw - bwid) / 2}" y="${H - M.b - h}" width="${bwid}" height="${h}" rx="3" fill="${wk ? "var(--accent, #1c5cab)" : "var(--accent-light, #7fb0ee)"}" ${d.settling ? 'fill-opacity=".55"' : ""}><title>${dShort(d.date)}: ${int(d.tickets)} tickets, ${money(d.revenue)}</title></rect>${val}${lab}`;
     })
     .join("");
   return `<svg class="pr-chart" viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Tickets by day">${bars}</svg>`;

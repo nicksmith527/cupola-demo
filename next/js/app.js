@@ -82,6 +82,15 @@ async function start() {
     else url.searchParams.delete("market");
     location.href = url.toString();
   });
+  // Look switcher: the same app in a different skin and layout.
+  const skin = $("skin");
+  skin.value = document.documentElement.dataset.skin;
+  skin.addEventListener("change", () => {
+    const url = new URL(location.href);
+    url.searchParams.set("skin", skin.value);
+    location.href = url.toString();
+  });
+
   $("footer").textContent =
     `${config.brand} demo · all names and numbers are synthetic · ` +
     `refreshes on a schedule (${config.refreshTimes.join(", ")}), not live`;

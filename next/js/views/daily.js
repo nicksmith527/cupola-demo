@@ -171,7 +171,7 @@ export default {
       const sold = `<div class="sold-line"><span>${int(p.sold)} / ${int(p.capacity)}</span><span class="meta">${pct(share)}</span></div>
         <div class="bar-track"><div class="bar-fill" ${opts.animate ? `data-width="${share * 100}%"` : `style="width:${share * 100}%"`}></div></div>`;
       const c = source.getPerfCurve(p);
-      const trend = spark(c.pts.filter((_, i) => i % 3 === 0 || i === c.pts.length - 1), { w: 120, h: 28 });
+      const trend = spark(c.pts.filter((_, i) => i % 3 === 0 || i === c.pts.length - 1), { w: 120, h: 28, total: p.capacity });
       const last = past
         ? `<span class="meta" title="Attendance from scans; still settling">${int(p.scanned)} in</span>`
         : `<span class="${opts.bumped ? "bump" : ""}">${p.soldSinceLast ? "+" + int(p.soldSinceLast) : "—"}</span>`;

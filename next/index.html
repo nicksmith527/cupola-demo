@@ -12,6 +12,13 @@
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-title" content="Cupola" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <script>
+    // Skin: ?skin=navy|gulf, otherwise by market (Tampa Bay gets Gulf Coast).
+    (function () {
+      var q = new URLSearchParams(location.search);
+      document.documentElement.dataset.skin = q.get("skin") || (q.get("market") === "tampa" ? "gulf" : "navy");
+    })();
+  </script>
   <link rel="stylesheet" href="../css/styles.css" />
   <link rel="stylesheet" href="css/next.css" />
   <link rel="stylesheet" href="../css/period.css" />
@@ -28,6 +35,12 @@
       <div class="status">
         <label class="market"><span class="hide-sm">Market</span>
           <select id="market" aria-label="Market"></select>
+        </label>
+        <label class="market look"><span class="hide-sm">Look</span>
+          <select id="skin" aria-label="Look">
+            <option value="navy">Navy</option>
+            <option value="gulf">Gulf Coast</option>
+          </select>
         </label>
         <span class="refresh" id="refresh">
           <span class="sched-dot" aria-hidden="true">◷</span>

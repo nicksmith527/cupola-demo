@@ -12,10 +12,13 @@ import { showTip, hideTip, tipHtml } from "../ui/tooltip.js";
 
 const NS = "http://www.w3.org/2000/svg";
 // Sequential blue, light = few tickets, dark = many (light theme).
-const RAMP = ["#dbe8fa", "#c2d8f6", "#9ec5f4", "#7fb0ee", "#5d98e8", "#3987e5", "#2a78d6", "#1c5cab", "#104281", "#0a2f5e"];
+// The map ramp follows the skin (Gulf Coast uses teal).
+const RAMP = document.documentElement.dataset.skin === "gulf"
+  ? ["#dcf0ee", "#c2e6e2", "#9fd6d0", "#7cc4bd", "#58b0a9", "#379c96", "#1d8783", "#0f7c7a", "#0b5f5e", "#073f3f"]
+  : ["#dbe8fa", "#c2d8f6", "#9ec5f4", "#7fb0ee", "#5d98e8", "#3987e5", "#2a78d6", "#1c5cab", "#104281", "#0a2f5e"];
 const NO_DATA = "#ebe9e3";
 const OTHER_LAND = "#e4e2dc";
-const HOME = "#eb6834"; // home state on the national map
+const HOME = document.documentElement.dataset.skin === "gulf" ? "#e8a33d" : "#eb6834"; // home state on the national map
 const short = (n) => (n >= 1e6 ? (n / 1e6).toFixed(1) + "M" : n >= 1e4 ? Math.round(n / 1e3) + "K" : n >= 1e3 ? (n / 1e3).toFixed(1) + "K" : int(n));
 
 // Log scale between the smallest and largest values, so small rural counties

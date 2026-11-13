@@ -132,7 +132,7 @@ export default {
       root.querySelector("#c-conv .note").textContent = "of answered calls";
     }
 
-    const AV = ["#1c5cab", "#1baf7a", "#eb6834", "#6a3fb5", "#b77d00", "#2a78d6", "#d03b3b", "#0f7a0f", "#52514e"];
+    const AV = ["var(--accent, #1c5cab)", "#1baf7a", "#eb6834", "#6a3fb5", "#b77d00", "#2a78d6", "#d03b3b", "#0f7a0f", "#52514e"];
     const DOT = { "On a call": "var(--series-1)", Available: "var(--good)", "Wrap-up": "var(--series-4)", Break: "var(--neutral-mark)" };
     function agents() {
       const maxRev = Math.max(...d.agents.map((a) => a.revenue), 1);
@@ -162,7 +162,7 @@ export default {
         return Math.round(full[hi].offered * wk * spike * (0.8 + rnd() * 0.4));
       }));
       const max = Math.max(...vals.flat().filter((v) => v !== null));
-      const ramp = ["#eef3fb", "#d6e4f8", "#b7d3f6", "#8fbaf0", "#5d98e8", "#2a78d6", "#1c5cab", "#104281"];
+      const ramp = ["#eef3fb", "#d6e4f8", "#b7d3f6", "#8fbaf0", "#5d98e8", "#2a78d6", "var(--accent, #1c5cab)", "#104281"];
       let html = `<div style="display:grid;grid-template-columns:52px repeat(${hours.length},minmax(0,1fr));gap:3px;font-size:11px">`;
       html += `<div></div>${hours.map((h) => `<div style="text-align:center;color:var(--text-muted)">${hourLabel(h)}</div>`).join("")}`;
       days.forEach((day, di) => {

@@ -106,7 +106,7 @@ export default {
           <div id="seatmap" class="seatmap-wrap" style="margin-top:12px"></div>
           <div class="legend">
             <span><i style="background:var(--series-1)"></i>Sold</span>
-            <span><i style="background:#bcd4f3"></i>Projected by show day</span>
+            <span><i style="background:var(--accent-soft, #bcd4f3)"></i>Projected by show day</span>
             <span><i style="background:var(--series-4)"></i>Hold</span>
             <span><i style="background:var(--surface-1);box-shadow:inset 0 0 0 1px var(--neutral-mark)"></i>Not expected to sell</span>
           </div>
@@ -253,7 +253,7 @@ export default {
         <h2>Last night's load-in · ${esc(last.title)}</h2>
         <p class="sub">${esc(last.hall.name)} · recap from ticket scans after the show, for planning door and usher staffing</p>
         <div class="cols even" style="align-items:end">
-          <div><div style="display:flex;align-items:flex-end;gap:4px;height:80px">${bins.map((b) => `<div title="${int(b.n)} scans" style="flex:1;height:${(b.n / max) * 100}%;background:${b === peak ? "var(--series-1)" : "#bcd4f3"};border-radius:3px 3px 0 0"></div>`).join("")}</div>
+          <div><div style="display:flex;align-items:flex-end;gap:4px;height:80px">${bins.map((b) => `<div title="${int(b.n)} scans" style="flex:1;height:${(b.n / max) * 100}%;background:${b === peak ? "var(--series-1)" : "var(--accent-soft, #bcd4f3)"};border-radius:3px 3px 0 0"></div>`).join("")}</div>
             <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--text-muted);margin-top:4px"><span>doors</span><span>curtain</span><span>+20 min</span></div></div>
           <div class="kv">
             <span>Scanned in</span><b>${int(last.scanned)} of ${int(last.sold + last.comps)} (${pct(last.scanned / (last.sold + last.comps))})</b>

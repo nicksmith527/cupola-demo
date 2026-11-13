@@ -1,7 +1,7 @@
 /* Sales recap pop-up (shared by both versions). */
 .pr-link {
   background: none; border: 0; padding: 0; margin-top: 6px; cursor: pointer;
-  font: 600 12px var(--font); color: #1c5cab; display: inline-block;
+  font: 600 12px var(--font); color: var(--accent, #1c5cab); display: inline-block;
 }
 .pr-link:hover { text-decoration: underline; }
 body.pr-lock { overflow: hidden; }
@@ -27,7 +27,7 @@ body.pr-lock { overflow: hidden; }
   border: 1px solid var(--border); background: var(--surface-1); border-radius: 999px; padding: 6px 13px;
   font: 500 13px var(--font); color: var(--text-secondary); cursor: pointer; white-space: nowrap;
 }
-.pr-tabs button[aria-selected="true"] { background: #1c5cab; border-color: #1c5cab; color: #fff; font-weight: 600; }
+.pr-tabs button[aria-selected="true"] { background: var(--accent, #1c5cab); border-color: var(--accent, #1c5cab); color: #fff; font-weight: 600; }
 .pr-custom { display: flex; gap: 14px; flex-wrap: wrap; padding: 10px 20px; background: var(--surface-1); border-bottom: 1px solid var(--border); font-size: 13px; color: var(--text-secondary); }
 .pr-custom input { font: inherit; padding: 5px 8px; border: 1px solid var(--border); border-radius: 8px; margin-left: 6px; background: var(--surface-1); color: var(--text-primary); }
 .pr-body { padding: 16px 20px 20px; display: flex; flex-direction: column; gap: 14px; }

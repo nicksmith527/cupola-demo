@@ -35,7 +35,7 @@ export default {
         { id: "k-30", label: "Next 30 days sold", note: "of available capacity" },
         { id: "k-calls", label: "Calls answered yesterday", note: "box office phones<br>" + recapLink() },
       ])}
-      <div class="cols">
+      <div class="cols snap">
         <div class="card">
           <div class="card-head"><div><h2>Coming up</h2><p class="sub">Next 8 performances · sold vs. similar shows (dashed)</p></div>
             <a class="go" href="#/daily">Daily sales →</a></div>
@@ -79,7 +79,7 @@ export default {
           const c = source.getPerfCurve(p);
           return `<div class="mini-row up-row">
             <div><div class="name">${esc(p.title)}${re}</div><div class="meta">${shortDate(p.date)} · ${esc(p.time)} · ${esc(p.hall.name)}</div></div>
-            <div class="up-spark">${spark(c.pts.filter((_, i) => i % 3 === 0 || i === c.pts.length - 1), { w: 110, h: 28 })}</div>
+            <div class="up-spark">${spark(c.pts.filter((_, i) => i % 3 === 0 || i === c.pts.length - 1), { w: 110, h: 28, total: p.capacity })}</div>
             <div class="up-bar"><div class="meta" style="text-align:right;margin-bottom:3px">${int(p.sold)} / ${int(p.capacity)}</div><div class="bar-track"><div class="bar-fill" data-width="${share * 100}%"></div></div></div>
             <div class="num">${pct(share)}</div>
           </div>`;
