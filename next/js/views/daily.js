@@ -12,6 +12,7 @@ import { countUp, growBars, flash } from "../ui/animate.js";
 import { int, money, moneyK, pct, shortDate, esc } from "../ui/format.js";
 import { showTip, hideTip, tipHtml } from "../ui/tooltip.js";
 import { strip, setStat, spark, curveChart } from "../ui/mini.js";
+import { bindRecap } from "../ui/period.js";
 
 const HORIZONS = [
   { id: "rows", label: "Next 30 rows", test: (p, i) => i < 30 },
@@ -67,6 +68,7 @@ export default {
           <h1>Daily sales report</h1>
           <p>${shortDate(today)} · as of the ${esc(source.meta().asOfLabel)} refresh · a short look back, then today forward · select any row for its sales curve</p>
         </div>
+        <button type="button" class="pr-link btn" data-preset="weekend" style="margin:0">Weekend &amp; past days ›</button>
       </div>
       ${strip([
         { id: "d-24", label: "Sold in the last 24 hrs", note: "through the latest refresh" },
@@ -94,6 +96,7 @@ export default {
       </div>`;
 
     let openId = null;
+    bindRecap(root, source);
 
     // ---- Tiles ----
     function tiles(isRefresh) {

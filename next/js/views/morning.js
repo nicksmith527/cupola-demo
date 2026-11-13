@@ -5,6 +5,7 @@
 import { growBars } from "../ui/animate.js";
 import { int, money, pct, shortDate, esc } from "../ui/format.js";
 import { strip, setStat, ring, animateRings, spark } from "../ui/mini.js";
+import { recapLink, bindRecap } from "../ui/period.js";
 
 function greeting() {
   const h = new Date().getHours();
@@ -28,11 +29,11 @@ export default {
         <p>${shortDate(new Date())} · numbers as of the ${esc(source.meta().asOfLabel)} refresh</p>
       </div></div>
       ${strip([
-        { id: "k-sold", label: "Tickets sold yesterday", note: "all channels" },
-        { id: "k-rev", label: "Revenue yesterday", note: "all channels" },
+        { id: "k-sold", label: "Tickets sold yesterday", note: "all channels<br>" + recapLink() },
+        { id: "k-rev", label: "Revenue yesterday", note: "all channels<br>" + recapLink() },
         { id: "k-tonight", label: "Tonight's house", note: `${esc(t.hall.name)} · ${int(t.capacity)} seats` },
         { id: "k-30", label: "Next 30 days sold", note: "of available capacity" },
-        { id: "k-calls", label: "Calls answered yesterday", note: "box office phones" },
+        { id: "k-calls", label: "Calls answered yesterday", note: "box office phones<br>" + recapLink() },
       ])}
       <div class="cols">
         <div class="card">
@@ -64,6 +65,8 @@ export default {
             <div class="sub" style="margin:2px 0 0">${esc(last.hall.name)} · ${int(last.scanned)} of ${int(last.sold + last.comps)} ticketed guests scanned in (${pct(last.scanned / (last.sold + last.comps))})</div></div>` : ""}
         </div>
       </div>`;
+
+    bindRecap(root, source);
 
     function upcoming() {
       const box = root.querySelector("#upcoming");

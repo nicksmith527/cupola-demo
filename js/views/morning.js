@@ -5,6 +5,7 @@
 import { countUp, growBars, flash, reducedMotion } from "../ui/animate.js";
 import { int, money, pct, shortDate, esc } from "../ui/format.js";
 import { showTip, hideTip, tipHtml } from "../ui/tooltip.js";
+import { recapLink, bindRecap } from "../ui/period.js";
 
 function rng(seed) {
   let s = seed >>> 0;
@@ -99,11 +100,11 @@ export default {
         </div>
       </div>
       <section class="grid kpis">
-        <div class="card tile" id="k-sold"><div class="label">Tickets sold yesterday</div><div class="value">0</div><div class="note">all channels</div></div>
-        <div class="card tile" id="k-rev"><div class="label">Revenue yesterday</div><div class="value">$0</div><div class="note">all channels</div></div>
+        <div class="card tile" id="k-sold"><div class="label">Tickets sold yesterday</div><div class="value">0</div><div class="note">all channels</div>${recapLink()}</div>
+        <div class="card tile" id="k-rev"><div class="label">Revenue yesterday</div><div class="value">$0</div><div class="note">all channels</div>${recapLink()}</div>
         <div class="card tile" id="k-tonight"><div class="label">Tonight's house</div><div class="value">0%</div><div class="note">${esc(t.hall.name)} · ${int(t.capacity)} seats</div></div>
         <div class="card tile" id="k-30"><div class="label">Next 30 days sold</div><div class="value">0%</div><div class="note">of available capacity</div></div>
-        <div class="card tile" id="k-calls"><div class="label">Calls answered yesterday</div><div class="value">0</div><div class="note">box office phones</div></div>
+        <div class="card tile" id="k-calls"><div class="label">Calls answered yesterday</div><div class="value">0</div><div class="note">box office phones</div>${recapLink()}</div>
       </section>
       <section class="grid two-col">
         <div class="card" id="seat-card" tabindex="-1">
@@ -128,6 +129,8 @@ export default {
           <div class="bar-list" id="upcoming"></div>
         </div>
       </section>`;
+
+    bindRecap(root, source);
 
     // ---- Seat map browser ----
     const wrap = root.querySelector("#seatmap");

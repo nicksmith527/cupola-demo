@@ -11,6 +11,7 @@
 import { countUp, growBars, flash } from "../ui/animate.js";
 import { int, money, moneyK, pct, shortDate, esc } from "../ui/format.js";
 import { showTip, hideTip, tipHtml } from "../ui/tooltip.js";
+import { bindRecap } from "../ui/period.js";
 
 const HORIZONS = [
   { id: "rows", label: "Next 30 rows", test: (p, i) => i < 30 },
@@ -66,6 +67,7 @@ export default {
           <h1>Daily sales report</h1>
           <p>${shortDate(today)} · as of the ${esc(source.meta().asOfLabel)} refresh · a short look back, then today forward. Anything selling behind similar shows is pinned to the top, however far out it is.</p>
         </div>
+        <button type="button" class="pr-link refresh-btn" data-preset="weekend" style="margin:0;padding:6px 12px">Weekend &amp; past days ›</button>
       </div>
       <section class="grid kpis">
         <div class="card tile" id="d-24"><div class="label">Sold in the last 24 hrs</div><div class="value">0</div><div class="note">all upcoming performances</div></div>
@@ -95,6 +97,8 @@ export default {
         <div class="report" id="report" role="table" aria-label="Daily sales report"></div>
         <div class="report-foot" id="report-foot"></div>
       </div>`;
+
+    bindRecap(root, source);
 
     // ---- Tiles ----
     function tiles(isRefresh) {
