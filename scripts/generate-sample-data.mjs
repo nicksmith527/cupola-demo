@@ -93,38 +93,67 @@ function curve(finalSold, onSaleDays, upToDaysOut, wobble) {
 }
 
 // --- Performances ----------------------------------------------------------
+// A full season: the last few days (recap), tonight, and about six months out.
+// `pace` is how this show is selling against similar shows at the same point
+// (1.0 = right on pace). Most are left random; a few are set on purpose so the
+// Daily sales watch list has a story to tell.
 const titles = [
-  { title: "The Lantern Keepers", genre: "Broadway", hall: "main", price: 92, perfs: 8, start: 34 },
-  { title: "Midnight at the Grand Canal", genre: "Broadway", hall: "main", price: 88, perfs: 4, start: 3 },
+  // Recap: performed in the last four days
+  { title: "Fall Gala: A Night at Riverside", genre: "Concert", hall: "main", price: 125, perfs: 1, start: -4, pace: 0.97 },
+  { title: "Riverside Symphony: Autumn Overtures", genre: "Classical", hall: "main", price: 61, perfs: 2, start: -3, pace: 1.02 },
+  { title: "Improv Night", genre: "Comedy", hall: "studio", price: 28, perfs: 1, start: -1, pace: 0.88 },
+  // Tonight and the next few weeks
   { title: "Brass & Bourbon Big Band", genre: "Concert", hall: "main", price: 58, perfs: 1, start: 0 },
-  { title: "An Evening of Stand-Up: Late Checkout", genre: "Comedy", hall: "main", price: 49, perfs: 2, start: 10 },
-  { title: "Riverside Symphony: Winter Light", genre: "Classical", hall: "main", price: 64, perfs: 2, start: 13 },
-  { title: "Paper Moon Puppet Co.", genre: "Family", hall: "studio", price: 22, perfs: 4, start: 4 },
-  { title: "Kinetic Dance Collective", genre: "Dance", hall: "main", price: 54, perfs: 2, start: 19 },
-  { title: "Holiday Pops Spectacular", genre: "Concert", hall: "main", price: 72, perfs: 3, start: 25 },
-  { title: "Songwriters in the Round", genre: "Concert", hall: "studio", price: 38, perfs: 2, start: 15 },
   { title: "Chamber Strings at Dusk", genre: "Classical", hall: "recital", price: 46, perfs: 1, start: 2 },
+  { title: "Midnight at the Grand Canal", genre: "Broadway", hall: "main", price: 88, perfs: 4, start: 3 },
+  { title: "Paper Moon Puppet Co.", genre: "Family", hall: "studio", price: 22, perfs: 4, start: 4 },
   { title: "Piano Masters Series", genre: "Classical", hall: "recital", price: 52, perfs: 2, start: 9 },
+  { title: "An Evening of Stand-Up: Late Checkout", genre: "Comedy", hall: "main", price: 49, perfs: 2, start: 10, pace: 0.83 },
+  { title: "Riverside Symphony: Winter Light", genre: "Classical", hall: "main", price: 64, perfs: 2, start: 13 },
+  { title: "Songwriters in the Round", genre: "Concert", hall: "studio", price: 38, perfs: 2, start: 15 },
+  { title: "Kinetic Dance Collective", genre: "Dance", hall: "main", price: 54, perfs: 2, start: 19, pace: 0.71 },
   { title: "The Last Lighthouse (a new play)", genre: "Play", hall: "studio", price: 42, perfs: 4, start: 21 },
+  { title: "Holiday Pops Spectacular", genre: "Concert", hall: "main", price: 72, perfs: 3, start: 25, pace: 1.12 },
+  { title: "The Lantern Keepers", genre: "Broadway", hall: "main", price: 92, perfs: 8, start: 34, pace: 0.94 },
+  // Further out in the season
+  { title: "Winter Jazz Weekend", genre: "Concert", hall: "recital", price: 48, perfs: 2, start: 48 },
+  { title: "Swan Lake", genre: "Dance", hall: "main", price: 76, perfs: 4, start: 58, pace: 1.06 },
+  { title: "Ghost Stories by Candlelight", genre: "Play", hall: "studio", price: 36, perfs: 3, start: 66, pace: 0.68 },
+  { title: "The Fifth Avenue Follies", genre: "Broadway", hall: "main", price: 84, perfs: 6, start: 72 },
+  { title: "Mariachi Sol de Jalisco", genre: "Concert", hall: "main", price: 56, perfs: 1, start: 81, pace: 1.18 },
+  { title: "Bluegrass on the River", genre: "Concert", hall: "recital", price: 44, perfs: 1, start: 88, pace: 0.79 },
+  { title: "Comedy Headliner: The Overtime Tour", genre: "Comedy", hall: "main", price: 62, perfs: 1, start: 95, pace: 0.86 },
+  { title: "Spring Chamber Series", genre: "Classical", hall: "recital", price: 50, perfs: 2, start: 104 },
+  { title: "Riverside Ballet: Coppélia", genre: "Dance", hall: "main", price: 68, perfs: 3, start: 118, pace: 0.61 },
+  { title: "Harbor Lights (Broadway revival)", genre: "Broadway", hall: "main", price: 96, perfs: 8, start: 132, pace: 1.09 },
+  { title: "Family Science Spectacular", genre: "Family", hall: "studio", price: 20, perfs: 2, start: 141 },
+  { title: "Symphony Season Finale", genre: "Classical", hall: "main", price: 70, perfs: 2, start: 160 },
 ];
+
+// Where similar shows typically finish, as a share of capacity.
+const typicalFinal = { Broadway: 0.92, Concert: 0.85, Comedy: 0.88, Classical: 0.8, Family: 0.82, Dance: 0.78, Play: 0.75 };
 
 const performances = [];
 let id = 1;
-// Tonight's featured performance is daysOut 0 in the Main Hall.
 for (const t of titles) {
-  const runStart = t.start;
   for (let p = 0; p < t.perfs; p++) {
-    const daysOut = runStart + p;
+    const daysOut = t.start + p;
     const cap = hallCap[t.hall];
-    const strength = between(0.55, 0.98);
-    const onSaleDays = intBetween(90, 150);
-    const finalSold = Math.round(cap * strength);
-    const hist = curve(finalSold, onSaleDays, daysOut, 1);
-    const sold = hist[hist.length - 1].sold;
     const comps = Math.round(cap * between(0.01, 0.03));
     const holds = Math.round(cap * between(0.01, 0.025));
+    const sellable = cap - comps - holds;
+    const typical = typicalFinal[t.genre];
+    const onSaleDays = Math.max(120, Math.max(0, daysOut) + intBetween(45, 90));
+    const x = 1 - Math.max(0, daysOut) / onSaleDays;
+    // What similar shows have sold by this many days out.
+    const benchmark = Math.round(cap * typical * shape(x));
+    const pace = t.pace ?? round(between(0.92, 1.16), 2);
+    const sold = Math.min(sellable, Math.round(benchmark * pace));
+    // Roughly one day's worth of sales at this point in the curve.
+    const dayRate = cap * typical * (shape(x) - shape(Math.max(0, x - 1 / onSaleDays))) * pace;
+    const soldSinceLast = daysOut < 0 ? 0 : Math.max(0, Math.round(dayRate * between(0.5, 1.7)));
     const avgPrice = round(t.price * between(0.9, 1.12), 2);
-    performances.push({
+    const perf = {
       id: "P" + String(id++).padStart(3, "0"),
       title: t.title,
       genre: t.genre,
@@ -137,7 +166,13 @@ for (const t of titles) {
       holds,
       avgPrice,
       revenueGoal: Math.round(cap * 0.85 * t.price),
-    });
+      onSaleDays,
+      benchmarkSold: benchmark,
+      soldSinceLast,
+    };
+    // Past performances carry a (still settling) attendance count.
+    if (daysOut < 0) perf.scanned = Math.round((sold + comps) * between(0.86, 0.95));
+    performances.push(perf);
   }
 }
 // Make tonight's show a healthy, near-full house.

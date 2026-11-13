@@ -4,91 +4,91 @@
   "hours": [
     {
       "hour": 9,
-      "offered": 70,
-      "answered": 66,
-      "abandoned": 4,
-      "avgWaitSec": 41,
-      "avgHandleSec": 232
+      "offered": 58,
+      "answered": 53,
+      "abandoned": 5,
+      "avgWaitSec": 37,
+      "avgHandleSec": 238
     },
     {
       "hour": 10,
-      "offered": 116,
-      "answered": 109,
-      "abandoned": 7,
-      "avgWaitSec": 50,
-      "avgHandleSec": 218
+      "offered": 100,
+      "answered": 96,
+      "abandoned": 4,
+      "avgWaitSec": 70,
+      "avgHandleSec": 203
     },
     {
       "hour": 11,
-      "offered": 107,
-      "answered": 99,
-      "abandoned": 8,
-      "avgWaitSec": 63,
-      "avgHandleSec": 255
+      "offered": 136,
+      "answered": 123,
+      "abandoned": 13,
+      "avgWaitSec": 49,
+      "avgHandleSec": 199
     },
     {
       "hour": 12,
-      "offered": 102,
-      "answered": 97,
-      "abandoned": 5,
-      "avgWaitSec": 61,
-      "avgHandleSec": 259
+      "offered": 89,
+      "answered": 83,
+      "abandoned": 6,
+      "avgWaitSec": 52,
+      "avgHandleSec": 251
     },
     {
       "hour": 13,
-      "offered": 76,
-      "answered": 71,
-      "abandoned": 5,
-      "avgWaitSec": 53,
-      "avgHandleSec": 243
+      "offered": 73,
+      "answered": 70,
+      "abandoned": 3,
+      "avgWaitSec": 43,
+      "avgHandleSec": 221
     },
     {
       "hour": 14,
-      "offered": 84,
-      "answered": 78,
+      "offered": 101,
+      "answered": 95,
       "abandoned": 6,
-      "avgWaitSec": 63,
-      "avgHandleSec": 230
+      "avgWaitSec": 51,
+      "avgHandleSec": 227
     },
     {
       "hour": 15,
-      "offered": 124,
-      "answered": 109,
-      "abandoned": 15,
-      "avgWaitSec": 57,
-      "avgHandleSec": 206
+      "offered": 116,
+      "answered": 108,
+      "abandoned": 8,
+      "avgWaitSec": 71,
+      "avgHandleSec": 254
     },
     {
       "hour": 16,
-      "offered": 85,
-      "answered": 76,
-      "abandoned": 9,
-      "avgWaitSec": 53,
-      "avgHandleSec": 189
+      "offered": 84,
+      "answered": 79,
+      "abandoned": 5,
+      "avgWaitSec": 48,
+      "avgHandleSec": 227
     },
     {
       "hour": 17,
-      "offered": 54,
-      "answered": 48,
+      "offered": 64,
+      "answered": 58,
       "abandoned": 6,
-      "avgWaitSec": 44,
-      "avgHandleSec": 244
+      "avgWaitSec": 31,
+      "avgHandleSec": 203
     },
     {
       "hour": 18,
-      "offered": 35,
-      "answered": 32,
+      "offered": 32,
+      "answered": 29,
       "abandoned": 3,
-      "avgWaitSec": 31,
-      "avgHandleSec": 191
+      "avgWaitSec": 29,
+      "avgHandleSec": 208
     },
     {
       "hour": 19,
-      "offered": 21,
-      "answered": 19,
+      "offered": 24,
+      "answered": 22,
       "abandoned": 2,
-      "avgWaitSec": 24,
-      "avgHandleSec": 239
+      "avgWaitSec": 21,
+      "avgHandleSec": 181
     }
   ],
   "topReasons": [

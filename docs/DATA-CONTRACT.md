@@ -30,7 +30,25 @@ Every data source (the demo's `SampleSource` today, a real API-backed source lat
   capacity, sold, comps, holds, avgPrice, revenueGoal }
 ```
 
+Performances also carry `onSaleDays`, `benchmarkSold` (what similar shows had sold by this many days out), `soldSinceLast` (last 24 hrs), and, for past performances (`daysOut < 0`), `scanned` (attendance, still settling).
+
 `Hall`: `{ id, name, capacity, sections: [{ name, rows, seatsPerRow, curve? }] }` (`curve` = how much rows arc around the stage; 0 = straight)
+
+## `getDailyReport()`
+
+```js
+{
+  thresholds: { behind: 0.9, atRisk: 0.8, crossingFrom: 84, crossingTo: 98 },  // pace ratios; days out
+  recap: Performance[],               // the last few days, oldest first
+  upcoming: (Performance & {          // today through end of season, soonest first
+    pace,                             // sold / benchmarkSold
+    status: "on" | "behind" | "risk",
+    crossing: boolean,                // 12-14 weeks out and behind pace
+    revenue
+  })[],
+  watch: [...]                        // flagged upcoming performances, worst first
+}
+```
 
 ## `getPacing()`
 

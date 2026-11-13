@@ -78,12 +78,14 @@ export class SampleSource {
     let batch = 0;
     let revenue = 0;
     for (const p of this.performances) {
+      if (p.daysOut < 0) continue; // already performed
       const open = p.capacity - p.sold - p.comps - p.holds;
       if (open <= 0) continue;
       // Nearer shows sell faster.
       const heat = Math.max(0.15, 1 - p.daysOut / 45);
       const n = Math.min(open, Math.round(this.rand() * 14 * heat));
       p.sold += n;
+      p.soldSinceLast += n;
       batch += n;
       revenue += n * p.avgPrice;
     }
@@ -110,7 +112,7 @@ export class SampleSource {
   // ---- Contract methods (see docs/DATA-CONTRACT.md) -----------------------
 
   getMorning() {
-    const upcoming = this.performances.map((p) => this.withDate(p));
+    const upcoming = this.performances.filter((p) => p.daysOut >= 0).map((p) => this.withDate(p));
     const tonight = upcoming.find((p) => p.daysOut === 0);
     const next30 = upcoming.filter((p) => p.daysOut <= 30);
     const cap30 = next30.reduce((s, p) => s + p.capacity, 0);
@@ -139,6 +141,30 @@ export class SampleSource {
       tonight,
       upcoming: upcoming.filter((p) => p.daysOut > 0).slice(0, 8),
     };
+  }
+
+  // Daily sales report: a short recap of the last few days, then every
+  // performance from today forward, each scored against similar shows.
+  getDailyReport() {
+    const T = { behind: 0.9, atRisk: 0.8, crossingFrom: 84, crossingTo: 98 };
+    const recap = this.performances
+      .filter((p) => p.daysOut < 0)
+      .sort((a, b) => a.daysOut - b.daysOut)
+      .map((p) => this.withDate(p));
+    const upcoming = this.performances
+      .filter((p) => p.daysOut >= 0)
+      .map((p) => {
+        const pace = p.sold / Math.max(1, p.benchmarkSold);
+        const status = pace < T.atRisk ? "risk" : pace < T.behind ? "behind" : "on";
+        const crossing = p.daysOut >= T.crossingFrom && p.daysOut <= T.crossingTo && pace < T.behind;
+        return { ...this.withDate(p), pace, status, crossing, revenue: p.sold * p.avgPrice };
+      })
+      .sort((a, b) => a.daysOut - b.daysOut);
+    const rank = { risk: 0, behind: 1, on: 2 };
+    const watch = upcoming
+      .filter((p) => p.status !== "on" || p.crossing)
+      .sort((a, b) => rank[a.status] - rank[b.status] || a.pace - b.pace || a.daysOut - b.daysOut);
+    return { thresholds: T, recap, upcoming, watch, asOf: this.asOf };
   }
 
   getPacing() {

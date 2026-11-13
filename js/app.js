@@ -7,12 +7,13 @@ import { time } from "./ui/format.js";
 import { hideTip } from "./ui/tooltip.js";
 
 import morning from "./views/morning.js";
+import daily from "./views/daily.js";
 import pacing from "./views/pacing.js";
 import audience from "./views/audience.js";
 import geography from "./views/geography.js";
 import callcenter from "./views/callcenter.js";
 
-const VIEWS = [morning, pacing, audience, geography, callcenter];
+const VIEWS = [morning, daily, pacing, audience, geography, callcenter];
 
 const $ = (id) => document.getElementById(id);
 let source;
