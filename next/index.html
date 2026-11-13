@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Cupola · Venue Dashboards (alternative look)</title>
+  <meta name="description" content="Alternative layout for the Cupola demo. Interactive, synthetic data." />
+  <meta name="robots" content="noindex" />
+  <link rel="icon" type="image/svg+xml" href="../icons/icon.svg" />
+  <link rel="apple-touch-icon" href="../icons/apple-touch-icon.png" />
+  <meta name="theme-color" content="#0f1e33" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-title" content="Cupola" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <link rel="stylesheet" href="../css/styles.css" />
+  <link rel="stylesheet" href="css/next.css" />
+</head>
+<body class="next">
+  <!-- Header and tabs live in one pinned bar, so the tabs never scroll away. -->
+  <header class="appbar">
+    <div class="topbar">
+      <div class="brand">
+        <img class="brand-icon" src="../icons/icon.svg" alt="" width="24" height="24" />
+        <span class="brand-name" id="brand-name">Cupola</span>
+        <span class="brand-sub" id="venue-name"></span>
+      </div>
+      <div class="status">
+        <label class="market"><span class="hide-sm">Market</span>
+          <select id="market" aria-label="Market"></select>
+        </label>
+        <span class="refresh" id="refresh">
+          <svg class="refresh-ring" viewBox="0 0 20 20" aria-hidden="true">
+            <circle class="track" cx="10" cy="10" r="8" />
+            <circle class="prog" cx="10" cy="10" r="8" stroke-dasharray="50.27" stroke-dashoffset="0" />
+          </svg>
+          <span id="as-of">Loading…</span>
+        </span>
+        <button class="refresh-btn" id="refresh-now" type="button" aria-label="Refresh now">↻</button>
+      </div>
+    </div>
+    <nav class="nav" id="nav" aria-label="Dashboards"></nav>
+  </header>
+
+  <main id="view" aria-live="polite"></main>
+
+  <footer id="footer"></footer>
+
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>

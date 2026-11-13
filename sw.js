@@ -1,6 +1,6 @@
 // Service worker: lets the installed app open instantly and even offline.
 // Network first, so a fresh push to GitHub always wins; the cache is only a fallback.
-const CACHE = "cupola-demo-v1";
+const CACHE = "cupola-demo-v2";
 
 self.addEventListener("install", () => self.skipWaiting());
 self.addEventListener("activate", (e) => e.waitUntil(self.clients.claim()));

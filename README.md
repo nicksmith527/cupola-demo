@@ -98,3 +98,17 @@ docs/DATA-CONTRACT.md      the shapes every data source must return
 - Colors come from a palette checked for color-vision deficiency on a light background. Every chart has a legend or direct labels, so color never carries meaning alone.
 - Animations respect the operating system's "reduce motion" setting.
 - Layouts adapt to phone screens.
+
+## Alternative look (`/next/`)
+
+A second layout lives at [`/next/`](https://nicksmith527.github.io/cupola-demo/next/) for comparison. It reads the same `data/sample/` files and adds:
+
+- a pinned navy header with the tabs inside it, and compact stat strips in place of big tiles
+- **Snapshot** without the seat map; the seat map moved to a new **House** tab (load-in by zone, doors to curtain)
+- **Daily sales** with "Need attention" collapsed, a trend sparkline per row, a sales curve when you select a row, and ↺ Return tags
+- **Return engagements** as a report of every returning title, each opening to the full pacing chart and insights
+- **Audience (RFM)** with a plain-language explainer, lenses (season, genre, show, donors) and CSV export of IDs per segment
+- **County & ZIP** scoped to the season, a genre, a show or one performance
+- **Call center** with phone revenue, an agent table and a 7-day heat map
+
+Extra derived data is in `next/js/sources/extras.js`; all of it is synthetic.

@@ -74,6 +74,10 @@ button { font: inherit; color: inherit; }
 }
 .refresh-btn:hover { border-color: var(--text-muted); }
 
+/* Header and tabs stay pinned together, so the tabs never scroll away. */
+.pinned { position: sticky; top: 0; z-index: 20; background: rgba(252, 252, 251, 0.96); backdrop-filter: blur(8px); }
+.pinned .topbar { position: static; }
+
 /* ---------- Nav ---------- */
 .nav {
   display: flex; gap: 4px; padding: 10px 24px 0; overflow-x: auto;
