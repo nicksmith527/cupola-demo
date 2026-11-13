@@ -2,6 +2,7 @@
 // nightly export rather than the ticketing system. Full days, not a live feed.
 
 import { countUp, growBars, flash } from "../ui/animate.js";
+import { openCallHistory } from "../ui/callhistory.js";
 import { int, pct, secs, hourLabel } from "../ui/format.js";
 import { showTip, hideTip, tipHtml } from "../ui/tooltip.js";
 
@@ -20,6 +21,7 @@ export default {
           <h1>Box office phones: yesterday</h1>
           <p>Full day from the phone system's nightly export · ${d.agentsScheduled} agents scheduled · service-level target: answer within ${d.serviceLevelTargetSec}s</p>
         </div>
+        <button type="button" class="x-btn ch-open" id="ch-open">▦ Monthly history</button>
       </div>
       <section class="grid kpis">
         <div class="card tile" id="c-off"><div class="label">Calls offered</div><div class="value">0</div></div>
@@ -44,6 +46,8 @@ export default {
           <div class="bar-list" id="reasons"></div>
         </div>
       </section>`;
+
+    root.querySelector("#ch-open").addEventListener("click", () => openCallHistory(source));
 
     const chartBox = root.querySelector("#chart");
     const W = Math.max(320, Math.round(chartBox.clientWidth)); // true pixel width keeps text crisp

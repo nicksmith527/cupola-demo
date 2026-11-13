@@ -337,3 +337,18 @@ html[data-skin="gulf"] .hd-sys { border: 0; box-shadow: 0 6px 18px -14px rgba(29
   .b-reads > div { grid-template-columns: 110px 1fr; }
   .b-reads em { grid-column: 1 / -1; }
 }
+
+/* ---------- Call center monthly history ---------- */
+.ch-open { font-size: 13px; padding: 7px 12px; }
+.ch-modal { width: min(1120px, 100%); }
+.ch-card { padding: 6px 4px 12px; }
+.ch-wrap { overflow-x: auto; }
+.ch-table { width: 100%; border-collapse: collapse; font-size: 13px; font-variant-numeric: tabular-nums; }
+.ch-table th { font-weight: 500; font-size: 11.5px; color: var(--text-muted); padding: 8px 10px; border-bottom: 1px solid var(--border); white-space: nowrap; text-align: left; position: sticky; top: 0; background: var(--surface-1); }
+.ch-table th:first-child, .ch-table td:first-child { position: sticky; left: 0; background: var(--surface-1); z-index: 1; }
+.ch-table td { padding: 8px 10px; border-bottom: 1px solid var(--grid, #eee); white-space: nowrap; }
+.ch-table .r { text-align: right; }
+.ch-table tr.mtd td { color: var(--text-secondary); font-style: italic; }
+.ch-table tfoot td { font-weight: 650; border-top: 1px solid var(--neutral-mark); border-bottom: 0; }
+.ch-table .pos { color: var(--good, #0f7a0f); font-weight: 600; }
+.ch-table .neg { color: var(--critical, #d03b3b); font-weight: 600; }
