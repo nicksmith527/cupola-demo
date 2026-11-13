@@ -31,8 +31,8 @@ const ISSUES = [
   ["ticketing", 2, "Scanner #4 dropping Wi-Fi", "North lobby entrance", 40, null, "IT + ticketing", "Spare scanner deployed for tonight."],
   ["web", 2, "Checkout slow on mobile (6s average)", "Website · checkout", 62, null, "Web agency", "Vendor case open; desktop unaffected."],
   ["house", 3, "Loge elevator intermittent", "Recital Hall · Loge level", 210, null, "Facilities", "Elevator vendor visit scheduled; ushers escorting guests to the lift."],
-  ["ticketing", 3, "Sales report export times out", "Ticketing system · reports", 150, null, "Ticketing vendor", "Workaround: run in two date ranges."],
-  ["it", 3, "Box office receipt printer jams", "Box office · window 2", 30, null, "IT", ""],
+  ["ticketing", 3, "Sales report export times out", "Ticketing system · reports", 140, null, "Ticketing vendor", "Workaround: run in two date ranges."],
+  ["it", 3, "Box office receipt printer jams", "Box office · window 2", 22, null, "IT", ""],
   ["it", 4, "New hire laptop setup (2)", "Development office", 52, null, "IT", ""],
   // Resolved in the last 30 days
   ["ticketing", 1, "Ticketing system outage (vendor)", "All sales channels", 16 * 24 + 3, 2.5, "Ticketing vendor", "Vendor-wide outage; box office sold on paper backup for 2.5 hours."],
@@ -58,6 +58,25 @@ const ISSUES = [
   ["house", 4, "Dressing room light out", "Studio Theater · dressing room 2", 2 * 24, 6, "Facilities", ""],
 ];
 
+// Who opened each issue and who's working it. Staff names are invented.
+// Open issues: [opened by, role, assigned to | null, team]. Index matches ISSUES.
+const OPEN_PEOPLE = [
+  ["Dana Kim", "House manager", "Marcus Tate", "Facilities"],
+  ["Rosa Delgado", "Front of house supervisor", "Jordan Lee", "IT"],
+  ["Priya Shah", "Digital marketing", "Web agency (Ellis Digital)", "Vendor"],
+  ["Tom Becker", "Usher captain", "Elevator vendor", "Vendor"],
+  ["Alana Ruiz", "Ticketing systems", null, "Ticketing vendor queue"],
+  ["Keisha Johnson", "Box office lead", null, "IT queue"],
+  ["Laura Chen", "HR", "Jordan Lee", "IT"],
+];
+const OPENERS = {
+  house: [["Dana Kim", "House manager"], ["Tom Becker", "Usher captain"], ["Ben Ortiz", "Production manager"]],
+  it: [["Keisha Johnson", "Box office lead"], ["Laura Chen", "HR"], ["Sam Patel", "Development"]],
+  ticketing: [["Alana Ruiz", "Ticketing systems"], ["Keisha Johnson", "Box office lead"]],
+  web: [["Priya Shah", "Digital marketing"], ["Alana Ruiz", "Ticketing systems"]],
+};
+const FIXERS = { Facilities: ["Marcus Tate", "Facilities"], IT: ["Jordan Lee", "IT"], "Ticketing vendor": ["Vendor support", "Ticketing vendor"], "Web agency": ["Ellis Digital", "Web agency"], Marketing: ["Priya Shah", "Digital marketing"], Ticketing: ["Alana Ruiz", "Ticketing systems"], "IT + ticketing": ["Jordan Lee", "IT"] };
+
 const SYSTEMS = [
   { name: "Ticketing system", status: "ok", uptime: 0.9963, note: "One vendor outage 16 days ago" },
   { name: "Website", status: "degraded", uptime: 0.9981, note: "Mobile checkout slow" },
@@ -73,7 +92,11 @@ export function helpdeskData(today = new Date()) {
   const items = ISSUES.map(([area, sev, title, where, ago, fix, owner, note], i) => {
     const logged = new Date(now.getTime() - ago * HOUR - ((i * 37) % 53) * 60000);
     const resolved = fix === null ? null : new Date(logged.getTime() + fix * HOUR + ((i * 17) % 41) * 60000);
-    return { id: `HD-${4180 + i * 7}`, area, sev, title, where, logged, resolved, owner, note };
+    const op = OPEN_PEOPLE[i];
+    const pool = OPENERS[area];
+    const opener = op ? [op[0], op[1]] : pool[i % pool.length];
+    const assignee = op ? (op[2] ? [op[2], op[3]] : null) : FIXERS[owner] ?? [owner, owner];
+    return { id: `HD-${4180 + i * 7}`, area, sev, title, where, logged, resolved, owner, note, opener, assignee, queue: op && !op[2] ? op[3] : null };
   });
   const open = items.filter((x) => !x.resolved);
   const s = (x) => SEVERITY[x.sev - 1];
@@ -89,6 +112,7 @@ export function helpdeskData(today = new Date()) {
   return { now, items, open, onBoard, resolved, ttr, byMs, rate: resolved.length / items.length };
 }
 
+const initials = (n) => esc(n.replace(/\(.*\)/, "").split(/\s+/).filter(Boolean).slice(0, 2).map((w) => w[0]).join("").toUpperCase());
 const fmt = (d) => d.toLocaleDateString("en-US", { month: "short", day: "numeric" }) + " · " + d.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" });
 
 export default {
@@ -96,7 +120,7 @@ export default {
   label: "Help desk",
   mount(root, source) {
     const h = helpdeskData(source.today);
-    let showAll = false;
+    let showAll = false, onlyUn = false;
     const sevCount = (n) => h.open.filter((x) => x.sev === n).length;
     const age = (x) => h.byMs(h.now - x.logged);
     const over = (x) => h.now - x.logged > SEVERITY[x.sev - 1].target;
@@ -109,7 +133,7 @@ export default {
       <section class="strip">
         <div class="stat"><div class="label">Issues logged</div><div class="value">${h.items.length}</div><div class="note">last 30 days</div></div>
         <div class="stat"><div class="label">Resolved</div><div class="value">${h.resolved.length}</div><div class="note">${pct(h.rate)} resolve rate</div></div>
-        <div class="stat"><div class="label">Open</div><div class="value">${h.open.length}</div><div class="note">${sevCount(1)} critical · ${sevCount(2)} high · ${sevCount(3) + sevCount(4)} other</div></div>
+        <div class="stat"><div class="label">Open</div><div class="value">${h.open.length}</div><div class="note">${sevCount(1)} critical · ${sevCount(2)} high · ${h.open.filter((x) => !x.assignee).length} unassigned</div></div>
         <div class="stat"><div class="label">Past target</div><div class="value">${h.open.filter(over).length}</div><div class="note">open longer than their severity allows</div></div>
         <div class="stat"><div class="label">High issues fixed in a day</div><div class="value">${pct(h.ttr[1].met)}</div><div class="note">Sev 2 target: ${SEVERITY[1].targetLabel}</div></div>
       </section>
@@ -119,7 +143,7 @@ export default {
       <div class="cols">
         <div class="card">
           <div class="card-head"><div><h2>Open issues that need visibility</h2><p class="sub" id="hd-rule"></p></div>
-            <label class="toggle"><input type="checkbox" id="hd-all"> All open</label></div>
+            <div class="hd-toggles"><label class="toggle"><input type="checkbox" id="hd-un"> Unassigned</label><label class="toggle"><input type="checkbox" id="hd-all"> All open</label></div></div>
           <div id="hd-open"></div>
         </div>
         <div class="stack">
@@ -132,13 +156,21 @@ export default {
 
       <details class="card mt hd-levels"><summary>Severity levels and what reaches this board</summary>
         <div class="hd-levtable">${SEVERITY.map((s) => `<div><span class="sev s${s.id}">${s.short}</span><div><b>${esc(s.label.split(" · ")[1])} · target ${s.targetLabel}</b><p>${esc(s.desc)}</p></div></div>`).join("")}</div>
-        <p class="sub" style="margin-top:10px">The board shows open Sev 1 and Sev 2 issues, plus Sev 3 and 4 issues that are past their target. Each organization sets its own levels, targets and rule. Issues can come from wherever they're logged today, such as ServiceNow, Jira Service Management, Zendesk, Freshservice, a facilities work-order system, vendor support portals and website monitoring.</p>
+        <p class="sub" style="margin-top:10px">Each issue shows who opened it and who's working it, so anyone who can help knows who to contact. In a live setup the names link to email or Teams. The board shows open Sev 1 and Sev 2 issues, plus Sev 3 and 4 issues that are past their target. Each organization sets its own levels, targets and rule. Issues can come from wherever they're logged today, such as ServiceNow, Jira Service Management, Zendesk, Freshservice, a facilities work-order system, vendor support portals and website monitoring.</p>
       </details>`;
 
     const row = (x, done) => `<div class="hd-row ${done ? "done" : ""}">
       <span class="sev s${x.sev}">${SEVERITY[x.sev - 1].short}</span>
       <div class="hd-main"><b>${esc(x.title)}</b><div class="hd-meta">${esc(x.where)}</div>
-        <div class="hd-meta">${esc(AREAS[x.area].label)} · ${esc(x.owner)} · ${x.id}</div>
+        <div class="hd-meta">${esc(AREAS[x.area].label)} · ${x.id}</div>
+        <div class="hd-people">
+          <span class="hd-person"><i>${initials(x.opener[0])}</i><span><em>Opened by</em> ${esc(x.opener[0])} · ${esc(x.opener[1])}</span></span>
+          ${done
+            ? `<span class="hd-person"><i class="w">${initials(x.assignee[0])}</i><span><em>Resolved by</em> ${esc(x.assignee[0])} · ${esc(x.assignee[1])}</span></span>`
+            : x.assignee
+            ? `<span class="hd-person"><i class="w">${initials(x.assignee[0])}</i><span><em>Working it</em> ${esc(x.assignee[0])} · ${esc(x.assignee[1])}</span></span>`
+            : `<span class="hd-person un"><i>?</i><span><em>Unassigned</em> waiting in the ${esc(x.queue)}</span></span>`}
+        </div>
         ${x.note ? `<div class="hd-note">${esc(x.note)}</div>` : ""}</div>
       <div class="hd-when">${done
         ? `<span>Logged ${fmt(x.logged)}</span><span>Resolved ${fmt(x.resolved)}</span><b>${h.byMs(x.resolved - x.logged)}</b>`
@@ -146,11 +178,12 @@ export default {
     </div>`;
 
     function open() {
-      const list = (showAll ? h.open : h.onBoard).slice().sort((a, b) => a.sev - b.sev || a.logged - b.logged);
-      root.querySelector("#hd-rule").textContent = showAll ? `All ${h.open.length} open issues` : `Sev 1–2, plus anything past its target · ${list.length} of ${h.open.length} open`;
+      const list = (showAll || onlyUn ? h.open : h.onBoard).filter((x) => !onlyUn || !x.assignee).slice().sort((a, b) => a.sev - b.sev || a.logged - b.logged);
+      root.querySelector("#hd-rule").textContent = onlyUn ? `${list.length} open issues with no one assigned` : showAll ? `All ${h.open.length} open issues` : `Sev 1–2, plus anything past its target · ${list.length} of ${h.open.length} open`;
       root.querySelector("#hd-open").innerHTML = list.map((x) => row(x, false)).join("") || `<p class="sub">Nothing open at this level.</p>`;
     }
     root.querySelector("#hd-all").addEventListener("change", (e) => { showAll = e.target.checked; open(); });
+    root.querySelector("#hd-un").addEventListener("change", (e) => { onlyUn = e.target.checked; open(); });
     open();
 
     root.querySelector("#hd-sev").innerHTML = SEVERITY.map((s) => {

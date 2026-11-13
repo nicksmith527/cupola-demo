@@ -352,3 +352,13 @@ html[data-skin="gulf"] .hd-sys { border: 0; box-shadow: 0 6px 18px -14px rgba(29
 .ch-table tfoot td { font-weight: 650; border-top: 1px solid var(--neutral-mark); border-bottom: 0; }
 .ch-table .pos { color: var(--good, #0f7a0f); font-weight: 600; }
 .ch-table .neg { color: var(--critical, #d03b3b); font-weight: 600; }
+
+/* Help desk: who opened it, who's working it */
+.hd-people { display: flex; flex-wrap: wrap; gap: 6px 14px; margin-top: 6px; }
+.hd-person { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; color: var(--text-primary); }
+.hd-person em { font-style: normal; color: var(--text-muted); margin-right: 2px; }
+.hd-person > i { width: 20px; height: 20px; border-radius: 50%; display: inline-grid; place-items: center; font-style: normal; font-size: 9.5px; font-weight: 700; background: var(--surface-2); color: var(--text-secondary); flex-shrink: 0; }
+.hd-person > i.w { background: var(--accent, #1c5cab); color: #fff; }
+.hd-person.un > i { background: #fdf1d8; color: #7a5200; }
+.hd-person.un em { color: #8a5a00; font-weight: 650; }
+.hd-toggles { display: flex; gap: 14px; flex-wrap: wrap; }
