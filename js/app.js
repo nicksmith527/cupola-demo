@@ -34,13 +34,13 @@ function route() {
   const root = $("view");
   root.innerHTML = "";
   active = { view, handle: view.mount(root, source) };
-  document.title = `${view.label} · ${config.brand} demo`;
+  document.title = `${view.label} · ${config.brand}`;
   window.scrollTo({ top: 0 });
 }
 
 function updateStatus() {
   const m = source.meta();
-  $("as-of").textContent = `Data as of ${time(m.asOf)} · next refresh ${secondsLeft}s`;
+  $("as-of").innerHTML = `<span class="hide-sm">Data as of </span>${time(m.asOf)} · <span class="hide-sm">next refresh </span>${secondsLeft}s`;
   const circ = 50.27;
   const done = 1 - secondsLeft / config.demoRefreshSeconds;
   document.querySelector(".refresh-ring .prog").style.strokeDashoffset = String(circ * done);
@@ -82,3 +82,8 @@ async function start() {
 }
 
 start();
+
+// Lets the site install like an app and open offline (see sw.js).
+if ("serviceWorker" in navigator && location.protocol === "https:") {
+  navigator.serviceWorker.register("sw.js").catch(() => {});
+}

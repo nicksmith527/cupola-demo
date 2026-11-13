@@ -39,10 +39,25 @@ python3 -m http.server 8000
 
 The repo can stay **private** and the site can still be public on paid GitHub plans. On a free plan, Pages needs a public repo.
 
+## Install it like an app
+
+The site is an installable web app (it has a manifest, app icons and an offline fallback):
+
+- **iPhone / iPad (Safari):** Share → **Add to Home Screen**.
+- **Android (Chrome):** menu ⋮ → **Install app** (or **Add to Home screen**).
+- **Mac / Windows (Chrome or Edge):** the install icon at the right end of the address bar, or menu → **Install Cupola**.
+- **Mac (Safari):** File → **Add to Dock**.
+
+It then opens full-screen with the Cupola icon and no browser bars. When the link is texted or emailed, `og-image.png` is the preview card people see.
+
 ## How it's put together
 
 ```
-index.html                 app shell
+index.html                 app shell (icons, manifest and link-preview tags live here)
+manifest.webmanifest       app name, icon and colors for "install" / "add to home screen"
+sw.js                      offline fallback for the installed app
+icons/                     app icon (SVG source + PNG sizes)
+og-image.png               link-preview image
 css/styles.css             all styling and animation
 js/
   config.js                brand name, data source, refresh speed

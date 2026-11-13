@@ -172,7 +172,7 @@ export default {
       const when = p.daysOut === 0 ? "Tonight" : shortDate(p.date);
       root.querySelector("#map-title").textContent = `${when}: ${p.title}`;
       root.querySelector("#map-sub").textContent =
-        `${p.hall.name} · ${int(p.capacity)} seats · ${p.time} · ${p.genre} · hover a seat for details`;
+        `${p.hall.name} · ${int(p.capacity)} seats · ${p.time} · ${p.genre} · ${matchMedia("(hover: hover)").matches ? "hover" : "tap"} a seat for details`;
       root.querySelector("#map-count").textContent = `${idx + 1} of ${data.seatMaps.length}`;
       root.querySelector("#map-pips").innerHTML = data.seatMaps
         .map((m, i) => `<button type="button" class="pip ${i === idx ? "on" : ""}" data-i="${i}" aria-label="Seat map ${i + 1}: ${esc(m.title)}"></button>`)
@@ -214,14 +214,16 @@ export default {
       startX = null;
     });
 
-    wrap.addEventListener("pointermove", (e) => {
+    const seatTip = (e) => {
       const i = e.target.dataset?.i;
       if (i === undefined) return hideTip();
       const s = map.layout.seats[i];
       const status = s.fixed ?? (map.layout.saleOrder.indexOf(s) < map.shownSold ? "sold" : "open");
       const names = { sold: "Sold", comp: "Complimentary", hold: "House hold", open: "Available" };
       showTip(e, tipHtml(`${s.section} · Row ${s.row}, Seat ${s.seat}`, [["Status", names[status]]]));
-    });
+    };
+    wrap.addEventListener("pointermove", seatTip);
+    wrap.addEventListener("click", seatTip); // tap on phones
     wrap.addEventListener("pointerleave", hideTip);
 
     // ---- Upcoming list ----

@@ -2,15 +2,35 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Cupola · Venue Dashboards Demo</title>
-  <meta name="description" content="Interactive venue analytics demo built on synthetic data." />
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%233987e5'/><rect x='7' y='17' width='4' height='8' rx='1' fill='white'/><rect x='14' y='11' width='4' height='14' rx='1' fill='white'/><rect x='21' y='7' width='4' height='18' rx='1' fill='white'/></svg>" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Cupola · Venue Dashboards</title>
+  <meta name="description" content="Sales, seat maps, pacing, audience and call-center views in one place. Interactive demo on synthetic data." />
+  <link rel="icon" type="image/svg+xml" href="icons/icon.svg" />
+  <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png" />
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <meta name="theme-color" content="#fcfcfb" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-title" content="Cupola" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+
+  <!-- Link preview when the URL is texted, emailed or posted -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Cupola" />
+  <meta property="og:title" content="Cupola · Venue Dashboards" />
+  <meta property="og:description" content="Sales, seat maps, pacing, audience and call-center views in one place. Interactive demo on synthetic data." />
+  <meta property="og:url" content="https://nicksmith527.github.io/cupola-demo/" />
+  <meta property="og:image" content="https://nicksmith527.github.io/cupola-demo/og-image.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
   <link rel="stylesheet" href="css/styles.css" />
 </head>
 <body>
   <header class="topbar">
     <div class="brand">
+      <img class="brand-icon" src="icons/icon.svg" alt="" width="26" height="26" />
       <span class="brand-name" id="brand-name">Cupola</span>
       <span class="brand-sub" id="venue-name"></span>
     </div>
