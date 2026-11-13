@@ -1,0 +1,32 @@
+# Downloads public US county/state boundaries (U.S. Census Bureau data,
+# packaged by the us-atlas project) into data/geo/ so the site serves its own
+# map files and doesn't depend on a third-party CDN at runtime.
+# Runs when this file changes, or on demand from the Actions tab.
+name: Fetch map data
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: [".github/workflows/fetch-map-data.yml"]
+
+permissions:
+  contents: write
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download us-atlas (Albers USA projection, 1:10m)
+        run: |
+          mkdir -p data/geo
+          curl -sSfL https://cdn.jsdelivr.net/npm/us-atlas@3/counties-albers-10m.json -o data/geo/counties-albers-10m.json
+          ls -la data/geo
+      - name: Commit if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898283+github-actions[bot]@users.noreply.github.com"
+          git add data/geo
+          git diff --cached --quiet || git commit -m "Add US county and state boundaries (us-atlas, Census data)"
+          git push
