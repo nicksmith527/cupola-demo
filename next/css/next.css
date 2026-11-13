@@ -425,3 +425,14 @@ html[data-skin="gulf"] .pr-tabs button[aria-selected="true"] { background: var(-
 html[data-skin="gulf"] .explain .letter { background: #e2f1ef; color: var(--accent); }
 html[data-skin="gulf"] .geo-hero .hero-main { background: linear-gradient(135deg, #0b5f5e, #0f7c7a 60%, #2a9d8f); }
 @media (max-width: 600px) { .appbar .look { display: none; } }
+
+/* Phones: stack each zone's name over its numbers so they can't overlap. */
+.pill { white-space: nowrap; }
+@media (max-width: 600px) {
+  .zone-row { grid-template-columns: minmax(0, 1fr); gap: 2px; }
+  .zone-row .num { text-align: left; }
+}
+@media (max-width: 700px) {
+  .dr-row .name { white-space: normal; }
+  .dr-row .c-show { min-width: 0; }
+}

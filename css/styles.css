@@ -460,3 +460,13 @@ footer { color: var(--text-muted); font-size: 12px; text-align: center; padding:
   .trig { grid-template-columns: minmax(0, 1fr); }
   .trig .t-chip { grid-row: 1; }
 }
+
+/* Phones: stack each zone's name over its numbers so they can't overlap. */
+.pill { white-space: nowrap; }
+@media (max-width: 600px) {
+  .zone-row { grid-template-columns: minmax(0, 1fr); gap: 2px; }
+  .zone-row .num { text-align: left; }
+}
+@media (max-width: 600px) {
+  .bar-row .name { white-space: normal; }
+}
