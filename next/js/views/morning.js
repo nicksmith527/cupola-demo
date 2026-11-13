@@ -7,6 +7,8 @@ import { int, money, pct, shortDate, esc } from "../ui/format.js";
 import { strip, setStat, ring, animateRings, spark } from "../ui/mini.js";
 import { recapLink, bindRecap } from "../ui/period.js";
 import { openShowReport, fromPerf } from "../ui/showreport.js";
+import { openShowDetail } from "../ui/showdetail.js";
+import { orgCards } from "../ui/orgcards.js";
 
 function greeting() {
   const h = new Date().getHours();
@@ -43,6 +45,7 @@ export default {
           <div class="mini-list" id="upcoming"></div>
         </div>
         <div class="stack">
+          ${orgCards(source)}
           <div class="card">
             <p class="eyebrow">Tonight</p>
             <div class="tonight">
@@ -69,6 +72,13 @@ export default {
       </div>`;
 
     bindRecap(root, source);
+    // Each upcoming show opens its last 15 days of sales.
+    const openDetail = (el) => {
+      const p = source.getDailyReport().upcoming.find((x) => x.id === el.dataset.id);
+      if (p) openShowDetail(p, { today: new Date(source.today), dailyHref: `#/daily?open=${p.id}` });
+    };
+    root.querySelector("#upcoming").addEventListener("click", (e) => { if (e.target.closest("a")) return; const r = e.target.closest(".sd-row"); if (r) openDetail(r); });
+    root.querySelector("#upcoming").addEventListener("keydown", (e) => { const r = e.target.closest(".sd-row"); if (r && (e.key === "Enter" || e.key === " ")) { e.preventDefault(); openDetail(r); } });
     root.querySelector("#last-report")?.addEventListener("click", () => openShowReport(fromPerf(last)));
 
     function upcoming() {
@@ -80,8 +90,8 @@ export default {
             ? `<a class="re-tag" href="#/pacing?t=${encodeURIComponent(p.title)}" title="Return engagement: compare with past visits">↺ Return</a>`
             : "";
           const c = source.getPerfCurve(p);
-          return `<div class="mini-row up-row">
-            <div><div class="name">${esc(p.title)}${re}</div><div class="meta">${shortDate(p.date)} · ${esc(p.time)} · ${esc(p.hall.name)}</div></div>
+          return `<div class="mini-row up-row sd-row" data-id="${p.id}" role="button" tabindex="0" title="Last 15 days of sales">
+            <div><div class="name">${esc(p.title)}${re} <span class="sd-more">›</span></div><div class="meta">${shortDate(p.date)} · ${esc(p.time)} · ${esc(p.hall.name)}</div></div>
             <div class="up-spark">${spark(c.pts.filter((_, i) => i % 3 === 0 || i === c.pts.length - 1), { w: 110, h: 28, total: p.capacity })}</div>
             <div class="up-bar"><div class="meta" style="text-align:right;margin-bottom:3px">${int(p.sold)} / ${int(p.capacity)}</div><div class="bar-track"><div class="bar-fill" data-width="${share * 100}%"></div></div></div>
             <div class="num">${pct(share)}</div>

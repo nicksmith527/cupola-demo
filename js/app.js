@@ -14,10 +14,12 @@ import geography from "./views/geography.js";
 import callcenter from "./views/callcenter.js";
 import house from "./views/house.js";
 import about from "./views/about.js";
+import helpdesk from "./views/helpdesk.js";
+import budget from "./views/budget.js";
 import { installMenus } from "./ui/menu.js";
 import "./sources/schedule.js";
 
-const VIEWS = [morning, daily, pacing, house, audience, geography, callcenter, about];
+const VIEWS = [morning, daily, pacing, house, audience, geography, callcenter, helpdesk, budget, about];
 
 const $ = (id) => document.getElementById(id);
 let source;

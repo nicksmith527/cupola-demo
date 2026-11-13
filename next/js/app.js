@@ -16,10 +16,12 @@ import house from "./views/house.js";
 import returns from "./views/returns.js";
 import geoScoped from "./views/geography-scoped.js";
 import about from "./views/about.js";
+import helpdesk from "./views/helpdesk.js";
+import budget from "./views/budget.js";
 import { installMenus } from "./ui/menu.js";
 
 // Snapshot and Daily sales lead; House is the front-of-house (operations) view.
-const VIEWS = [morning, daily, returns, house, audience, geoScoped, callcenter, about];
+const VIEWS = [morning, daily, returns, house, audience, geoScoped, callcenter, helpdesk, budget, about];
 
 const $ = (id) => document.getElementById(id);
 let source;

@@ -95,7 +95,7 @@ export default {
         <div class="report-foot" id="report-foot"></div>
       </div>`;
 
-    let openId = null;
+    let openId = params?.get("open") || null;
     bindRecap(root, source);
 
     // ---- Tiles ----
@@ -316,7 +316,10 @@ export default {
 
     tiles(false);
     watch();
-    report({ animate: true });
+    // Arriving from a Snapshot pop-up: show the whole season and scroll to the row.
+    if (openId && !d.upcoming.slice(0, 40).some((p) => p.id === openId)) setHorizon("season");
+    else report({ animate: !openId });
+    if (openId) setTimeout(() => root.querySelector(`.dr-row[data-id="${openId}"]`)?.scrollIntoView({ block: "center" }), 120);
 
     return {
       update() {

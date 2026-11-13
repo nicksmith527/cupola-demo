@@ -7,6 +7,8 @@ import { int, money, pct, shortDate, esc } from "../ui/format.js";
 import { showTip, hideTip, tipHtml } from "../ui/tooltip.js";
 import { recapLink, bindRecap } from "../ui/period.js";
 import { openShowReport, fromPerf } from "../ui/showreport.js";
+import { openShowDetail } from "../ui/showdetail.js";
+import { orgCards } from "../ui/orgcards.js";
 
 function rng(seed) {
   let s = seed >>> 0;
@@ -108,6 +110,7 @@ export default {
         <div class="card tile" id="k-calls"><div class="label">Calls answered yesterday</div><div class="value">0</div><div class="note">box office phones</div>${recapLink()}</div>
       </section>
       <div class="lastnight" id="lastnight"></div>
+      ${orgCards(source)}
       <section class="grid two-col">
         <div class="card" id="seat-card" tabindex="-1">
           <div class="card-head">
@@ -133,6 +136,13 @@ export default {
       </section>`;
 
     bindRecap(root, source);
+    // Each upcoming show opens its last 15 days of sales.
+    const openDetail = (el) => {
+      const p = source.getDailyReport().upcoming.find((x) => x.id === el.dataset.id);
+      if (p) openShowDetail(p, { today: new Date(source.today) });
+    };
+    root.querySelector("#upcoming").addEventListener("click", (e) => { const r = e.target.closest(".sd-row"); if (r) openDetail(r); });
+    root.querySelector("#upcoming").addEventListener("keydown", (e) => { const r = e.target.closest(".sd-row"); if (r && (e.key === "Enter" || e.key === " ")) { e.preventDefault(); openDetail(r); } });
     const last = source.getHousePerfs?.().find((p) => p.daysOut === -1);
     if (last) {
       const tix = last.sold + last.comps;
@@ -248,8 +258,8 @@ export default {
       box.innerHTML = data.upcoming
         .map((p) => {
           const share = p.sold / p.capacity;
-          return `<div class="bar-row">
-            <div><div class="name">${esc(p.title)}</div><div class="meta">${shortDate(p.date)} · ${esc(p.hall.name)}</div></div>
+          return `<div class="bar-row sd-row" data-id="${p.id}" role="button" tabindex="0" title="Last 15 days of sales">
+            <div><div class="name">${esc(p.title)} <span class="sd-more">›</span></div><div class="meta">${shortDate(p.date)} · ${esc(p.hall.name)}</div></div>
             <div class="num">${int(p.sold)} / ${int(p.capacity)} · ${pct(share)}</div>
             <div class="bar-track"><div class="bar-fill" data-width="${share * 100}%"></div></div>
           </div>`;

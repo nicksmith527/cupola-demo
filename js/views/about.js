@@ -8,15 +8,17 @@ const WINDOWS = [
   { name: "Sponsorship sales", demo: [], more: ["Pipeline and fulfillment by sponsor", "Sponsor reach by show and audience"] },
   { name: "Operations · front of house", demo: ["House plan: zone triggers at 12, 8 and 4 weeks", "Last night's load-in from scans"], more: ["Parking, food and beverage per show", "Staffing against expected attendance"] },
   { name: "Box office · call center", demo: ["Calls by hour, agents, revenue by phone"], more: ["Staffing plans from call patterns", "Service-level alerts"] },
-  { name: "Finance", demo: [], more: ["Organization budget tied to the finance system", "Earned and contributed revenue against budget"] },
+  { name: "Finance", demo: ["Budget: actual, committed and placeholders, with a forecast range"], more: ["Department-level budget owners", "Cash flow and reserves"] },
+  { name: "Technology", demo: ["Help desk status board: IT, ticketing, website, house issues"], more: ["Vendor uptime and contract renewals", "Device inventory for scanners and box office"] },
 ];
 
 const SOURCES = [
-  ["Ticketing", "Tessitura, vivenu and other ticketing platforms"],
+  ["Ticketing", "Tessitura, Ticketmaster, Paciolan, AudienceView, Spektrix, vivenu, PatronManager, OvationTix, Etix, Eventbrite, ShoWare and other ticketing platforms"],
   ["CRM and fundraising", "Salesforce, Raiser's Edge, SponsorCX"],
   ["Finance", "Blackbaud, NetSuite, Great Plains, Sage"],
   ["Web and surveys", "Google Analytics, Cloudflare, Qualtrics"],
   ["Phones", "Your phone system's call reports"],
+  ["Help desk and facilities", "ServiceNow, Jira Service Management, Zendesk, Freshservice, work-order systems"],
   ["Everything else", "Spreadsheets and exports on shared drives"],
 ];
 
