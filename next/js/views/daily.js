@@ -65,11 +65,11 @@ export default {
       <div class="view-head">
         <div>
           <h1>Daily sales report</h1>
-          <p>${shortDate(today)} · a short look back, then today forward · select any row for its sales curve</p>
+          <p>${shortDate(today)} · as of the ${esc(source.meta().asOfLabel)} refresh · a short look back, then today forward · select any row for its sales curve</p>
         </div>
       </div>
       ${strip([
-        { id: "d-24", label: "Sold in the last 24 hrs", note: "all upcoming performances" },
+        { id: "d-24", label: "Sold in the last 24 hrs", note: "through the latest refresh" },
         { id: "d-rev", label: "Revenue booked to date", note: "today through end of season" },
         { id: "d-watch", label: "Shows needing attention", note: "" },
         { id: "d-perfs", label: "Performances ahead", note: "today through end of season" },

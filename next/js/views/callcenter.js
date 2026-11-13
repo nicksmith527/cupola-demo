@@ -1,5 +1,5 @@
-// Call center: today's phone activity by hour, from the phone system rather
-// than the ticketing system. Each refresh fills in another hour.
+// Call center: yesterday's phone activity by hour, from the phone system's
+// nightly export rather than the ticketing system. Full days, not a live feed.
 
 import { countUp, growBars, flash } from "../ui/animate.js";
 import { int, pct, secs, hourLabel, money, moneyK, esc } from "../ui/format.js";
@@ -18,8 +18,8 @@ export default {
     root.innerHTML = `
       <div class="view-head">
         <div>
-          <h1>Box office phones today</h1>
-          <p>${d.agentsScheduled} agents scheduled · service-level target: answer within ${d.serviceLevelTargetSec}s</p>
+          <h1>Box office phones: yesterday</h1>
+          <p>Full day from the phone system's nightly export · ${d.agentsScheduled} agents scheduled · service-level target: answer within ${d.serviceLevelTargetSec}s</p>
         </div>
       </div>
       ${strip([
@@ -39,22 +39,21 @@ export default {
             <span><i style="background:var(--series-1)"></i>Answered</span>
             <span><i style="background:var(--series-2)"></i>Abandoned</span>
             <span><i class="line" style="background:var(--series-3)"></i>Revenue</span>
-            <span><i style="background:transparent;box-shadow:inset 0 0 0 1px var(--neutral-mark)"></i>Hours still to come</span>
           </div>
         </div>
         <div class="card">
           <h2>Why people are calling</h2>
-          <p class="sub">Share of today's calls by reason</p>
+          <p class="sub">Share of yesterday's calls by reason</p>
           <div class="bar-list" id="reasons"></div>
         </div>
       </section>
       <div class="card mt">
-        <div class="card-head"><div><h2>Agents today</h2><p class="sub">Calls handled, sales and handle time · sorted by revenue</p></div></div>
+        <div class="card-head"><div><h2>Agents yesterday</h2><p class="sub">Calls handled, sales and handle time · sorted by revenue</p></div></div>
         <div class="table-wrap"><table class="agents" id="agents"></table></div>
       </div>
       <div class="card mt">
         <h2>When the phones ring</h2>
-        <p class="sub">Calls offered by hour, last 7 days · darker = busier · plan staffing around the dark cells</p>
+        <p class="sub">Calls offered by hour, last 7 days through yesterday · darker = busier · plan staffing around the dark cells</p>
         <div id="week"></div>
       </div>`;
 
@@ -137,10 +136,10 @@ export default {
     const DOT = { "On a call": "var(--series-1)", Available: "var(--good)", "Wrap-up": "var(--series-4)", Break: "var(--neutral-mark)" };
     function agents() {
       const maxRev = Math.max(...d.agents.map((a) => a.revenue), 1);
-      root.querySelector("#agents").innerHTML = `<thead><tr><th>Agent</th><th>Status</th><th class="r">Calls</th><th class="r">Orders</th><th class="r">Conversion</th><th>Revenue</th><th class="r">Avg. handle</th><th class="r">Adherence</th></tr></thead><tbody>${d.agents
+      root.querySelector("#agents").innerHTML = `<thead><tr><th>Agent</th><th class="r">Hours on phones</th><th class="r">Calls</th><th class="r">Orders</th><th class="r">Conversion</th><th>Revenue</th><th class="r">Avg. handle</th><th class="r">Adherence</th></tr></thead><tbody>${d.agents
         .map((a, i) => `<tr>
           <td><span class="who"><span class="avatar" style="background:${AV[i % AV.length]}">${esc(a.name.split(" ").map((x) => x[0]).join(""))}</span>${esc(a.name)}</span></td>
-          <td><span class="status-dot"><i style="background:${DOT[a.status]}"></i>${a.status}</span></td>
+          <td class="r">${(4 + (a.calls % 5) * 0.75).toFixed(1)}</td>
           <td class="r">${int(a.calls)}</td><td class="r">${int(a.orders)}</td><td class="r">${pct(a.conversion)}</td>
           <td><span class="minibar" style="width:${Math.round((a.revenue / maxRev) * 70)}px"></span>${money(a.revenue)}</td>
           <td class="r">${secs(a.aht)}</td><td class="r">${pct(a.adherence)}</td></tr>`)
@@ -150,7 +149,7 @@ export default {
     function week() {
       const days = [];
       const today = new Date();
-      for (let i = 6; i >= 0; i--) days.push(new Date(today.getTime() - i * 86400000));
+      for (let i = 7; i >= 1; i--) days.push(new Date(today.getTime() - i * 86400000));
       const hours = d.allHours;
       const base = d.hours.length ? d.hours : [];
       const full = source.callcenter.hours;
@@ -160,14 +159,14 @@ export default {
         const wk = [0.55, 1.25, 1.0, 0.95, 1.05, 1.15, 0.7][day.getDay()];
         // On-sale Monday spike in the morning, for the story.
         const spike = day.getDay() === 1 && hr >= 10 && hr <= 12 ? 1.6 : 1;
-        return di === 6 && hi >= base.length ? null : Math.round(full[hi].offered * wk * spike * (0.8 + rnd() * 0.4));
+        return Math.round(full[hi].offered * wk * spike * (0.8 + rnd() * 0.4));
       }));
       const max = Math.max(...vals.flat().filter((v) => v !== null));
       const ramp = ["#eef3fb", "#d6e4f8", "#b7d3f6", "#8fbaf0", "#5d98e8", "#2a78d6", "#1c5cab", "#104281"];
       let html = `<div style="display:grid;grid-template-columns:52px repeat(${hours.length},minmax(0,1fr));gap:3px;font-size:11px">`;
       html += `<div></div>${hours.map((h) => `<div style="text-align:center;color:var(--text-muted)">${hourLabel(h)}</div>`).join("")}`;
       days.forEach((day, di) => {
-        html += `<div style="color:var(--text-muted);align-self:center">${di === 6 ? "Today" : day.toLocaleDateString("en-US", { weekday: "short" })}</div>`;
+        html += `<div style="color:var(--text-muted);align-self:center">${di === 6 ? "Yest." : day.toLocaleDateString("en-US", { weekday: "short" })}</div>`;
         vals[di].forEach((v, hi) => {
           if (v === null) { html += `<div style="height:26px;border-radius:4px;border:1px dashed var(--neutral-mark)"></div>`; return; }
           const t = v / max;

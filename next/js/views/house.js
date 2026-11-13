@@ -1,209 +1,271 @@
-// House (operations): load-in by zone. How full the house is at any moment
-// from doors to curtain, by section, from ticket scans. Built for front of
-// house and the box office rather than as a sales view.
+// House plan (operations): which seating zones each performance needs.
+//
+// Not a live load-in feed. At set checkpoints before each show (12, 8 and 4
+// weeks by default, see config.zonePlan) Cupola projects where demand will
+// land and suggests opening a zone that's kept closed until needed (e.g. the
+// Balcony), or keeping it closed. Last night's scans appear as a recap only.
 
-import { int, pct, esc } from "../ui/format.js";
+import { config } from "../config.js";
+import { int, pct, shortDate, esc } from "../ui/format.js";
 import { strip, setStat } from "../ui/mini.js";
 import { buildSeats, seatSvg } from "../ui/seats.js";
 import { showTip, hideTip, tipHtml } from "../ui/tooltip.js";
-import { reducedMotion } from "../ui/animate.js";
 
-const FROM = -75, TO = 20, BIN = 5;
+const ZP = config.zonePlan;
+const LAST_CHECK = Math.max(...ZP.checkpointsWeeks) * 7;
 const ZONE_COLORS = ["var(--series-1)", "var(--series-3)", "var(--series-2)", "var(--series-4)"];
 
-function curtainMinutes(time) {
-  const m = /(\d+):(\d+)\s*(AM|PM)/i.exec(time);
-  if (!m) return 19 * 60 + 30;
-  return ((+m[1] % 12) + (m[3].toUpperCase() === "PM" ? 12 : 0)) * 60 + +m[2];
+// Same sales-curve shape the rest of the demo uses (see extras.js).
+const shape = (t) => { t = Math.min(1, Math.max(0, t)); return 0.24 * (1 - Math.exp(-t * 14)) + 0.76 * Math.pow(t, 2.4); };
+
+function plan(p) {
+  const closed = ZP.closedByDefault[p.hallId] ?? null;
+  const layout = buildSeats(p.hall, p);
+  const sellable = layout.saleOrder.length;
+  const tNow = 1 - p.daysOut / p.onSaleDays;
+  const projected = Math.min(sellable, Math.max(p.sold, Math.round(p.sold / Math.max(0.05, shape(tNow)))));
+  const soldSet = new Set(layout.saleOrder.slice(0, p.sold));
+  const projSet = new Set(layout.saleOrder.slice(p.sold, projected));
+  const zones = p.hall.sections.map((sec, i) => {
+    const seats = layout.seats.filter((s) => s.section === sec.name);
+    return {
+      name: sec.name,
+      color: ZONE_COLORS[i % 4],
+      seats: seats.length,
+      // A closed zone only counts real sales (comps can be moved down).
+      sold: seats.filter((s) => soldSet.has(s) || (s.fixed === "comp" && sec.name !== closed)).length,
+      proj: seats.filter((s) => projSet.has(s)).length,
+      holds: seats.filter((s) => s.fixed === "hold").length,
+      closed: sec.name === closed,
+    };
+  });
+  const cz = zones.find((z) => z.closed);
+  const below = zones.filter((z) => !z.closed).reduce((s, z) => s + z.seats - z.holds, 0);
+  const ratio = (projected + p.comps) / Math.max(1, below);
+  let action = "none";
+  if (cz) {
+    if (p.daysOut > LAST_CHECK) action = "later";
+    else if (cz.sold > 0) action = "open-now";
+    else if (ratio >= ZP.openAbove) action = "open";
+    else if (ratio >= ZP.keepClosedBelow) action = "watch";
+    else action = "keep";
+  }
+  // The checkpoint this performance most recently passed.
+  const wk = p.daysOut / 7;
+  const passed = ZP.checkpointsWeeks.filter((w) => wk <= w).sort((a, b) => a - b)[0];
+  const nextCheck = p.daysOut > LAST_CHECK ? new Date(p.date.getTime() - LAST_CHECK * 86400000) : null;
+  return { p, layout, soldSet, projSet, zones, closed: cz, below, projected, ratio, action, passed, nextCheck };
 }
-const clock = (mins) => {
-  const h = Math.floor(mins / 60), m = mins % 60;
-  return `${((h + 11) % 12) + 1}:${String(m).padStart(2, "0")} ${h < 12 ? "AM" : "PM"}`;
+
+const ACTIONS = {
+  open: { chip: "risk", text: (z) => `Open the ${z}`, rank: 0 },
+  watch: { chip: "behind", text: (z) => `Watch the ${z}`, rank: 1 },
+  "open-now": { chip: "cross", text: (z) => `${z} selling`, rank: 2 },
+  keep: { chip: "on", text: (z) => `Keep ${z} closed`, rank: 3 },
+  later: { chip: "", text: () => `Review at ${LAST_CHECK / 7} wks`, rank: 4 },
 };
-const rel = (m) => (m === 0 ? "curtain" : m < 0 ? `${-m} min before curtain` : `${m} min after curtain`);
+const chipHtml = (x) => {
+  const a = ACTIONS[x.action];
+  return `<span class="chip ${a.chip}">${a.chip && a.chip !== "cross" ? "<i></i>" : ""}${esc(a.text(x.closed.name))}</span>`;
+};
 
 export default {
   id: "house",
-  label: "House",
+  label: "House plan",
   mount(root, source) {
-    const perfs = source.getHousePerfs();
-    let idx = 0;
-    let at = -20;
-    let timer = null;
-    let st; // state for the current performance
+    const upcoming = source.getDailyReport().upcoming;
+    const plans = upcoming.map(plan).filter((x) => x.closed);
+    const ranked = plans.slice().sort((a, b) => ACTIONS[a.action].rank - ACTIONS[b.action].rank || a.p.daysOut - b.p.daysOut);
+    let sel = ranked[0];
+    let filter = "review";
 
     root.innerHTML = `
       <div class="view-head"><div>
-        <h1>Load-in by zone</h1>
-        <p>Front of house · how full the house is at any moment, from doors to curtain, by section</p>
-      </div>
-      <div class="seg" role="tablist" aria-label="Performance" id="perf-seg">
-        ${perfs.map((p, i) => `<button type="button" role="tab" data-i="${i}" aria-selected="${i === idx}">${p.daysOut === 0 ? "Tonight" : "Last night"} · ${esc(p.title)}</button>`).join("")}
+        <h1>House plan</h1>
+        <p>Which seating zones each performance needs · reviewed at ${ZP.checkpointsWeeks.join(", ")} weeks out · as of the ${esc(source.meta().asOfLabel)} refresh</p>
       </div></div>
       ${strip([
-        { id: "h-in", label: "In the house", note: "of ticketed guests" },
-        { id: "h-scanned", label: "Scanned in", note: "" },
-        { id: "h-due", label: "Still to arrive", note: "" },
-        { id: "h-rate", label: "Arrivals, last 5 min", note: "scans" },
-        { id: "h-peak", label: "Busiest 5 minutes", note: "" },
+        { id: "z-open", label: "Shows to open a zone", note: "projected demand calls for it" },
+        { id: "z-watch", label: "Shows to watch", note: "close to the line" },
+        { id: "z-keep", label: "Shows to keep closed", note: "demand fits below" },
+        { id: "z-week", label: "Performances at a checkpoint", note: "" },
       ])}
-      <div class="card" style="margin-bottom:var(--gap)">
-        <div class="house-top">
-          <div class="scrub">
-            <button type="button" class="play" id="play" aria-label="Play doors to curtain">▶</button>
-            <span class="clock" id="clock"></span>
-            <input type="range" id="t" min="${FROM}" max="${TO}" step="1" value="${at}" aria-label="Time relative to curtain" />
-          </div>
-          <span class="sub" id="rel" style="margin:0"></span>
-        </div>
-        <div id="hist"></div>
-      </div>
       <div class="cols">
         <div class="card">
-          <div class="card-head"><div><h2 id="map-title"></h2><p class="sub" id="map-sub"></p></div></div>
-          <div id="seatmap" class="seatmap-wrap"></div>
+          <div class="card-head"><div><h2>Triggers</h2><p class="sub">Select one to see its zones</p></div>
+            <div class="seg" role="tablist" id="zf">
+              <button type="button" role="tab" data-f="review" aria-selected="true">Needs a decision</button>
+              <button type="button" role="tab" data-f="all" aria-selected="false">All</button>
+            </div></div>
+          <div class="mini-list" id="triggers"></div>
+        </div>
+        <div class="card" id="plan-card">
+          <h2 id="pt"></h2><p class="sub" id="ps"></p>
+          <div id="advice"></div>
+          <div id="zones" style="margin-top:8px"></div>
+          <div id="seatmap" class="seatmap-wrap" style="margin-top:12px"></div>
           <div class="legend">
-            <span><i style="background:var(--series-1)"></i>In the house</span>
-            <span><i style="background:#bcd4f3"></i>Ticketed, not here yet</span>
+            <span><i style="background:var(--series-1)"></i>Sold</span>
+            <span><i style="background:#bcd4f3"></i>Projected by show day</span>
             <span><i style="background:var(--series-4)"></i>Hold</span>
-            <span><i style="background:var(--surface-1);box-shadow:inset 0 0 0 1px var(--neutral-mark)"></i>Unsold</span>
+            <span><i style="background:var(--surface-1);box-shadow:inset 0 0 0 1px var(--neutral-mark)"></i>Not expected to sell</span>
           </div>
         </div>
-        <div class="stack">
-          <div class="card"><h2>By zone</h2><p class="sub">Share of each section's ticketed guests already scanned in</p><div id="zones"></div></div>
-          <p class="callout" style="margin:0">Built for front of house and the box office: when to open more scan lanes, which entrance is lagging, whether to hold the curtain. It updates as scans come in; it isn't meant as a real-time feed for everyone.</p>
-        </div>
-      </div>`;
+      </div>
+      <div class="card mt" id="recap"></div>
+      <p class="callout mt">Set per venue: which zones stay closed until needed (${Object.entries(ZP.closedByDefault).map(([h, z]) => `${esc(source.hall(h)?.name ?? h)}: ${esc(z)}`).join(", ")}), the checkpoints, and the thresholds (open when projected demand reaches ${pct(ZP.openAbove)} of the seats below; keep closed under ${pct(ZP.keepClosedBelow)}). Each checkpoint's triggers could go to front of house as an email or Teams message.</p>`;
 
-    function load(i) {
-      idx = i;
-      const p = perfs[i];
-      const layout = buildSeats(p.hall, p);
-      const sold = new Set(layout.saleOrder.slice(0, p.sold));
-      const model = source.arrivalModel(p, p.hall.sections.map((s) => s.name));
-      layout.seats.forEach((s) => {
-        s.ticketed = s.fixed === "comp" || sold.has(s);
-        s.arrive = s.ticketed ? model(s.section) : undefined;
-      });
-      const wrap = root.querySelector("#seatmap");
-      wrap.innerHTML = seatSvg(layout, p.hall);
-      const circles = wrap.querySelectorAll(".seat");
-      const ticketed = layout.seats.filter((s) => s.ticketed);
-      const bins = [];
-      for (let m = FROM; m < TO; m += BIN) bins.push({ m, n: ticketed.filter((s) => s.arrive !== null && s.arrive >= m && s.arrive < m + BIN).length });
-      const peak = bins.reduce((a, b) => (b.n > a.n ? b : a));
-      st = { p, layout, circles, ticketed, bins, peak, curtain: curtainMinutes(p.time) };
-      root.querySelector("#map-title").textContent = `${p.daysOut === 0 ? "Tonight" : "Last night"}: ${p.title}`;
-      root.querySelector("#map-sub").textContent = `${p.hall.name} · curtain ${p.time} · doors open 1 hour before · ${matchMedia("(hover: hover)").matches ? "hover" : "tap"} a seat for its scan time`;
-      root.querySelectorAll("#perf-seg button").forEach((b) => b.setAttribute("aria-selected", String(+b.dataset.i === i)));
-      at = p.daysOut === 0 ? -20 : TO;
-      root.querySelector("#t").value = at;
-      paint(false);
+    // Counted by show, matching the trigger list.
+    const worst = new Map();
+    for (const x of ranked) if (!worst.has(x.p.title)) worst.set(x.p.title, x.action);
+    const count = (a) => [...worst.values()].filter((v) => v === a).length;
+    setStat(root, "z-open", count("open"), int);
+    setStat(root, "z-watch", count("watch"), int);
+    setStat(root, "z-keep", count("keep"), int);
+    const thisWeekPerfs = plans.filter((x) => ZP.checkpointsWeeks.some((w) => x.p.daysOut <= w * 7 && x.p.daysOut > w * 7 - 7));
+    setStat(root, "z-week", thisWeekPerfs.length, int);
+    root.querySelector("#z-week .note").textContent = `at the ${ZP.checkpointsWeeks.join("/")}-week marks`;
+
+    // One row per show: its most urgent performance sets the action.
+    function groups(list) {
+      const out = [];
+      for (const x of list) {
+        let g = out.find((o) => o.title === x.p.title && o.hall === x.p.hallId);
+        if (!g) out.push((g = { title: x.p.title, hall: x.p.hallId, items: [] }));
+        g.items.push(x);
+      }
+      return out;
     }
 
-    function hist() {
-      const box = root.querySelector("#hist");
-      const W = Math.max(300, Math.round(box.clientWidth || 700)), H = 110, M = { l: 6, r: 6, t: 6, b: 20 };
-      const max = Math.max(...st.bins.map((b) => b.n), 1);
-      const bw = (W - M.l - M.r) / st.bins.length;
-      const x = (m) => M.l + ((m - FROM) / (TO - FROM)) * (W - M.l - M.r);
-      let g = "";
-      st.bins.forEach((b, i) => {
-        const h = (b.n / max) * (H - M.t - M.b);
-        const past = b.m + BIN <= at;
-        g += `<rect x="${M.l + i * bw + 2}" y="${H - M.b - h}" width="${bw - 4}" height="${h}" rx="3" fill="${past ? "var(--series-1)" : b.m <= at ? "#7fb0ee" : "#dfe7f3"}"><title>${clock(st.curtain + b.m)}: ${b.n} scans</title></rect>`;
-      });
-      for (const m of [-60, -30, 0, 15]) g += `<text class="axis-label" x="${x(m)}" y="${H - 4}" text-anchor="middle">${m === -60 ? "doors" : m === 0 ? "curtain" : clock(st.curtain + m)}</text>`;
-      g += `<line x1="${x(0)}" x2="${x(0)}" y1="${M.t}" y2="${H - M.b}" stroke="var(--text-muted)" stroke-dasharray="3 3"/>`;
-      g += `<line x1="${x(at)}" x2="${x(at)}" y1="0" y2="${H - M.b}" stroke="var(--navy)" stroke-width="2"/>`;
-      box.innerHTML = `<svg class="chart" viewBox="0 0 ${W} ${H}" role="img" aria-label="Scans per 5 minutes">${g}</svg>`;
+    function triggers() {
+      const list = filter === "review" ? ranked.filter((x) => ["open", "watch"].includes(x.action)) : ranked;
+      const gs = groups(list);
+      root.querySelector("#triggers").innerHTML = gs.length
+        ? gs
+            .map((g) => {
+              const x = g.items[0];
+              const all = plans.filter((y) => y.p.title === g.title && y.p.hallId === g.hall);
+              const first = all.reduce((a, b) => (a.p.daysOut < b.p.daysOut ? a : b)).p;
+              const last = all.reduce((a, b) => (a.p.daysOut > b.p.daysOut ? a : b)).p;
+              const dates = first === last ? shortDate(first.date) : `${shortDate(first.date)} – ${shortDate(last.date)}`;
+              const same = all.filter((y) => y.action === x.action).length;
+              const why = x.action === "later"
+                ? `First review ${shortDate(x.nextCheck)}`
+                : x.action === "open-now"
+                ? `${int(x.closed.sold)} sold in the ${esc(x.closed.name)} already`
+                : `Projected up to ${pct(Math.max(...g.items.map((y) => y.ratio)))} of the seats below the ${esc(x.closed.name)}`;
+              const isSel = g.items.includes(sel) || all.includes(sel);
+              return `<button type="button" class="trig ${isSel ? "sel" : ""}" data-id="${x.p.id}">
+                <div class="t-main"><div class="name">${esc(g.title)}</div>
+                  <div class="meta">${dates} · ${esc(x.p.hall.name)} · ${all.length > 1 ? `${same} of ${all.length} perfs` : "1 perf"} · ${Math.round(x.p.daysOut / 7)} wks out${x.passed ? ` · ${x.passed}-wk check` : ""}</div>
+                  <div class="meta">${why}</div></div>
+                <div class="t-chip">${chipHtml(x)}</div>
+              </button>`;
+            })
+            .join("")
+        : `<p class="sub">Nothing needs a decision right now: every reviewed performance fits below its closed zone or already has it open.</p>`;
     }
 
-    function paint(isRefresh) {
-      const { layout, circles, ticketed, p } = st;
-      let inCount = 0;
-      layout.seats.forEach((s, i) => {
-        let cls = "seat";
-        if (s.fixed === "hold") cls += " hold";
-        else if (s.ticketed) {
-          const here = s.arrive !== null && s.arrive <= at;
-          if (here) inCount++;
-          cls += here ? " in" : " due";
-        }
-        circles[i].setAttribute("class", cls);
-      });
-      const total = ticketed.length;
-      const recent = ticketed.filter((s) => s.arrive !== null && s.arrive > at - 5 && s.arrive <= at).length;
-      setStat(root, "h-in", (inCount / total) * 100, (n) => n.toFixed(0) + "%", isRefresh);
-      setStat(root, "h-scanned", inCount, int, isRefresh);
-      root.querySelector("#h-scanned .note").textContent = `of ${int(total)} ticketed`;
-      setStat(root, "h-due", total - inCount, int, isRefresh);
-      root.querySelector("#h-due .note").textContent = at >= TO ? "no-shows" : "ticketed, not scanned";
-      setStat(root, "h-rate", recent, int, isRefresh);
-      setStat(root, "h-peak", st.peak.n, int, isRefresh);
-      root.querySelector("#h-peak .note").textContent = `scans from ${clock(st.curtain + st.peak.m)}`;
-      root.querySelector("#clock").textContent = clock(st.curtain + at);
-      root.querySelector("#rel").textContent = rel(at);
+    // Within the selected show, step through its performances.
+    function perfPicker(x) {
+      const all = plans.filter((y) => y.p.title === x.p.title && y.p.hallId === x.p.hallId).sort((a, b) => a.p.daysOut - b.p.daysOut);
+      if (all.length < 2) return "";
+      return `<div class="seg" id="pp" style="margin:4px 0 10px">${all
+        .map((y) => `<button type="button" data-id="${y.p.id}" aria-selected="${y === x}">${y.p.date.toLocaleDateString("en-US", { month: "short", day: "numeric" })}</button>`)
+        .join("")}</div>`;
+    }
 
-      root.querySelector("#zones").innerHTML = p.hall.sections
-        .map((sec, i) => {
-          const zs = ticketed.filter((s) => s.section === sec.name);
-          const zin = zs.filter((s) => s.arrive !== null && s.arrive <= at).length;
-          const share = zs.length ? zin / zs.length : 0;
-          const lag = share < (inCount / total) - 0.08 && at < 0 && at > -45;
-          return `<div class="zone-row">
-            <div class="name">${esc(sec.name)}${lag ? ` <span class="chip behind" style="font-size:11px"><i></i>Lagging</span>` : ""}</div>
-            <div class="num"><b>${pct(share)}</b> · ${int(zin)} of ${int(zs.length)}</div>
-            <div class="zone-track"><i style="width:${share * 100}%;background:${ZONE_COLORS[i % 4]}"></i></div>
-          </div>`;
-        })
+    function show(x) {
+      sel = x;
+      const { p } = x;
+      root.querySelector("#pt").textContent = p.title;
+      root.querySelector("#ps").textContent = `${shortDate(p.date)} · ${p.time} · ${p.hall.name} · ${int(p.sold)} sold, about ${int(x.projected)} projected by show day`;
+      const z = esc(x.closed.name);
+      const advice = {
+        open: `Projected demand needs about ${int(x.projected + p.comps - x.below)} more seats than the zones below the ${z} hold. Opening it now puts those seats on sale while demand is still building.`,
+        watch: `Demand is projected to fill ${pct(x.ratio)} of the seats below the ${z}. No change yet; it comes up again at the next checkpoint.`,
+        "open-now": `The ${z} is already open and selling for this performance.`,
+        keep: `Projected demand fits in the zones below with room to spare. Keeping the ${z} closed concentrates the audience and saves an usher team.`,
+        later: `More than ${LAST_CHECK / 7} weeks out. The first review is ${x.nextCheck ? shortDate(x.nextCheck) : "later"}.`,
+      }[x.action];
+      root.querySelector("#advice").innerHTML = `${perfPicker(x)}${chipHtml(x)}<p class="sub" style="margin:8px 0 0">${advice}</p>`;
+      root.querySelector("#zones").innerHTML = x.zones
+        .map((zn) => `<div class="zone-row">
+          <div class="name">${esc(zn.name)}${zn.closed ? ` <span class="pill">closed until needed</span>` : ""}</div>
+          <div class="num"><b>${int(zn.sold)}</b> sold · ${int(zn.sold + zn.proj)} projected · ${int(zn.seats)} seats</div>
+          <div class="zone-track"><i style="width:${(zn.sold / zn.seats) * 100}%;background:${zn.color}"></i><i style="width:${(zn.proj / zn.seats) * 100}%;background:${zn.color};opacity:.35"></i></div>
+        </div>`)
         .join("");
-      hist();
+      const wrap = root.querySelector("#seatmap");
+      wrap.innerHTML = seatSvg(x.layout, p.hall);
+      const circles = wrap.querySelectorAll(".seat");
+      x.layout.seats.forEach((s, i) => {
+        const cls = s.fixed === "hold" ? "hold" : s.fixed === "comp" || x.soldSet.has(s) ? "in" : x.projSet.has(s) ? "due" : "";
+        circles[i].setAttribute("class", `seat ${cls}`);
+      });
+      triggers();
     }
 
-    // ---- Controls ----
-    root.querySelector("#t").addEventListener("input", (e) => {
-      at = +e.target.value;
-      paint(false);
+    root.querySelector("#triggers").addEventListener("click", (e) => {
+      const b = e.target.closest("[data-id]");
+      if (!b) return;
+      show(plans.find((x) => x.p.id === b.dataset.id));
+      if (matchMedia("(max-width: 760px)").matches) root.querySelector("#plan-card").scrollIntoView({ behavior: "smooth", block: "start" });
     });
-    function stop() {
-      clearInterval(timer);
-      timer = null;
-      const btn = root.querySelector("#play");
-      if (btn) btn.textContent = "▶";
-    }
-    root.querySelector("#play").addEventListener("click", () => {
-      if (timer) return stop();
-      if (at >= TO) at = FROM;
-      root.querySelector("#play").textContent = "❚❚";
-      timer = setInterval(() => {
-        at = Math.min(TO, at + 1);
-        root.querySelector("#t").value = at;
-        paint(false);
-        if (at >= TO) stop();
-      }, reducedMotion() ? 300 : 110);
+    root.querySelector("#advice").addEventListener("click", (e) => {
+      const b = e.target.closest("#pp button[data-id]");
+      if (b) show(plans.find((x) => x.p.id === b.dataset.id));
     });
-    root.querySelector("#perf-seg").addEventListener("click", (e) => {
-      const b = e.target.closest("button[data-i]");
-      if (b) { stop(); load(+b.dataset.i); }
+    root.querySelector("#zf").addEventListener("click", (e) => {
+      const b = e.target.closest("button[data-f]");
+      if (!b) return;
+      filter = b.dataset.f;
+      root.querySelectorAll("#zf button").forEach((x) => x.setAttribute("aria-selected", String(x === b)));
+      triggers();
     });
     const wrap = root.querySelector("#seatmap");
-    const seatTip = (e) => {
+    const tip = (e) => {
       const i = e.target.dataset?.i;
-      if (i === undefined) return hideTip();
-      const s = st.layout.seats[i];
-      const status = s.fixed === "hold" ? "House hold" : !s.ticketed ? "Unsold" : s.arrive === null ? "No scan (no-show so far)" : s.arrive <= at ? `Scanned ${clock(st.curtain + s.arrive)}` : "Not here yet";
-      showTip(e, tipHtml(`${esc(s.section)} · Row ${s.row}, Seat ${s.seat}`, [["Status", status]]));
+      if (i === undefined || !sel) return hideTip();
+      const s = sel.layout.seats[i];
+      const st = s.fixed === "hold" ? "House hold" : s.fixed === "comp" ? "Complimentary" : sel.soldSet.has(s) ? "Sold" : sel.projSet.has(s) ? "Projected to sell" : "Not expected to sell";
+      showTip(e, tipHtml(`${esc(s.section)} · Row ${s.row}, Seat ${s.seat}`, [["Status", st]]));
     };
-    wrap.addEventListener("pointermove", seatTip);
-    wrap.addEventListener("click", seatTip);
+    wrap.addEventListener("pointermove", tip);
+    wrap.addEventListener("click", tip);
     wrap.addEventListener("pointerleave", hideTip);
 
-    load(0);
-    // Stop the play timer when the user leaves the tab.
-    const onHash = () => { stop(); window.removeEventListener("hashchange", onHash); };
-    window.addEventListener("hashchange", onHash);
+    // ---- Last night: a recap from scans, after the fact ----
+    const last = source.getHousePerfs().find((p) => p.daysOut === -1);
+    if (last) {
+      const lay = buildSeats(last.hall, last);
+      const sold = new Set(lay.saleOrder.slice(0, last.sold));
+      const model = source.arrivalModel(last, last.hall.sections.map((s) => s.name));
+      const tix = lay.seats.filter((s) => s.fixed === "comp" || sold.has(s)).map((s) => ({ ...s, arrive: model(s.section) }));
+      // Match the attendance the rest of the demo reports for this show.
+      const scanned = tix.filter((s) => s.arrive !== null);
+      const late = scanned.filter((s) => s.arrive > 0).length;
+      const bins = [];
+      for (let m = -60; m < 20; m += 10) bins.push({ m, n: scanned.filter((s) => s.arrive >= m && s.arrive < m + 10).length });
+      const peak = bins.reduce((a, b) => (b.n > a.n ? b : a));
+      const max = peak.n || 1;
+      root.querySelector("#recap").innerHTML = `
+        <h2>Last night's load-in · ${esc(last.title)}</h2>
+        <p class="sub">${esc(last.hall.name)} · recap from ticket scans after the show, for planning door and usher staffing</p>
+        <div class="cols even" style="align-items:end">
+          <div><div style="display:flex;align-items:flex-end;gap:4px;height:80px">${bins.map((b) => `<div title="${int(b.n)} scans" style="flex:1;height:${(b.n / max) * 100}%;background:${b === peak ? "var(--series-1)" : "#bcd4f3"};border-radius:3px 3px 0 0"></div>`).join("")}</div>
+            <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--text-muted);margin-top:4px"><span>doors</span><span>curtain</span><span>+20 min</span></div></div>
+          <div class="kv">
+            <span>Scanned in</span><b>${int(last.scanned)} of ${int(last.sold + last.comps)} (${pct(last.scanned / (last.sold + last.comps))})</b>
+            <span>Busiest 10 minutes</span><b>${peak.m < 0 ? `${-peak.m}–${-peak.m - 10} min before` : `${peak.m}–${peak.m + 10} min after`}</b>
+            <span>After curtain</span><b>${int(late)} (${pct(late / Math.max(1, scanned.length))})</b>
+            <span>No-shows</span><b>${int(last.sold + last.comps - last.scanned)}</b>
+          </div>
+        </div>`;
+    } else root.querySelector("#recap").remove();
 
+    if (sel) show(sel);
+    else triggers();
     return { update() {} };
   },
 };

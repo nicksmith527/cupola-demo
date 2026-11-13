@@ -270,3 +270,50 @@ details.what .body { margin-top: 12px; }
 .status-dot { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; color: var(--text-secondary); }
 .status-dot i { width: 7px; height: 7px; border-radius: 50%; display: inline-block; }
 .minibar { display: inline-block; height: 6px; border-radius: 3px; background: var(--series-3); vertical-align: middle; margin-right: 6px; }
+
+/* ---------- Snapshot "Coming up" rows ---------- */
+.up-row { grid-template-columns: minmax(0, 1fr) 110px 120px 48px; }
+.up-row .up-spark { min-width: 0; }
+@media (max-width: 600px) {
+  /* Two lines on phones: the show on top, its sales line, bar and % below. */
+  .up-row { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) 44px; gap: 6px 10px; padding: 10px 0; }
+  .up-row > div:first-child { grid-column: 1 / -1; }
+  .up-row .name { white-space: normal; }
+}
+
+/* ---------- Scheduled-refresh label ---------- */
+.sched-dot { color: #7fb0ee; font-size: 14px; line-height: 1; }
+
+/* ---------- House plan triggers ---------- */
+.trig {
+  display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 6px 12px; align-items: center;
+  width: 100%; text-align: left; font: inherit; color: inherit; cursor: pointer;
+  background: none; border: 0; border-top: 1px solid var(--grid); padding: 10px 8px; border-radius: 0;
+}
+.trig:first-child { border-top: 0; }
+.trig:hover { background: #f7f9fc; }
+.trig.sel { background: #f1f6fd; box-shadow: inset 3px 0 0 var(--series-1); }
+.trig .name { font-weight: 600; }
+.trig .meta { font-size: 11.5px; color: var(--text-muted); }
+@media (max-width: 600px) {
+  .trig { grid-template-columns: minmax(0, 1fr); }
+  .trig .t-chip { grid-row: 1; }
+}
+
+/* ---------- Phones: tighter header and nothing colliding ---------- */
+@media (max-width: 600px) {
+  .appbar .status { width: auto; flex-wrap: nowrap; }
+  .appbar .brand { margin-right: auto; }
+  .appbar .topbar { flex-wrap: nowrap; }
+  .appbar #as-of { font-size: 11px; }
+  .card-head { flex-wrap: wrap; }
+  .tonight { grid-template-columns: 84px minmax(0, 1fr); gap: 12px; }
+  .ring { width: 84px; height: 84px; }
+  .re-grid { grid-template-columns: minmax(0, 1fr); }
+  .lens-bar select { flex: 1; min-width: 0; }
+  .lens-bar #export-all { margin-left: 0; width: 100%; justify-content: center; }
+  .scope-bar .hint { margin-left: 0; }
+  .scope-bar select { width: 100%; }
+  .scrub { min-width: 0; }
+  .view-head .seg { max-width: 100%; }
+}

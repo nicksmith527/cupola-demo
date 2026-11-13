@@ -25,14 +25,14 @@ export default {
     root.innerHTML = `
       <div class="view-head"><div>
         <h1>${greeting()}</h1>
-        <p>${shortDate(new Date())} · sales, tonight's house and the phones at a glance</p>
+        <p>${shortDate(new Date())} · numbers as of the ${esc(source.meta().asOfLabel)} refresh</p>
       </div></div>
       ${strip([
-        { id: "k-sold", label: "Tickets sold today", note: "" },
-        { id: "k-rev", label: "Revenue today", note: "all channels" },
+        { id: "k-sold", label: "Tickets sold yesterday", note: "all channels" },
+        { id: "k-rev", label: "Revenue yesterday", note: "all channels" },
         { id: "k-tonight", label: "Tonight's house", note: `${esc(t.hall.name)} · ${int(t.capacity)} seats` },
         { id: "k-30", label: "Next 30 days sold", note: "of available capacity" },
-        { id: "k-calls", label: "Calls answered", note: "box office phones" },
+        { id: "k-calls", label: "Calls answered yesterday", note: "box office phones" },
       ])}
       <div class="cols">
         <div class="card">
@@ -51,11 +51,11 @@ export default {
                 <div class="kv" id="tonight-kv"></div>
               </div>
             </div>
-            <a class="go" href="#/house">Watch the house fill (load-in by zone) →</a>
+            <a class="go" href="#/house">House plan: zones and triggers →</a>
           </div>
           <a class="alert-line" id="attn" href="#/daily?attn=1"></a>
           <div class="card">
-            <p class="eyebrow">Phones today</p>
+            <p class="eyebrow">Phones yesterday</p>
             <div class="kv" id="phones"></div>
             <a class="go" href="#/calls">Call center →</a>
           </div>
@@ -74,10 +74,10 @@ export default {
             ? `<a class="re-tag" href="#/pacing?t=${encodeURIComponent(p.title)}" title="Return engagement: compare with past visits">↺ Return</a>`
             : "";
           const c = source.getPerfCurve(p);
-          return `<div class="mini-row" style="grid-template-columns:minmax(0,1fr) 110px 120px 52px">
+          return `<div class="mini-row up-row">
             <div><div class="name">${esc(p.title)}${re}</div><div class="meta">${shortDate(p.date)} · ${esc(p.time)} · ${esc(p.hall.name)}</div></div>
-            <div>${spark(c.pts.filter((_, i) => i % 3 === 0 || i === c.pts.length - 1), { w: 110, h: 28 })}</div>
-            <div><div class="meta" style="text-align:right;margin-bottom:3px">${int(p.sold)} / ${int(p.capacity)}</div><div class="bar-track"><div class="bar-fill" data-width="${share * 100}%"></div></div></div>
+            <div class="up-spark">${spark(c.pts.filter((_, i) => i % 3 === 0 || i === c.pts.length - 1), { w: 110, h: 28 })}</div>
+            <div class="up-bar"><div class="meta" style="text-align:right;margin-bottom:3px">${int(p.sold)} / ${int(p.capacity)}</div><div class="bar-track"><div class="bar-fill" data-width="${share * 100}%"></div></div></div>
             <div class="num">${pct(share)}</div>
           </div>`;
         })
@@ -87,12 +87,12 @@ export default {
 
     function cards(isRefresh) {
       const k = data.kpis;
-      setStat(root, "k-sold", k.soldToday, int, isRefresh);
-      setStat(root, "k-rev", k.revenueToday, money, isRefresh);
+      // A full day from the overnight refresh, not a running count.
+      setStat(root, "k-sold", Math.round(k.soldToday * 4.2), int, isRefresh);
+      setStat(root, "k-rev", Math.round(k.revenueToday * 4.2), money, isRefresh);
       setStat(root, "k-tonight", k.tonightPct * 100, (n) => n.toFixed(1) + "%", isRefresh);
       setStat(root, "k-30", k.next30Pct * 100, (n) => n.toFixed(1) + "%", isRefresh);
       setStat(root, "k-calls", k.callsAnswered, int, isRefresh);
-      root.querySelector("#k-sold .note").innerHTML = k.lastBatch ? `<span class="up">▲ ${int(k.lastBatch)}</span> since last refresh` : "since midnight";
 
       const tn = data.tonight;
       const open = tn.capacity - tn.sold - tn.comps - tn.holds;

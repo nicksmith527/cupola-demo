@@ -5,6 +5,7 @@
 // original file stays easy to compare.
 
 import { SampleSource } from "./sample.js";
+import { config } from "../config.js";
 
 function rng(seed) {
   let s = seed >>> 0;
@@ -29,7 +30,31 @@ const RETURNING = {
 
 const AGENTS = ["Maya R.", "Devon T.", "Priya K.", "Luis M.", "Hannah B.", "Andre W.", "Sofia L.", "Grant P.", "Keisha J."];
 
+// Most recent scheduled refresh before now (yesterday's last one before the first).
+function lastScheduled(times, now = new Date()) {
+  const mins = (t) => { const m = /(\d+):(\d+)\s*(AM|PM)/i.exec(t); return ((+m[1] % 12) + (m[3].toUpperCase() === "PM" ? 12 : 0)) * 60 + +m[2]; };
+  const cur = now.getHours() * 60 + now.getMinutes();
+  const past = times.filter((t) => mins(t) <= cur);
+  return past.length ? { label: past.at(-1), yesterday: false } : { label: times.at(-1), yesterday: true };
+}
+
+const baseMeta = SampleSource.prototype.meta;
+const baseCalls = SampleSource.prototype.getCallCenter;
+
 Object.assign(SampleSource.prototype, {
+  meta() {
+    const m = baseMeta.call(this);
+    const r = lastScheduled(config.refreshTimes);
+    return { ...m, asOfLabel: r.yesterday ? `yesterday ${r.label}` : r.label };
+  },
+
+  // The call center reports full days: yesterday, from the phone system's
+  // nightly export, rather than a running count for today.
+  getCallCenter() {
+    this.callHoursVisible = this.callcenter.hours.length;
+    return baseCalls.call(this);
+  },
+
   // ---- Return engagements --------------------------------------------------
   returnTitles() {
     return [this.pacing.title, ...Object.keys(RETURNING)];
