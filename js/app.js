@@ -12,13 +12,14 @@ import pacing from "./views/pacing.js";
 import audience from "./views/audience.js";
 import geography from "./views/geography.js";
 import callcenter from "./views/callcenter.js";
+import house from "./views/house.js";
+import "./sources/schedule.js";
 
-const VIEWS = [morning, daily, pacing, audience, geography, callcenter];
+const VIEWS = [morning, daily, pacing, house, audience, geography, callcenter];
 
 const $ = (id) => document.getElementById(id);
 let source;
 let active; // { view, handle }
-let secondsLeft = config.demoRefreshSeconds;
 
 function renderNav() {
   $("nav").innerHTML = VIEWS.map((v) => `<a href="#/${v.id}" data-id="${v.id}">${v.label}</a>`).join("");
@@ -39,20 +40,13 @@ function route() {
   window.scrollTo({ top: 0 });
 }
 
+// Cupola refreshes on a schedule, not live. The header shows which scheduled
+// refresh the numbers come from.
 function updateStatus() {
   const m = source.meta();
-  $("as-of").innerHTML = `<span class="hide-sm">Data as of </span>${time(m.asOf)} · <span class="hide-sm">next refresh </span>${secondsLeft}s`;
-  const circ = 50.27;
-  const done = 1 - secondsLeft / config.demoRefreshSeconds;
-  document.querySelector(".refresh-ring .prog").style.strokeDashoffset = String(circ * done);
+  $("as-of").innerHTML = `<span class="hide-sm">Data as of </span>${m.asOfLabel}<span class="hide-sm"> · refreshes ${config.realWorldCadenceLabel}</span>`;
 }
 
-function refresh() {
-  source.tick();
-  secondsLeft = config.demoRefreshSeconds;
-  active?.handle?.update?.();
-  updateStatus();
-}
 
 async function start() {
   $("brand-name").textContent = config.brand;
@@ -77,19 +71,13 @@ async function start() {
   });
   $("footer").textContent =
     `${config.brand} demo · all names and numbers are synthetic · ` +
-    `real deployments refresh ${config.realWorldCadenceLabel}; this demo refreshes every ${config.demoRefreshSeconds}s`;
+    `refreshes on a schedule (${config.refreshTimes.join(", ")}), not live`;
 
   renderNav();
   window.addEventListener("hashchange", route);
   route();
   updateStatus();
 
-  $("refresh-now").addEventListener("click", refresh);
-  setInterval(() => {
-    secondsLeft -= 1;
-    if (secondsLeft <= 0) refresh();
-    else updateStatus();
-  }, 1000);
 }
 
 start();

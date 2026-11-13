@@ -1,5 +1,5 @@
-// Call center: today's phone activity by hour, from the phone system rather
-// than the ticketing system. Each refresh fills in another hour.
+// Call center: yesterday's phone activity by hour, from the phone system's
+// nightly export rather than the ticketing system. Full days, not a live feed.
 
 import { countUp, growBars, flash } from "../ui/animate.js";
 import { int, pct, secs, hourLabel } from "../ui/format.js";
@@ -17,8 +17,8 @@ export default {
     root.innerHTML = `
       <div class="view-head">
         <div>
-          <h1>Box office phones today</h1>
-          <p>${d.agentsScheduled} agents scheduled · service-level target: answer within ${d.serviceLevelTargetSec}s</p>
+          <h1>Box office phones: yesterday</h1>
+          <p>Full day from the phone system's nightly export · ${d.agentsScheduled} agents scheduled · service-level target: answer within ${d.serviceLevelTargetSec}s</p>
         </div>
       </div>
       <section class="grid kpis">
@@ -36,12 +36,11 @@ export default {
           <div class="legend">
             <span><i style="background:var(--series-1)"></i>Answered</span>
             <span><i style="background:var(--series-2)"></i>Abandoned</span>
-            <span><i style="background:transparent;box-shadow:inset 0 0 0 1px var(--neutral-mark)"></i>Hours still to come</span>
           </div>
         </div>
         <div class="card">
           <h2>Why people are calling</h2>
-          <p class="sub">Share of today's calls by reason</p>
+          <p class="sub">Share of yesterday's calls by reason</p>
           <div class="bar-list" id="reasons"></div>
         </div>
       </section>`;

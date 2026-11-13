@@ -77,9 +77,9 @@ function seatSvg(layout, hall) {
 function greeting() {
   const h = new Date().getHours();
   if (h < 5) return { hi: "Working late", line: "here's how the day wrapped up: sales, the house and the phones." };
-  if (h < 12) return { hi: "Good morning", line: "where sales, tonight's house and the phones stand this morning." };
-  if (h < 17) return { hi: "Good afternoon", line: "where sales, tonight's house and the phones stand right now." };
-  if (h < 22) return { hi: "Good evening", line: "where sales, tonight's house and the phones stand right now." };
+  if (h < 12) return { hi: "Good morning", line: "where sales, tonight's house and the phones stand as of the latest refresh." };
+  if (h < 17) return { hi: "Good afternoon", line: "where sales, tonight's house and the phones stand as of the latest refresh." };
+  if (h < 22) return { hi: "Good evening", line: "where sales, tonight's house and the phones stand as of the latest refresh." };
   return { hi: "Good evening", line: "here's how the day wrapped up: sales, tonight's house and the phones." };
 }
 
@@ -99,11 +99,11 @@ export default {
         </div>
       </div>
       <section class="grid kpis">
-        <div class="card tile" id="k-sold"><div class="label">Tickets sold today</div><div class="value">0</div><div class="delta"></div></div>
-        <div class="card tile" id="k-rev"><div class="label">Revenue today</div><div class="value">$0</div><div class="note">all channels</div></div>
+        <div class="card tile" id="k-sold"><div class="label">Tickets sold yesterday</div><div class="value">0</div><div class="note">all channels</div></div>
+        <div class="card tile" id="k-rev"><div class="label">Revenue yesterday</div><div class="value">$0</div><div class="note">all channels</div></div>
         <div class="card tile" id="k-tonight"><div class="label">Tonight's house</div><div class="value">0%</div><div class="note">${esc(t.hall.name)} · ${int(t.capacity)} seats</div></div>
         <div class="card tile" id="k-30"><div class="label">Next 30 days sold</div><div class="value">0%</div><div class="note">of available capacity</div></div>
-        <div class="card tile" id="k-calls"><div class="label">Calls answered today</div><div class="value">0</div><div class="note">box office phones</div></div>
+        <div class="card tile" id="k-calls"><div class="label">Calls answered yesterday</div><div class="value">0</div><div class="note">box office phones</div></div>
       </section>
       <section class="grid two-col">
         <div class="card" id="seat-card" tabindex="-1">
@@ -250,8 +250,9 @@ export default {
     function kpis(isRefresh) {
       const k = data.kpis;
       const tiles = {
-        "k-sold": [k.soldToday, int],
-        "k-rev": [k.revenueToday, money],
+        // Full days from the overnight refresh, not a running count.
+        "k-sold": [Math.round(k.soldToday * 4.2), int],
+        "k-rev": [Math.round(k.revenueToday * 4.2), money],
         "k-tonight": [k.tonightPct * 100, (n) => n.toFixed(1) + "%"],
         "k-30": [k.next30Pct * 100, (n) => n.toFixed(1) + "%"],
         "k-calls": [k.callsAnswered, int],
@@ -262,9 +263,6 @@ export default {
         if (isRefresh && valEl._value !== v) flash(tile);
         countUp(valEl, v, f);
       }
-      root.querySelector("#k-sold .delta").innerHTML = k.lastBatch
-        ? `<span class="up">▲ ${int(k.lastBatch)}</span> since last refresh`
-        : "since midnight";
     }
 
     kpis(false);

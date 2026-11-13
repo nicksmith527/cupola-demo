@@ -64,7 +64,7 @@ export default {
       <div class="view-head">
         <div>
           <h1>Daily sales report</h1>
-          <p>${shortDate(today)} · a short look back, then today forward. Anything selling behind similar shows is pinned to the top, however far out it is.</p>
+          <p>${shortDate(today)} · as of the ${esc(source.meta().asOfLabel)} refresh · a short look back, then today forward. Anything selling behind similar shows is pinned to the top, however far out it is.</p>
         </div>
       </div>
       <section class="grid kpis">

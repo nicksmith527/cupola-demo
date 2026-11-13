@@ -19,8 +19,22 @@ export const config = {
 
   // Real deployments refresh on the organization's own cadence (about 3-4 times
   // a day by default). The demo speeds that up so you can watch it happen.
-  demoRefreshSeconds: 45,
+  // Scheduled refreshes (the organization picks these). Cupola is not a live
+  // feed: the header says which refresh the numbers came from.
+  refreshTimes: ["6:00 AM", "10:00 AM", "2:00 PM", "6:00 PM"],
   realWorldCadenceLabel: "4x daily",
+
+  // House plan: when to suggest opening or keeping closed an upper zone.
+  // Checked at set points before each performance, not continuously.
+  zonePlan: {
+    checkpointsWeeks: [12, 8, 4],
+    // Zones kept closed until demand calls for them, per hall.
+    closedByDefault: { main: "Balcony", recital: "Loge" },
+    // Open when projected demand fills this share of the seats below it.
+    openAbove: 0.98,
+    // Comfortably keep closed below this share.
+    keepClosedBelow: 0.85,
+  },
 
   // What counts as "in trouble" on the Daily sales report. Each venue sets its
   // own rules; turn one off with enabled: false or adjust its thresholds.
