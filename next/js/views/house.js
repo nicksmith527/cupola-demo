@@ -10,6 +10,7 @@ import { int, pct, shortDate, esc } from "../ui/format.js";
 import { strip, setStat } from "../ui/mini.js";
 import { buildSeats, seatSvg } from "../ui/seats.js";
 import { showTip, hideTip, tipHtml } from "../ui/tooltip.js";
+import { openShowReport, fromPerf } from "../ui/showreport.js";
 
 const ZP = config.zonePlan;
 const LAST_CHECK = Math.max(...ZP.checkpointsWeeks) * 7;
@@ -250,7 +251,7 @@ export default {
       const peak = bins.reduce((a, b) => (b.n > a.n ? b : a));
       const max = peak.n || 1;
       root.querySelector("#recap").innerHTML = `
-        <h2>Last night's load-in · ${esc(last.title)}</h2>
+        <div class="card-head"><h2>Last night's load-in · ${esc(last.title)}</h2><button type="button" class="go" id="last-report" style="margin:0">Show report →</button></div>
         <p class="sub">${esc(last.hall.name)} · recap from ticket scans after the show, for planning door and usher staffing</p>
         <div class="cols even" style="align-items:end">
           <div><div style="display:flex;align-items:flex-end;gap:4px;height:80px">${bins.map((b) => `<div title="${int(b.n)} scans" style="flex:1;height:${(b.n / max) * 100}%;background:${b === peak ? "var(--series-1)" : "var(--accent-soft, #bcd4f3)"};border-radius:3px 3px 0 0"></div>`).join("")}</div>
@@ -262,6 +263,7 @@ export default {
             <span>No-shows</span><b>${int(last.sold + last.comps - last.scanned)}</b>
           </div>
         </div>`;
+      root.querySelector("#last-report").addEventListener("click", () => openShowReport(fromPerf(last)));
     } else root.querySelector("#recap").remove();
 
     if (sel) show(sel);

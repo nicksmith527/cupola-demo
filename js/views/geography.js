@@ -9,6 +9,7 @@ import basic from "./geography-basic.js";
 import { countUp, growBars, reducedMotion } from "../ui/animate.js";
 import { int, money, esc } from "../ui/format.js";
 import { showTip, hideTip, tipHtml } from "../ui/tooltip.js";
+import { exportBtn, exportHouseholds, exportSummary, slug } from "../ui/export.js";
 
 const NS = "http://www.w3.org/2000/svg";
 // Sequential blue, light = few tickets, dark = many (light theme).
@@ -95,14 +96,15 @@ export default {
 
       <section class="grid two-col-even">
         <div class="card">
-          <h2>Counties</h2>
-          <p class="sub">Share of all tickets · select one to see its ZIP codes</p>
+          <div class="card-head"><div><h2>Counties</h2>
+          <p class="sub">Share of all tickets · select one to see its ZIP codes</p></div>
+          <div class="x-group">${exportBtn("counties", "Counties")}</div></div>
           <div class="bar-list" id="county-list"></div>
         </div>
         <div class="card">
           <div class="card-head">
             <div><h2 id="zip-title">Top ZIP codes</h2><p class="sub" id="zip-sub">Across the whole region</p></div>
-            <button type="button" class="link" id="zip-clear" hidden>Show all ZIPs</button>
+            <div class="x-group"><button type="button" class="link" id="zip-clear" hidden>Show all ZIPs</button>${exportBtn("zips", "ZIPs")}${exportBtn("county-hh", "Households", "hidden")}</div>
           </div>
           <div class="zip-board" id="zip-board"></div>
         </div>
@@ -322,6 +324,9 @@ export default {
         ? `${int(c.tickets)} tickets from the county${c.zips.length ? "" : " · no ZIP detail in the demo for this county"}`
         : "Across the whole market";
       root.querySelector("#zip-clear").hidden = !c;
+      const hh = root.querySelector('[data-x="county-hh"]');
+      hh.hidden = !c;
+      if (c) hh.textContent = `⤓ ${c.county.replace(/ County$/, "")} households`;
       const max = Math.max(1, ...zips.map((z) => z.tickets));
       const board = root.querySelector("#zip-board");
       board.innerHTML = zips.length
@@ -334,7 +339,8 @@ export default {
                   <div class="meta">${esc(z.place)}${c ? "" : " · " + esc(z.county)}</div>
                   <div class="bar-track"><div class="bar-fill" data-width="${(z.tickets / max) * 100}%"></div></div>
                 </div>
-                <div class="zip-nums"><b class="zip-t" data-v="${z.tickets}">0</b><span class="meta">tickets</span><span class="meta">${money(z.revenue)} · ${int(z.households)} households</span></div>
+                <div class="zip-nums"><b class="zip-t" data-v="${z.tickets}">0</b><span class="meta">tickets</span><span class="meta">${money(z.revenue)} · ${int(z.households)} households</span>
+                  <button type="button" class="x-btn x-mini" data-x="zip" data-zip="${esc(z.zip)}" aria-label="Export households in ${esc(z.zip)}">⤓ IDs</button></div>
               </div>`
             )
             .join("")
@@ -343,6 +349,35 @@ export default {
       growBars(board);
     }
     root.querySelector("#zip-clear").addEventListener("click", () => select(null, false));
+
+    // ---- Exports: summaries, or the household IDs behind a county or ZIP ----
+    const scopeTag = slug(source.scopeLabel || "season");
+    const fname = (what) => `cupola-${slug(m.label)}-${what}-${scopeTag}.csv`;
+    const zipList = (c) => (c ? c.zips.map((z) => ({ ...z, county: c.county })) : allZips);
+    root.addEventListener("click", (e) => {
+      const b = e.target.closest("[data-x]");
+      if (!b) return;
+      const x = b.dataset.x;
+      if (x === "counties")
+        exportSummary(
+          [{ key: "fips", label: "county_fips" }, { key: "county", label: "county" }, { key: "tickets", label: "tickets" }, { key: "revenue", label: "revenue" }, { key: "households", label: "households" }, { key: "share", label: "share_of_tickets" }],
+          m.counties.filter((c) => c.tickets > 0).map((c) => ({ ...c, households: c.households ?? Math.round(c.tickets / 2.6), share: (c.tickets / allTickets).toFixed(4) })),
+          fname("counties"), "counties");
+      if (x === "zips") {
+        const c = selected ? byFips.get(selected) : null;
+        exportSummary(
+          [{ key: "zip", label: "zip" }, { key: "place", label: "place" }, { key: "county", label: "county" }, { key: "tickets", label: "tickets" }, { key: "revenue", label: "revenue" }, { key: "households", label: "households" }],
+          zipList(c), fname(c ? slug(c.county) + "-zips" : "zips"), "ZIP codes");
+      }
+      if (x === "county-hh" && selected) {
+        const c = byFips.get(selected);
+        exportHouseholds({ label: c.county + scopeTag, count: c.households ?? Math.round(c.tickets / 2.6), zips: c.zips.map((z) => ({ zip: z.zip, county: c.county, weight: z.tickets })), avgSpend: c.revenue / Math.max(1, c.households ?? c.tickets / 2.6) }, fname(slug(c.county) + "-households"));
+      }
+      if (x === "zip") {
+        const z = allZips.find((q) => q.zip === b.dataset.zip);
+        if (z) exportHouseholds({ label: z.zip + scopeTag, count: z.households, zips: [{ zip: z.zip, county: z.county }], avgSpend: z.revenue / Math.max(1, z.households) }, fname(z.zip + "-households"));
+      }
+    });
 
     function select(fips, fromMap) {
       selected = selected === fips ? null : fips;

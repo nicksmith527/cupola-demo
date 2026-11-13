@@ -13,20 +13,22 @@ import audience from "./views/audience.js";
 import geography from "./views/geography.js";
 import callcenter from "./views/callcenter.js";
 import house from "./views/house.js";
+import about from "./views/about.js";
+import { installMenus } from "./ui/menu.js";
 import "./sources/schedule.js";
 
-const VIEWS = [morning, daily, pacing, house, audience, geography, callcenter];
+const VIEWS = [morning, daily, pacing, house, audience, geography, callcenter, about];
 
 const $ = (id) => document.getElementById(id);
 let source;
 let active; // { view, handle }
 
 function renderNav() {
-  $("nav").innerHTML = VIEWS.map((v) => `<a href="#/${v.id}" data-id="${v.id}">${v.label}</a>`).join("");
+  $("nav").innerHTML = VIEWS.filter((v) => !v.hidden).map((v) => `<a href="#/${v.id}" data-id="${v.id}">${v.label}</a>`).join("");
 }
 
 function route() {
-  const id = location.hash.replace(/^#\/?/, "") || VIEWS[0].id;
+  const id = location.hash.replace(/^#\/?/, "").split(/[#?]/)[0] || VIEWS[0].id;
   const view = VIEWS.find((v) => v.id === id) || VIEWS[0];
   document.querySelectorAll("#nav a").forEach((a) => {
     if (a.dataset.id === view.id) a.setAttribute("aria-current", "page");
@@ -74,6 +76,7 @@ async function start() {
     `refreshes on a schedule (${config.refreshTimes.join(", ")}), not live`;
 
   renderNav();
+  installMenus({ views: VIEWS, source, markets: config.markets });
   window.addEventListener("hashchange", route);
   route();
   updateStatus();

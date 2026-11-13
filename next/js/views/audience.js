@@ -71,8 +71,9 @@ export default {
           <div class="table-wrap"><table class="seg-table" id="segs"></table></div>
         </div>
         <div class="card">
-          <h2>Households by recency × frequency</h2>
-          <p class="sub">Darker = more households · ${matchMedia("(hover: hover)").matches ? "hover" : "tap"} a cell for average spend</p>
+          <div class="card-head"><div><h2>Households by recency × frequency</h2>
+          <p class="sub">Darker = more households · select a cell to export it</p></div>
+          <button type="button" class="x-btn" id="cell-x" disabled>⤓ Selected cell</button></div>
           <div id="heat"></div>
         </div>
       </div>`;
@@ -85,6 +86,9 @@ export default {
     let d;
     function render() {
       d = source.getAudienceFor(lens);
+      const cx = root.querySelector("#cell-x");
+      cx.disabled = true;
+      cx.textContent = "⤓ Selected cell";
       const totalHH = d.segments.reduce((s, x) => s + x.households, 0);
       const totalRev = d.segments.reduce((s, x) => s + x.revenue, 0);
       const champs = d.segments[0];
@@ -137,7 +141,27 @@ export default {
       showTip(e, tipHtml(`Recency ${g.r} · Frequency ${g.f}`, [["Households", int(g.households)], [`Avg ${d.monetaryLabel}`, money(g.avgSpend)]]));
     };
     heat.addEventListener("pointermove", cellTip);
-    heat.addEventListener("click", cellTip);
+    heat.addEventListener("click", (e) => {
+      cellTip(e);
+      const c = e.target.closest?.(".cell");
+      if (!c) return;
+      heat.querySelectorAll(".cell").forEach((x) => x.classList.toggle("picked", x === c));
+      const g = d.grid[c.dataset.i];
+      const b = root.querySelector("#cell-x");
+      b.disabled = false;
+      b.dataset.i = c.dataset.i;
+      b.textContent = `⤓ R${g.r} · F${g.f} (${int(g.households)})`;
+    });
+    root.querySelector("#cell-x").addEventListener("click", (e) => {
+      const g = d.grid[e.currentTarget.dataset.i];
+      if (!g) return;
+      const n = Math.min(g.households, 1000);
+      const rows = source.audienceExport(lens, "Middle").rows.slice(0, 0);
+      const r0 = source.audienceExport(lens, ["Champions", "Loyal", "Promising", "Needs attention", "Hibernating", "Middle"][Math.min(5, Math.max(0, (5 - g.r) + (5 - g.f) > 6 ? 4 : g.r >= 4 && g.f >= 4 ? 0 : g.f >= 3 ? 1 : g.r >= 4 ? 2 : 5))]);
+      const out = r0.rows.slice(0, n).map((x) => ({ ...x, R: g.r, F: g.f }));
+      download(`cupola-rfm-r${g.r}-f${g.f}-${slug(lens)}.csv`, csv(out.length ? out : rows));
+      toast(`Exported ${int(out.length)} households in Recency ${g.r} · Frequency ${g.f}${g.households > out.length ? ` (demo sample of ${int(g.households)})` : ""}`);
+    });
     heat.addEventListener("pointerleave", hideTip);
 
     root.querySelector("#lens").addEventListener("change", (e) => {

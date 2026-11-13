@@ -3,6 +3,8 @@
 // what each day finished at, the show reports for performances in the range,
 // what sold, and how it compares with the period before.
 //
+import { openShowReport } from "./showreport.js";
+
 // The daily history is synthetic and seeded, so it's the same on every visit.
 // Yesterday matches the Snapshot tiles. In a real deployment these rows come
 // from the ticketing system's daily close.
@@ -189,6 +191,7 @@ export function openRecap(source, presetId) {
     const n = days.length;
     const prevDays = h.days.filter((d) => d.date < from).slice(-n);
     const s = sum(days), pv = prevDays.length === n ? sum(prevDays) : null;
+    shown = s.perfs;
     const settling = days.some((d) => d.settling);
     $("#pr-sub").textContent = `${n === 1 ? dShort(from) : `${dShort(from)} – ${dShort(to)} · ${n} days`}${settling ? " · last 3 days still settling" : " · final"}`;
 
@@ -232,22 +235,27 @@ export function openRecap(source, presetId) {
 
       <div class="pr-cols">
         <div class="pr-card"><h3>Show reports <span class="pr-note">performances in this range</span></h3>
-          ${s.perfs.length ? s.perfs.slice().reverse().map((p) => `<div class="pr-show">
+          ${s.perfs.length ? s.perfs.slice().reverse().map((p, i) => `<div class="pr-show">
             <div class="pr-show-top"><div><b>${esc(p.title)}</b><div class="pr-muted">${dShort(p.date)} · ${esc(p.time)} · ${esc(p.hall)}</div></div>
               <span class="pr-pill ${p.settling ? "" : "final"}">${p.settling ? "settling" : "final"}</span></div>
             <div class="pr-kv">
               <span>Sold</span><b>${int(p.sold)} / ${int(p.cap)} (${pct(p.sold / p.cap)})</b>
               <span>Attended</span><b>${int(p.scanned)} (${pct(p.scanned / (p.sold + p.comps))} of ticketed)</b>
               <span>Revenue</span><b>${money(p.revenue)} · ${pct(p.revenue / p.goal)} of goal</b>
-            </div></div>`).join("") : `<p class="pr-muted">No performances in this range.</p>`}
+            </div><button type="button" class="sr-open" data-sr="${s.perfs.length - 1 - i}">House manager's report ›</button></div>`).join("") : `<p class="pr-muted">No performances in this range.</p>`}
         </div>
         <div class="pr-card"><h3>What sold <span class="pr-note">tickets bought in this range, by show</span></h3>
           ${sold.map((t) => `<div class="pr-bar"><div class="pr-bar-top"><span>${esc(t.title)}</span><b>${int(t.q)}</b></div><div class="pr-track"><i style="width:${(t.q / maxQ) * 100}%"></i></div></div>`).join("")}
         </div>
       </div>
-      <p class="pr-foot">Each day's totals are the ticketing system's close for that day. The most recent ${SETTLE_DAYS} days can still change with exchanges, refunds and late scans. All numbers in this demo are synthetic.</p>`;
+      <p class="pr-foot" data-perfs>Each day's totals are the ticketing system's close for that day. The most recent ${SETTLE_DAYS} days can still change with exchanges, refunds and late scans. All numbers in this demo are synthetic.</p>`;
   }
 
+  let shown = [];
+  wrap.querySelector("#pr-body").addEventListener("click", (e) => {
+    const b = e.target.closest("[data-sr]");
+    if (b) openShowReport(shown[+b.dataset.sr]);
+  });
   wrap.querySelector(".pr-tabs").addEventListener("click", (e) => {
     const b = e.target.closest("button[data-p]");
     if (!b) return;

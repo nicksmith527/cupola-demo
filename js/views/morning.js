@@ -6,6 +6,7 @@ import { countUp, growBars, flash, reducedMotion } from "../ui/animate.js";
 import { int, money, pct, shortDate, esc } from "../ui/format.js";
 import { showTip, hideTip, tipHtml } from "../ui/tooltip.js";
 import { recapLink, bindRecap } from "../ui/period.js";
+import { openShowReport, fromPerf } from "../ui/showreport.js";
 
 function rng(seed) {
   let s = seed >>> 0;
@@ -106,6 +107,7 @@ export default {
         <div class="card tile" id="k-30"><div class="label">Next 30 days sold</div><div class="value">0%</div><div class="note">of available capacity</div></div>
         <div class="card tile" id="k-calls"><div class="label">Calls answered yesterday</div><div class="value">0</div><div class="note">box office phones</div>${recapLink()}</div>
       </section>
+      <div class="lastnight" id="lastnight"></div>
       <section class="grid two-col">
         <div class="card" id="seat-card" tabindex="-1">
           <div class="card-head">
@@ -131,6 +133,12 @@ export default {
       </section>`;
 
     bindRecap(root, source);
+    const last = source.getHousePerfs?.().find((p) => p.daysOut === -1);
+    if (last) {
+      const tix = last.sold + last.comps;
+      root.querySelector("#lastnight").innerHTML = `<span class="ln-k">Last night</span><b>${esc(last.title)}</b><span>${esc(last.hall.name)} · ${int(last.scanned)} of ${int(tix)} ticketed guests scanned in (${pct(last.scanned / tix)})</span><button type="button" class="go" id="last-report">Show report →</button>`;
+      root.querySelector("#last-report").addEventListener("click", () => openShowReport(fromPerf(last)));
+    } else root.querySelector("#lastnight").remove();
 
     // ---- Seat map browser ----
     const wrap = root.querySelector("#seatmap");

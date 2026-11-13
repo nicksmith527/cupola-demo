@@ -4,6 +4,7 @@
 import { countUp, growBars } from "../ui/animate.js";
 import { int, money, moneyK, esc } from "../ui/format.js";
 import { showTip, hideTip, tipHtml } from "../ui/tooltip.js";
+import { exportBtn, exportHouseholds, slug } from "../ui/export.js";
 
 // Sequential blue, light end = "few" so small cells recede into the surface.
 const RAMP = ["#cde2fb", "#b7d3f6", "#9ec5f4", "#86b6ef", "#6da7ec", "#5598e7", "#3987e5", "#2a78d6", "#1c5cab", "#104281"];
@@ -33,13 +34,15 @@ export default {
       </section>
       <section class="grid two-col-even">
         <div class="card">
-          <h2>Households by recency × frequency</h2>
-          <p class="sub">Darker = more households · hover a cell for average spend</p>
+          <div class="card-head"><div><h2>Households by recency × frequency</h2>
+          <p class="sub">Darker = more households · select a cell to export it</p></div>
+          <div class="x-group">${exportBtn("cell", "Selected cell", "disabled")}</div></div>
           <div id="heat"></div>
         </div>
         <div class="card">
-          <h2>Segments and what to do next</h2>
+          <div class="card-head"><div><h2>Segments and what to do next</h2>
           <p class="sub">Bar shows each segment's share of revenue</p>
+          </div><div class="x-group">${exportBtn("all", "All segments")}</div></div>
           <div class="bar-list" id="segs"></div>
         </div>
       </section>`;
@@ -82,6 +85,34 @@ export default {
     });
     heat.addEventListener("pointerleave", hideTip);
 
+    // ---- Exports: household IDs for a segment, a grid cell, or everyone ----
+    let picked = null;
+    heat.addEventListener("click", (e) => {
+      const g = e.target.closest?.(".heat-cell");
+      if (!g) return;
+      picked = +g.dataset.i;
+      heat.querySelectorAll(".heat-cell rect").forEach((r, i) => r.setAttribute("stroke", i === picked ? "var(--text-primary)" : "none"));
+      heat.querySelectorAll(".heat-cell rect")[picked].setAttribute("stroke-width", "2.5");
+      const c = d.grid[picked];
+      const b = root.querySelector('[data-x="cell"]');
+      b.disabled = false;
+      b.textContent = `⤓ R${c.r} · F${c.f} (${int(c.households)})`;
+    });
+    root.addEventListener("click", (e) => {
+      const b = e.target.closest("[data-x]");
+      if (!b || b.disabled) return;
+      if (b.dataset.x === "seg") {
+        const s = d.segments.find((x) => x.name === b.dataset.seg);
+        exportHouseholds({ label: "seg" + s.name, count: s.households, segment: s.name, avgSpend: s.avgSpend }, `cupola-rfm-${slug(s.name)}.csv`);
+      }
+      if (b.dataset.x === "all")
+        exportHouseholds({ label: "all-segments", count: totalHH, avgSpend: totalRev / totalHH }, "cupola-rfm-all-segments.csv");
+      if (b.dataset.x === "cell" && picked !== null) {
+        const c = d.grid[picked];
+        exportHouseholds({ label: `cell${c.r}${c.f}`, count: c.households, avgSpend: c.avgSpend }, `cupola-rfm-r${c.r}-f${c.f}.csv`);
+      }
+    });
+
     // ---- Segments ----
     const segs = root.querySelector("#segs");
     segs.innerHTML = d.segments
@@ -90,7 +121,7 @@ export default {
         return `<div class="bar-row">
           <div><div class="name"><b>${esc(s.name)}</b> <span class="meta">· ${esc(s.description)}</span></div>
           <div class="meta">${int(s.households)} households · avg ${money(s.avgSpend)} · next: ${esc(s.action)}</div></div>
-          <div class="num">${moneyK(s.revenue)} · ${(share * 100).toFixed(0)}%</div>
+          <div class="num">${moneyK(s.revenue)} · ${(share * 100).toFixed(0)}% ${exportBtn("seg", "IDs", `data-seg="${esc(s.name)}" class="x-btn x-mini"`)}</div>
           <div class="bar-track"><div class="bar-fill" data-width="${share * 100}%"></div></div>
         </div>`;
       })

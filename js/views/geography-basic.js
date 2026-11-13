@@ -3,6 +3,7 @@
 
 import { countUp, growBars } from "../ui/animate.js";
 import { int, money, moneyK, pct, esc } from "../ui/format.js";
+import { exportBtn, exportHouseholds, exportSummary, slug } from "../ui/export.js";
 
 export default {
   id: "geography",
@@ -30,17 +31,32 @@ export default {
       </section>
       <section class="grid two-col-even">
         <div class="card">
-          <h2>Tickets by county</h2>
-          <p class="sub">Share of all tickets sold</p>
+          <div class="card-head"><div><h2>Tickets by county</h2>
+          <p class="sub">Share of all tickets sold</p></div><div class="x-group">${exportBtn("counties", "Counties")}</div></div>
           <div class="bar-list" id="counties"></div>
         </div>
         <div class="card">
-          <h2 id="zip-title"></h2>
-          <p class="sub">Top ZIP codes in the county</p>
+          <div class="card-head"><div><h2 id="zip-title"></h2>
+          <p class="sub">Top ZIP codes in the county</p></div><div class="x-group">${exportBtn("zips", "ZIPs")}${exportBtn("county-hh", "Households")}</div></div>
           <div class="table-wrap" id="zips"></div>
         </div>
       </section>
       <p class="callout" style="margin-top:16px"><b>Why this matters:</b> ${esc(d.note)} County lines and custom setups drift over time; deriving it from ZIP keeps totals right without maintenance.</p>`;
+
+    const scopeTag = slug(source.scopeLabel || "season");
+    root.addEventListener("click", (e) => {
+      const b = e.target.closest("[data-x]");
+      if (!b) return;
+      const c = counties.find((x) => x.county === selected);
+      if (b.dataset.x === "counties")
+        exportSummary([{ key: "county", label: "county" }, { key: "tickets", label: "tickets" }, { key: "revenue", label: "revenue" }, { key: "share", label: "share_of_tickets" }],
+          counties.map((x) => ({ ...x, share: (x.tickets / total).toFixed(4) })), `cupola-counties-${scopeTag}.csv`, "counties");
+      if (b.dataset.x === "zips" && c)
+        exportSummary([{ key: "zip", label: "zip" }, { key: "tickets", label: "tickets" }, { key: "revenue", label: "revenue" }, { key: "households", label: "households" }],
+          c.zips, `cupola-${slug(c.county)}-zips-${scopeTag}.csv`, "ZIP codes");
+      if (b.dataset.x === "county-hh" && c)
+        exportHouseholds({ label: c.county + scopeTag, count: c.zips.reduce((a, z) => a + (z.households || 0), 0) || Math.round(c.tickets / 2.6), zips: c.zips.map((z) => ({ zip: z.zip, county: c.county, weight: z.tickets })), avgSpend: c.revenue / Math.max(1, c.tickets / 2.6) }, `cupola-${slug(c.county)}-households-${scopeTag}.csv`);
+    });
 
     countUp(root.querySelector("#g-t"), total);
     countUp(root.querySelector("#g-r"), totalRev, moneyK);

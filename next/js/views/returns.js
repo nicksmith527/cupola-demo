@@ -5,6 +5,7 @@
 import pacing from "./pacing.js";
 import { int, pct, shortDate, esc } from "../ui/format.js";
 import { growBars } from "../ui/animate.js";
+import { exportBtn, exportHouseholds, slug } from "../ui/export.js";
 
 const signed = (x) => (x >= 0 ? "+" : "−") + Math.abs(x * 100).toFixed(0) + "%";
 const COLORS = ["var(--series-1)", "var(--series-2)", "var(--series-3)"];
@@ -69,7 +70,8 @@ function detail(root, source, title) {
   root.innerHTML = `<a class="back" href="#/pacing">‹ All return engagements</a><div id="pace"></div>
     <div class="cols mt">
       <div class="card"><h2>Each performance in the run</h2><p class="sub">Sold so far and share of capacity</p><div class="mini-list" id="run"></div></div>
-      <div class="card"><h2>What it's telling you</h2><p class="sub">Generated from this visit vs. past visits</p><ul class="insights" id="ins"></ul></div>
+      <div class="card"><h2>What it's telling you</h2><p class="sub">Generated from this visit vs. past visits</p><ul class="insights" id="ins"></ul>
+        <div class="x-group" style="margin-top:14px">${exportBtn("lapsed", "Past buyers who haven't bought yet")}</div></div>
     </div>`;
   // The full chart is the original pacing view, pointed at this title.
   const scoped = Object.create(source);
@@ -101,9 +103,16 @@ function detail(root, source, title) {
       `Compared with the ${esc(v1.label)}, this visit is <b class="${v1.vs >= 0 ? "pos" : "neg"}">${signed(v1.vs)}</b> at ${cur.now.daysOut} days out; that visit finished at ${pct(v1.final / cur.d.runCapacity)}.`,
       `Softest performance: <b>${shortDate(weakest.date)} ${esc(weakest.time)}</b> at ${pct(weakest.sold / weakest.capacity)}. Strongest: ${shortDate(strongest.date)} at ${pct(strongest.sold / strongest.capacity)}. A targeted offer on the soft dates usually beats a run-wide discount.`,
       wkShare !== null && wdShare !== null ? `Weekend performances average ${pct(wkShare)} sold vs. ${pct(wdShare)} on weeknights.` : "",
-      `Past audiences for this title are a ready list: export last visit's buyers who haven't bought yet from the Audience tab.`,
+      `Past audiences for this title are a ready list: export last visit's buyers who haven't bought yet (below) and load it into your CRM for a targeted offer.`,
     ].filter(Boolean).map((x) => `<li>${x}</li>`).join("");
   }
   lower();
+  root.addEventListener("click", (e) => {
+    if (!e.target.closest('[data-x="lapsed"]')) return;
+    const cur = source.getReturnSummaries().find((x) => x.title === title);
+    const prev = cur.prior[0];
+    const count = Math.max(0, Math.round(prev.final / 2.3 - cur.now.sold / 2.3 * 0.6));
+    exportHouseholds({ label: "lapsed" + title, count, segment: `Bought ${prev.label}, not this visit` }, `cupola-${slug(title)}-past-buyers-not-yet.csv`);
+  });
   return { update() { handle?.update?.(); lower(); } };
 }

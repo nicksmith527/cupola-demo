@@ -15,9 +15,11 @@ import callcenter from "./views/callcenter.js";
 import house from "./views/house.js";
 import returns from "./views/returns.js";
 import geoScoped from "./views/geography-scoped.js";
+import about from "./views/about.js";
+import { installMenus } from "./ui/menu.js";
 
 // Snapshot and Daily sales lead; House is the front-of-house (operations) view.
-const VIEWS = [morning, daily, returns, house, audience, geoScoped, callcenter];
+const VIEWS = [morning, daily, returns, house, audience, geoScoped, callcenter, about];
 
 const $ = (id) => document.getElementById(id);
 let source;
@@ -25,12 +27,12 @@ let active; // { view, handle }
 let secondsLeft = config.demoRefreshSeconds;
 
 function renderNav() {
-  $("nav").innerHTML = VIEWS.map((v) => `<a href="#/${v.id}" data-id="${v.id}">${v.label}</a>`).join("");
+  $("nav").innerHTML = VIEWS.filter((v) => !v.hidden).map((v) => `<a href="#/${v.id}" data-id="${v.id}">${v.label}</a>`).join("");
 }
 
 function route() {
   // Routes look like #/daily or #/returns?t=Swan%20Lake
-  const [id0, query = ""] = location.hash.replace(/^#\/?/, "").split("?");
+  const [id0, query = ""] = location.hash.replace(/^#\/?/, "").split("#")[0].split("?");
   const id = id0 || VIEWS[0].id;
   const params = new URLSearchParams(query);
   const view = VIEWS.find((v) => v.id === id) || VIEWS[0];
@@ -96,6 +98,7 @@ async function start() {
     `refreshes on a schedule (${config.refreshTimes.join(", ")}), not live`;
 
   renderNav();
+  installMenus({ views: VIEWS, source, markets: config.markets });
   window.addEventListener("hashchange", route);
   route();
   updateStatus();

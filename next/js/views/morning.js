@@ -6,6 +6,7 @@ import { growBars } from "../ui/animate.js";
 import { int, money, pct, shortDate, esc } from "../ui/format.js";
 import { strip, setStat, ring, animateRings, spark } from "../ui/mini.js";
 import { recapLink, bindRecap } from "../ui/period.js";
+import { openShowReport, fromPerf } from "../ui/showreport.js";
 
 function greeting() {
   const h = new Date().getHours();
@@ -62,11 +63,13 @@ export default {
           </div>
           ${last ? `<div class="card"><p class="eyebrow">Last night</p>
             <div style="font-weight:600">${esc(last.title)}</div>
-            <div class="sub" style="margin:2px 0 0">${esc(last.hall.name)} · ${int(last.scanned)} of ${int(last.sold + last.comps)} ticketed guests scanned in (${pct(last.scanned / (last.sold + last.comps))})</div></div>` : ""}
+            <div class="sub" style="margin:2px 0 0">${esc(last.hall.name)} · ${int(last.scanned)} of ${int(last.sold + last.comps)} ticketed guests scanned in (${pct(last.scanned / (last.sold + last.comps))})</div>
+            <button type="button" class="go" id="last-report">Show report: house manager's notes →</button></div>` : ""}
         </div>
       </div>`;
 
     bindRecap(root, source);
+    root.querySelector("#last-report")?.addEventListener("click", () => openShowReport(fromPerf(last)));
 
     function upcoming() {
       const box = root.querySelector("#upcoming");

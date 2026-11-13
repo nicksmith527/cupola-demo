@@ -53,6 +53,7 @@ export default {
     function draw() {
       const scoped = Object.create(source);
       scoped.getGeography = () => source.getGeographyFor(value);
+      scoped.scopeLabel = kind === "season" ? "season" : sel.options[sel.selectedIndex]?.text ?? value;
       const box = root.querySelector("#geo");
       box.innerHTML = "";
       geography.mount(box, scoped);
