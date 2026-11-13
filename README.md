@@ -8,17 +8,26 @@ An interactive, animated demo of Cupola venue analytics dashboards. It's plain H
 
 | View | What it shows |
 |---|---|
-| **Morning snapshot** | Today's sales and revenue, a seat map you can page through (tonight, then upcoming shows in three different halls) filling in seat by seat, and how the next shows are selling |
+| **Snapshot** | Today's sales and revenue, a seat map you can page through (tonight, then upcoming shows in three different halls) filling in seat by seat, and how the next shows are selling |
 | **Daily sales** | A short recap of the last few days (marked as settling), then today forward: the next 30 rows by default, or 14 days, 30 days, or the whole season. Any show that trips a flag rule is pinned in **Needs attention** however far out it is, with the reason shown (pace vs. similar shows, last-14-day sales vs. expected), and flagged shows crossing the 12-week mark are tagged. The rules and thresholds live in `flagRules` in `js/config.js`. |
 | **Return engagement** | A returning title's sales pace laid over its two previous visits, lined up by days before opening |
 | **Audience (RFM)** | Households scored on recency and frequency, with segments and suggested next actions. No names. |
-| **County & ZIP** | Tickets and revenue by county (derived from ZIP), drilling into the ZIPs behind each county |
+| **County & ZIP** | With a market chosen: a heat map of tickets by county that zooms from the home region to the state to the nation, a ranked county list, and a top-ZIP leaderboard (select a county to see its ZIPs). Without one: the same totals for fictional counties, no map. |
 | **Call center** | Today's phone activity by hour: answered, abandoned, wait times, and why people call |
 
 Two things make it feel live:
 
 - **Relative dates.** The data stores "days out" rather than calendar dates, so whenever you open it, tonight is tonight.
 - **Simulated refreshes.** Real deployments refresh on the organization's own schedule (about 4 times a day). The demo speeds that up to every 45 seconds: new sales arrive, tiles count up, seats pop in, and another hour of calls fills in. **Refresh now** triggers one on demand.
+
+## Markets
+
+Add `?market=tampa` or `?market=denver` to the link (or use the **Market** picker in the header) to localize the County & ZIP view with real counties, ZIP codes and maps. All ticket numbers stay synthetic.
+
+- Tampa Bay: https://nicksmith527.github.io/cupola-demo/?market=tampa#/geography
+- Denver: https://nicksmith527.github.io/cupola-demo/?market=denver#/geography
+
+Map shapes come from U.S. Census boundaries (via the us-atlas project). `.github/workflows/fetch-map-data.yml` downloads them into `data/geo/`, and `node scripts/build-geo.mjs` turns them into the small per-state files the site loads. To add a market, add it to `MARKETS` in `scripts/generate-sample-data.mjs` (and to `markets` in `js/config.js`), build its state with `node scripts/build-geo.mjs <stateFips>`, then regenerate the sample data.
 
 ## Run it locally
 

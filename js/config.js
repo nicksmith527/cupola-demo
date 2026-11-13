@@ -9,6 +9,14 @@ export const config = {
   // see docs/DATA-CONTRACT.md.
   source: "sample",
 
+  // Markets localize the County & ZIP view (real counties and ZIPs, synthetic
+  // numbers). Pick one with ?market=tampa in the URL or the switcher in the header.
+  markets: [
+    { id: "", label: "Demo venue" },
+    { id: "tampa", label: "Tampa Bay" },
+    { id: "denver", label: "Denver" },
+  ],
+
   // Real deployments refresh on the organization's own cadence (about 3-4 times
   // a day by default). The demo speeds that up so you can watch it happen.
   demoRefreshSeconds: 45,

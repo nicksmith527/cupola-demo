@@ -1,0 +1,1049 @@
+{
+  "id": "denver",
+  "label": "Denver",
+  "venueName": "Front Range Performing Arts Center",
+  "stateFips": "08",
+  "stateName": "Colorado",
+  "homeCounty": "08031",
+  "seasonLabel": "Season to date",
+  "extents": [
+    {
+      "id": "region",
+      "label": "Denver metro",
+      "counties": [
+        "08031",
+        "08005",
+        "08059",
+        "08035",
+        "08001",
+        "08013",
+        "08014"
+      ]
+    },
+    {
+      "id": "front",
+      "label": "Front Range",
+      "counties": [
+        "08069",
+        "08123",
+        "08013",
+        "08059",
+        "08035",
+        "08041",
+        "08001",
+        "08005",
+        "08039"
+      ]
+    },
+    {
+      "id": "state",
+      "label": "Colorado",
+      "counties": "all"
+    }
+  ],
+  "note": "County is derived from the purchaser's ZIP code; it is not a field in the ticketing system. ZIPs that cross county lines count toward their main county.",
+  "counties": [
+    {
+      "fips": "08031",
+      "county": "Denver County",
+      "tickets": 65685,
+      "revenue": 5272923,
+      "households": 23978,
+      "zips": [
+        {
+          "zip": "80206",
+          "place": "Cherry Creek",
+          "tickets": 11296,
+          "revenue": 839572,
+          "households": 4092
+        },
+        {
+          "zip": "80209",
+          "place": "Washington Park",
+          "tickets": 7572,
+          "revenue": 561801,
+          "households": 2657
+        },
+        {
+          "zip": "80202",
+          "place": "Downtown / LoDo",
+          "tickets": 5583,
+          "revenue": 439800,
+          "households": 2415
+        },
+        {
+          "zip": "80211",
+          "place": "Highland",
+          "tickets": 4756,
+          "revenue": 394959,
+          "households": 1740
+        },
+        {
+          "zip": "80210",
+          "place": "University",
+          "tickets": 4494,
+          "revenue": 359290,
+          "households": 1952
+        },
+        {
+          "zip": "80238",
+          "place": "Central Park",
+          "tickets": 4256,
+          "revenue": 378336,
+          "households": 1505
+        },
+        {
+          "zip": "80205",
+          "place": "Five Points / Whittier",
+          "tickets": 3877,
+          "revenue": 319985,
+          "households": 1491
+        },
+        {
+          "zip": "80218",
+          "place": "Cheesman Park / Uptown",
+          "tickets": 3781,
+          "revenue": 332784,
+          "households": 1482
+        },
+        {
+          "zip": "80220",
+          "place": "Park Hill",
+          "tickets": 3582,
+          "revenue": 304326,
+          "households": 1491
+        }
+      ]
+    },
+    {
+      "fips": "08059",
+      "county": "Jefferson County",
+      "tickets": 22335,
+      "revenue": 1823372,
+      "households": 8025,
+      "zips": [
+        {
+          "zip": "80401",
+          "place": "Golden",
+          "tickets": 5327,
+          "revenue": 414659,
+          "households": 2101
+        },
+        {
+          "zip": "80227",
+          "place": "Lakewood",
+          "tickets": 2841,
+          "revenue": 244569,
+          "households": 1003
+        },
+        {
+          "zip": "80226",
+          "place": "Lakewood",
+          "tickets": 2744,
+          "revenue": 220966,
+          "households": 1165
+        },
+        {
+          "zip": "80033",
+          "place": "Wheat Ridge",
+          "tickets": 2118,
+          "revenue": 193046,
+          "households": 975
+        },
+        {
+          "zip": "80127",
+          "place": "Ken Caryl / Littleton",
+          "tickets": 1647,
+          "revenue": 132053,
+          "households": 653
+        },
+        {
+          "zip": "80005",
+          "place": "Arvada",
+          "tickets": 1530,
+          "revenue": 139713,
+          "households": 632
+        }
+      ]
+    },
+    {
+      "fips": "08005",
+      "county": "Arapahoe County",
+      "tickets": 18880,
+      "revenue": 1546121,
+      "households": 7020,
+      "zips": [
+        {
+          "zip": "80111",
+          "place": "Greenwood Village",
+          "tickets": 4587,
+          "revenue": 414908,
+          "households": 1662
+        },
+        {
+          "zip": "80112",
+          "place": "Centennial",
+          "tickets": 3419,
+          "revenue": 261268,
+          "households": 1189
+        },
+        {
+          "zip": "80121",
+          "place": "Cherry Hills Village",
+          "tickets": 2240,
+          "revenue": 182273,
+          "households": 823
+        },
+        {
+          "zip": "80122",
+          "place": "Centennial",
+          "tickets": 1875,
+          "revenue": 167665,
+          "households": 687
+        },
+        {
+          "zip": "80113",
+          "place": "Englewood",
+          "tickets": 1763,
+          "revenue": 152875,
+          "households": 637
+        },
+        {
+          "zip": "80015",
+          "place": "Aurora",
+          "tickets": 1473,
+          "revenue": 128656,
+          "households": 674
+        },
+        {
+          "zip": "80016",
+          "place": "Aurora (Southlands)",
+          "tickets": 1162,
+          "revenue": 100165,
+          "households": 433
+        }
+      ]
+    },
+    {
+      "fips": "08035",
+      "county": "Douglas County",
+      "tickets": 14583,
+      "revenue": 1254018,
+      "households": 5999,
+      "zips": [
+        {
+          "zip": "80126",
+          "place": "Highlands Ranch",
+          "tickets": 3247,
+          "revenue": 262819,
+          "households": 1502
+        },
+        {
+          "zip": "80129",
+          "place": "Highlands Ranch",
+          "tickets": 2668,
+          "revenue": 238484,
+          "households": 1105
+        },
+        {
+          "zip": "80134",
+          "place": "Parker",
+          "tickets": 2104,
+          "revenue": 197613,
+          "households": 794
+        },
+        {
+          "zip": "80130",
+          "place": "Highlands Ranch",
+          "tickets": 1753,
+          "revenue": 158492,
+          "households": 783
+        },
+        {
+          "zip": "80104",
+          "place": "Castle Rock",
+          "tickets": 1245,
+          "revenue": 112937,
+          "households": 533
+        },
+        {
+          "zip": "80108",
+          "place": "Castle Pines",
+          "tickets": 1174,
+          "revenue": 99682,
+          "households": 470
+        }
+      ]
+    },
+    {
+      "fips": "08013",
+      "county": "Boulder County",
+      "tickets": 13129,
+      "revenue": 888221,
+      "households": 5424,
+      "zips": [
+        {
+          "zip": "80302",
+          "place": "Boulder",
+          "tickets": 3536,
+          "revenue": 227584,
+          "households": 1500
+        },
+        {
+          "zip": "80304",
+          "place": "North Boulder",
+          "tickets": 1997,
+          "revenue": 145689,
+          "households": 750
+        },
+        {
+          "zip": "80027",
+          "place": "Louisville",
+          "tickets": 1791,
+          "revenue": 117689,
+          "households": 760
+        },
+        {
+          "zip": "80026",
+          "place": "Lafayette",
+          "tickets": 1749,
+          "revenue": 130489,
+          "households": 759
+        },
+        {
+          "zip": "80503",
+          "place": "Longmont",
+          "tickets": 1702,
+          "revenue": 108756,
+          "households": 723
+        }
+      ]
+    },
+    {
+      "fips": "08014",
+      "county": "Broomfield County",
+      "tickets": 9418,
+      "revenue": 746761,
+      "households": 4084,
+      "zips": [
+        {
+          "zip": "80020",
+          "place": "Broomfield",
+          "tickets": 4125,
+          "revenue": 327512,
+          "households": 1476
+        },
+        {
+          "zip": "80023",
+          "place": "Broomfield",
+          "tickets": 2852,
+          "revenue": 245121,
+          "households": 1221
+        }
+      ]
+    },
+    {
+      "fips": "08001",
+      "county": "Adams County",
+      "tickets": 8617,
+      "revenue": 676175,
+      "households": 3253,
+      "zips": [
+        {
+          "zip": "80031",
+          "place": "Westminster",
+          "tickets": 3049,
+          "revenue": 260559,
+          "households": 1444
+        },
+        {
+          "zip": "80229",
+          "place": "Thornton",
+          "tickets": 2185,
+          "revenue": 187327,
+          "households": 910
+        },
+        {
+          "zip": "80241",
+          "place": "Thornton",
+          "tickets": 1199,
+          "revenue": 88489,
+          "households": 553
+        },
+        {
+          "zip": "80602",
+          "place": "Brighton / Thornton",
+          "tickets": 1038,
+          "revenue": 79870,
+          "households": 401
+        }
+      ]
+    },
+    {
+      "fips": "08069",
+      "county": "Larimer County",
+      "tickets": 5429,
+      "revenue": 434922,
+      "households": 2359,
+      "zips": [
+        {
+          "zip": "80521",
+          "place": "Fort Collins",
+          "tickets": 2091,
+          "revenue": 161249,
+          "households": 861
+        },
+        {
+          "zip": "80525",
+          "place": "Fort Collins",
+          "tickets": 1385,
+          "revenue": 124062,
+          "households": 586
+        },
+        {
+          "zip": "80538",
+          "place": "Loveland",
+          "tickets": 1166,
+          "revenue": 99884,
+          "households": 405
+        }
+      ]
+    },
+    {
+      "fips": "08041",
+      "county": "El Paso County",
+      "tickets": 4993,
+      "revenue": 442291,
+      "households": 2042,
+      "zips": [
+        {
+          "zip": "80903",
+          "place": "Downtown Colorado Springs",
+          "tickets": 1617,
+          "revenue": 132480,
+          "households": 658
+        },
+        {
+          "zip": "80906",
+          "place": "Broadmoor",
+          "tickets": 1269,
+          "revenue": 108435,
+          "households": 501
+        },
+        {
+          "zip": "80920",
+          "place": "Briargate",
+          "tickets": 729,
+          "revenue": 66474,
+          "households": 256
+        }
+      ]
+    },
+    {
+      "fips": "08123",
+      "county": "Weld County",
+      "tickets": 4616,
+      "revenue": 323170,
+      "households": 1910,
+      "zips": [
+        {
+          "zip": "80634",
+          "place": "Greeley",
+          "tickets": 2279,
+          "revenue": 175430,
+          "households": 972
+        },
+        {
+          "zip": "80516",
+          "place": "Erie",
+          "tickets": 1666,
+          "revenue": 127511,
+          "households": 576
+        }
+      ]
+    },
+    {
+      "fips": "08117",
+      "county": "Summit County",
+      "tickets": 3246,
+      "revenue": 289831,
+      "households": 1272,
+      "zips": [
+        {
+          "zip": "80424",
+          "place": "Breckenridge",
+          "tickets": 1609,
+          "revenue": 149687,
+          "households": 598
+        },
+        {
+          "zip": "80435",
+          "place": "Dillon",
+          "tickets": 1152,
+          "revenue": 97424,
+          "households": 445
+        }
+      ]
+    },
+    {
+      "fips": "08037",
+      "county": "Eagle County",
+      "tickets": 1810,
+      "revenue": 125352,
+      "households": 675,
+      "zips": [
+        {
+          "zip": "81657",
+          "place": "Vail",
+          "tickets": 1386,
+          "revenue": 99207,
+          "households": 530
+        }
+      ]
+    },
+    {
+      "fips": "08047",
+      "county": "Gilpin County",
+      "tickets": 1544,
+      "revenue": 132652,
+      "households": 650,
+      "zips": []
+    },
+    {
+      "fips": "08019",
+      "county": "Clear Creek County",
+      "tickets": 1519,
+      "revenue": 124864,
+      "households": 552,
+      "zips": []
+    },
+    {
+      "fips": "08097",
+      "county": "Pitkin County",
+      "tickets": 1229,
+      "revenue": 105222,
+      "households": 511,
+      "zips": []
+    },
+    {
+      "fips": "08101",
+      "county": "Pueblo County",
+      "tickets": 1205,
+      "revenue": 103555,
+      "households": 536,
+      "zips": []
+    },
+    {
+      "fips": "08107",
+      "county": "Routt County",
+      "tickets": 1124,
+      "revenue": 80943,
+      "households": 456,
+      "zips": []
+    },
+    {
+      "fips": "08039",
+      "county": "Elbert County",
+      "tickets": 1100,
+      "revenue": 74307,
+      "households": 461,
+      "zips": []
+    },
+    {
+      "fips": "08119",
+      "county": "Teller County",
+      "tickets": 924,
+      "revenue": 64396,
+      "households": 396,
+      "zips": []
+    },
+    {
+      "fips": "08087",
+      "county": "Morgan County",
+      "tickets": 827,
+      "revenue": 57312,
+      "households": 336,
+      "zips": []
+    },
+    {
+      "fips": "08093",
+      "county": "Park County",
+      "tickets": 654,
+      "revenue": 47218,
+      "households": 282,
+      "zips": []
+    },
+    {
+      "fips": "08049",
+      "county": "Grand County",
+      "tickets": 642,
+      "revenue": 43769,
+      "households": 252,
+      "zips": []
+    },
+    {
+      "fips": "08073",
+      "county": "Lincoln County",
+      "tickets": 530,
+      "revenue": 44404,
+      "households": 199,
+      "zips": []
+    },
+    {
+      "fips": "08121",
+      "county": "Washington County",
+      "tickets": 410,
+      "revenue": 31463,
+      "households": 156,
+      "zips": []
+    },
+    {
+      "fips": "08065",
+      "county": "Lake County",
+      "tickets": 397,
+      "revenue": 34263,
+      "households": 175,
+      "zips": []
+    },
+    {
+      "fips": "08015",
+      "county": "Chaffee County",
+      "tickets": 368,
+      "revenue": 30803,
+      "households": 148,
+      "zips": []
+    },
+    {
+      "fips": "08043",
+      "county": "Fremont County",
+      "tickets": 368,
+      "revenue": 26065,
+      "households": 159,
+      "zips": []
+    },
+    {
+      "fips": "08057",
+      "county": "Jackson County",
+      "tickets": 323,
+      "revenue": 24500,
+      "households": 121,
+      "zips": []
+    },
+    {
+      "fips": "08077",
+      "county": "Mesa County",
+      "tickets": 272,
+      "revenue": 18832,
+      "households": 101,
+      "zips": []
+    },
+    {
+      "fips": "08063",
+      "county": "Kit Carson County",
+      "tickets": 271,
+      "revenue": 22201,
+      "households": 108,
+      "zips": []
+    },
+    {
+      "fips": "08025",
+      "county": "Crowley County",
+      "tickets": 246,
+      "revenue": 17582,
+      "households": 110,
+      "zips": []
+    },
+    {
+      "fips": "08075",
+      "county": "Logan County",
+      "tickets": 209,
+      "revenue": 16766,
+      "households": 76,
+      "zips": []
+    },
+    {
+      "fips": "08027",
+      "county": "Custer County",
+      "tickets": 208,
+      "revenue": 17372,
+      "households": 76,
+      "zips": []
+    },
+    {
+      "fips": "08061",
+      "county": "Kiowa County",
+      "tickets": 182,
+      "revenue": 12509,
+      "households": 76,
+      "zips": []
+    },
+    {
+      "fips": "08095",
+      "county": "Phillips County",
+      "tickets": 175,
+      "revenue": 14682,
+      "households": 77,
+      "zips": []
+    },
+    {
+      "fips": "08115",
+      "county": "Sedgwick County",
+      "tickets": 173,
+      "revenue": 11702,
+      "households": 63,
+      "zips": []
+    },
+    {
+      "fips": "08051",
+      "county": "Gunnison County",
+      "tickets": 156,
+      "revenue": 13252,
+      "households": 58,
+      "zips": []
+    },
+    {
+      "fips": "08105",
+      "county": "Rio Grande County",
+      "tickets": 148,
+      "revenue": 11940,
+      "households": 54,
+      "zips": []
+    },
+    {
+      "fips": "08089",
+      "county": "Otero County",
+      "tickets": 145,
+      "revenue": 11324,
+      "households": 53,
+      "zips": []
+    },
+    {
+      "fips": "08125",
+      "county": "Yuma County",
+      "tickets": 142,
+      "revenue": 10951,
+      "households": 58,
+      "zips": []
+    },
+    {
+      "fips": "08029",
+      "county": "Delta County",
+      "tickets": 142,
+      "revenue": 11516,
+      "households": 60,
+      "zips": []
+    },
+    {
+      "fips": "08109",
+      "county": "Saguache County",
+      "tickets": 141,
+      "revenue": 10091,
+      "households": 54,
+      "zips": []
+    },
+    {
+      "fips": "08085",
+      "county": "Montrose County",
+      "tickets": 130,
+      "revenue": 9538,
+      "households": 49,
+      "zips": []
+    },
+    {
+      "fips": "08079",
+      "county": "Mineral County",
+      "tickets": 130,
+      "revenue": 11319,
+      "households": 50,
+      "zips": []
+    },
+    {
+      "fips": "08017",
+      "county": "Cheyenne County",
+      "tickets": 129,
+      "revenue": 10902,
+      "households": 48,
+      "zips": []
+    },
+    {
+      "fips": "08011",
+      "county": "Bent County",
+      "tickets": 129,
+      "revenue": 9907,
+      "households": 55,
+      "zips": []
+    },
+    {
+      "fips": "08003",
+      "county": "Alamosa County",
+      "tickets": 120,
+      "revenue": 8691,
+      "households": 48,
+      "zips": []
+    },
+    {
+      "fips": "08067",
+      "county": "La Plata County",
+      "tickets": 114,
+      "revenue": 9785,
+      "households": 44,
+      "zips": []
+    },
+    {
+      "fips": "08045",
+      "county": "Garfield County",
+      "tickets": 110,
+      "revenue": 8535,
+      "households": 40,
+      "zips": []
+    },
+    {
+      "fips": "08053",
+      "county": "Hinsdale County",
+      "tickets": 103,
+      "revenue": 8809,
+      "households": 38,
+      "zips": []
+    },
+    {
+      "fips": "08071",
+      "county": "Las Animas County",
+      "tickets": 100,
+      "revenue": 8543,
+      "households": 45,
+      "zips": []
+    },
+    {
+      "fips": "08055",
+      "county": "Huerfano County",
+      "tickets": 100,
+      "revenue": 8663,
+      "households": 36,
+      "zips": []
+    },
+    {
+      "fips": "08103",
+      "county": "Rio Blanco County",
+      "tickets": 94,
+      "revenue": 8196,
+      "households": 34,
+      "zips": []
+    },
+    {
+      "fips": "08111",
+      "county": "San Juan County",
+      "tickets": 92,
+      "revenue": 7493,
+      "households": 40,
+      "zips": []
+    },
+    {
+      "fips": "08009",
+      "county": "Baca County",
+      "tickets": 84,
+      "revenue": 6822,
+      "households": 36,
+      "zips": []
+    },
+    {
+      "fips": "08113",
+      "county": "San Miguel County",
+      "tickets": 75,
+      "revenue": 5172,
+      "households": 33,
+      "zips": []
+    },
+    {
+      "fips": "08023",
+      "county": "Costilla County",
+      "tickets": 73,
+      "revenue": 5195,
+      "households": 27,
+      "zips": []
+    },
+    {
+      "fips": "08091",
+      "county": "Ouray County",
+      "tickets": 73,
+      "revenue": 5023,
+      "households": 30,
+      "zips": []
+    },
+    {
+      "fips": "08081",
+      "county": "Moffat County",
+      "tickets": 60,
+      "revenue": 5169,
+      "households": 26,
+      "zips": []
+    },
+    {
+      "fips": "08007",
+      "county": "Archuleta County",
+      "tickets": 55,
+      "revenue": 4679,
+      "households": 21,
+      "zips": []
+    },
+    {
+      "fips": "08099",
+      "county": "Prowers County",
+      "tickets": 51,
+      "revenue": 4084,
+      "households": 21,
+      "zips": []
+    },
+    {
+      "fips": "08021",
+      "county": "Conejos County",
+      "tickets": 47,
+      "revenue": 3379,
+      "households": 18,
+      "zips": []
+    },
+    {
+      "fips": "08083",
+      "county": "Montezuma County",
+      "tickets": 41,
+      "revenue": 3394,
+      "households": 16,
+      "zips": []
+    },
+    {
+      "fips": "08033",
+      "county": "Dolores County",
+      "tickets": 37,
+      "revenue": 2922,
+      "households": 17,
+      "zips": []
+    }
+  ],
+  "states": [
+    {
+      "abbr": "CO",
+      "home": true,
+      "tickets": 190462,
+      "revenue": 15205833
+    },
+    {
+      "abbr": "TX",
+      "tickets": 3804,
+      "revenue": 349653
+    },
+    {
+      "abbr": "CA",
+      "tickets": 2345,
+      "revenue": 227032
+    },
+    {
+      "abbr": "NM",
+      "tickets": 1830,
+      "revenue": 158389
+    },
+    {
+      "abbr": "AZ",
+      "tickets": 1596,
+      "revenue": 136093
+    },
+    {
+      "abbr": "WY",
+      "tickets": 1482,
+      "revenue": 120874
+    },
+    {
+      "abbr": "KS",
+      "tickets": 1472,
+      "revenue": 124863
+    },
+    {
+      "abbr": "NE",
+      "tickets": 1329,
+      "revenue": 136300
+    },
+    {
+      "abbr": "UT",
+      "tickets": 1324,
+      "revenue": 134166
+    },
+    {
+      "abbr": "NY",
+      "tickets": 1051,
+      "revenue": 106830
+    },
+    {
+      "abbr": "IL",
+      "tickets": 997,
+      "revenue": 87650
+    },
+    {
+      "abbr": "FL",
+      "tickets": 899,
+      "revenue": 76119
+    },
+    {
+      "abbr": "OK",
+      "tickets": 767,
+      "revenue": 67653
+    },
+    {
+      "abbr": "WA",
+      "tickets": 720,
+      "revenue": 64648
+    },
+    {
+      "abbr": "MN",
+      "tickets": 705,
+      "revenue": 58427
+    },
+    {
+      "abbr": "MO",
+      "tickets": 652,
+      "revenue": 62007
+    },
+    {
+      "abbr": "GA",
+      "tickets": 520,
+      "revenue": 49941
+    },
+    {
+      "abbr": "MI",
+      "tickets": 490,
+      "revenue": 45384
+    },
+    {
+      "abbr": "OR",
+      "tickets": 470,
+      "revenue": 48189
+    },
+    {
+      "abbr": "IA",
+      "tickets": 421,
+      "revenue": 38149
+    },
+    {
+      "abbr": "OH",
+      "tickets": 400,
+      "revenue": 33980
+    },
+    {
+      "abbr": "NV",
+      "tickets": 256,
+      "revenue": 22981
+    },
+    {
+      "abbr": "ID",
+      "tickets": 219,
+      "revenue": 20585
+    },
+    {
+      "abbr": "SD",
+      "tickets": 215,
+      "revenue": 17609
+    },
+    {
+      "abbr": "MT",
+      "tickets": 211,
+      "revenue": 19421
+    }
+  ]
+}

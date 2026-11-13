@@ -309,3 +309,141 @@ write("callcenter.json", {
     { reason: "Other", share: 0.1 },
   ],
 });
+
+// --- Markets: real counties and ZIPs, synthetic numbers --------------------
+// Each market localizes the County & ZIP view. Counties and ZIP codes are
+// real (public Census geography); every ticket and dollar figure is invented.
+// Ticket counts fall off with distance from the home county, with a boost for
+// the population centers a real venue would draw from.
+import { readFileSync } from "node:fs";
+
+const MARKETS = [
+  {
+    id: "tampa",
+    label: "Tampa Bay",
+    venueName: "Gulf Coast Performing Arts Center",
+    stateFips: "12",
+    homeCounty: "12057",
+    seasonTickets: 186000,
+    decay: 22,
+    homeBoost: 5.5,
+    outOfStateShare: 0.13,
+    extents: [
+      { id: "region", label: "Gulf Coast", counties: ["12017", "12053", "12101", "12103", "12057", "12081", "12115", "12015", "12071", "12105"] },
+      { id: "state", label: "Florida", counties: "all" },
+    ],
+    boost: { "12103": 1.9, "12101": 1.1, "12081": 1.15, "12115": 1.35, "12071": 1.6, "12095": 0.9, "12105": 0.9, "12021": 1.4, "12119": 0.7, "12086": 1.4, "12011": 1.2, "12099": 1.2, "12031": 1.3 },
+    zips: {
+      "12057": [["33606", "Hyde Park"], ["33629", "South Tampa"], ["33602", "Downtown Tampa"], ["33609", "Westshore"], ["33647", "New Tampa"], ["33626", "Westchase"], ["33618", "Carrollwood"], ["33511", "Brandon"], ["33611", "Ballast Point"]],
+      "12103": [["33701", "Downtown St. Petersburg"], ["33704", "Old Northeast"], ["34698", "Dunedin"], ["34683", "Palm Harbor"], ["33756", "Clearwater"], ["33707", "Gulfport / West St. Pete"]],
+      "12101": [["33544", "Wesley Chapel"], ["34655", "Trinity"], ["33541", "Zephyrhills"], ["34638", "Land O' Lakes"]],
+      "12081": [["34202", "Lakewood Ranch"], ["34205", "Bradenton"], ["34209", "West Bradenton"]],
+      "12115": [["34236", "Downtown Sarasota"], ["34238", "Sarasota"], ["34242", "Siesta Key"], ["34285", "Venice"]],
+      "12053": [["34609", "Spring Hill"], ["34606", "Spring Hill"], ["34601", "Brooksville"]],
+      "12105": [["33803", "Lakeland"], ["33813", "South Lakeland"], ["33880", "Winter Haven"]],
+      "12017": [["34465", "Beverly Hills"], ["34446", "Homosassa"]],
+      "12071": [["33901", "Fort Myers"], ["33908", "Fort Myers"]],
+      "12015": [["33950", "Punta Gorda"], ["33948", "Port Charlotte"]],
+      "12095": [["32801", "Downtown Orlando"], ["32803", "Orlando"]],
+      "12119": [["32162", "The Villages"]],
+    },
+    states: [["GA", 0.13], ["NY", 0.1], ["OH", 0.09], ["MI", 0.08], ["NJ", 0.07], ["PA", 0.07], ["IL", 0.06], ["NC", 0.06], ["MA", 0.05], ["TX", 0.05], ["IN", 0.04], ["AL", 0.04], ["CA", 0.03], ["VA", 0.03], ["TN", 0.03], ["WI", 0.02], ["MN", 0.02], ["CT", 0.02], ["SC", 0.02], ["MD", 0.02], ["KY", 0.01], ["CO", 0.01]],
+  },
+  {
+    id: "denver",
+    label: "Denver",
+    venueName: "Front Range Performing Arts Center",
+    stateFips: "08",
+    homeCounty: "08031",
+    seasonTickets: 214000,
+    decay: 12,
+    homeBoost: 4.2,
+    outOfStateShare: 0.11,
+    extents: [
+      { id: "region", label: "Denver metro", counties: ["08031", "08005", "08059", "08035", "08001", "08013", "08014"] },
+      { id: "front", label: "Front Range", counties: ["08069", "08123", "08013", "08059", "08035", "08041", "08001", "08005", "08039"] },
+      { id: "state", label: "Colorado", counties: "all" },
+    ],
+    boost: { "08005": 2.2, "08059": 2.0, "08035": 1.7, "08001": 1.2, "08013": 1.6, "08014": 0.8, "08041": 1.6, "08069": 2.0, "08123": 1.4, "08117": 1.1, "08037": 1.5, "08097": 1.6, "08077": 2.2, "08107": 1.4, "08101": 1.3 },
+    zips: {
+      "08031": [["80206", "Cherry Creek"], ["80209", "Washington Park"], ["80202", "Downtown / LoDo"], ["80211", "Highland"], ["80218", "Cheesman Park / Uptown"], ["80220", "Park Hill"], ["80210", "University"], ["80238", "Central Park"], ["80205", "Five Points / Whittier"]],
+      "08005": [["80111", "Greenwood Village"], ["80112", "Centennial"], ["80122", "Centennial"], ["80121", "Cherry Hills Village"], ["80113", "Englewood"], ["80016", "Aurora (Southlands)"], ["80015", "Aurora"]],
+      "08059": [["80401", "Golden"], ["80226", "Lakewood"], ["80227", "Lakewood"], ["80033", "Wheat Ridge"], ["80005", "Arvada"], ["80127", "Ken Caryl / Littleton"]],
+      "08035": [["80126", "Highlands Ranch"], ["80129", "Highlands Ranch"], ["80130", "Highlands Ranch"], ["80134", "Parker"], ["80108", "Castle Pines"], ["80104", "Castle Rock"]],
+      "08013": [["80302", "Boulder"], ["80304", "North Boulder"], ["80027", "Louisville"], ["80026", "Lafayette"], ["80503", "Longmont"]],
+      "08001": [["80031", "Westminster"], ["80229", "Thornton"], ["80241", "Thornton"], ["80602", "Brighton / Thornton"]],
+      "08014": [["80020", "Broomfield"], ["80023", "Broomfield"]],
+      "08041": [["80903", "Downtown Colorado Springs"], ["80906", "Broadmoor"], ["80920", "Briargate"]],
+      "08069": [["80521", "Fort Collins"], ["80525", "Fort Collins"], ["80538", "Loveland"]],
+      "08123": [["80634", "Greeley"], ["80516", "Erie"]],
+      "08117": [["80424", "Breckenridge"], ["80435", "Dillon"]],
+      "08037": [["81657", "Vail"]],
+    },
+    states: [["TX", 0.15], ["CA", 0.1], ["AZ", 0.07], ["NM", 0.07], ["KS", 0.06], ["NE", 0.06], ["WY", 0.06], ["IL", 0.05], ["UT", 0.05], ["NY", 0.04], ["FL", 0.04], ["MN", 0.03], ["OK", 0.03], ["MO", 0.03], ["WA", 0.03], ["GA", 0.02], ["OR", 0.02], ["IA", 0.02], ["MI", 0.02], ["OH", 0.02], ["SD", 0.01], ["MT", 0.01], ["ID", 0.01], ["NV", 0.01]],
+  },
+];
+
+mkdirSync(join(OUT, "markets"), { recursive: true });
+const GEO_DIR = join(dirname(fileURLToPath(import.meta.url)), "..", "data", "geo");
+for (const m of MARKETS) {
+  const geo = JSON.parse(readFileSync(join(GEO_DIR, `state-${m.stateFips}.json`), "utf8"));
+  const home = geo.features.find((f) => f.id === m.homeCounty);
+  // Raw draw for every county in the state.
+  const raw = geo.features.map((f) => {
+    const dist = Math.hypot(f.label[0] - home.label[0], f.label[1] - home.label[1]);
+    const homeBoost = f.id === m.homeCounty ? m.homeBoost : 1;
+    // Counties not listed in `boost` are treated as rural (low population).
+    const w = Math.exp(-dist / m.decay) * (m.boost[f.id] ?? (f.id === m.homeCounty ? 1 : 0.22)) * homeBoost * between(0.8, 1.2) + 0.004 * between(0.3, 1.5);
+    return { f, w };
+  });
+  const inState = m.seasonTickets * (1 - m.outOfStateShare);
+  const totalW = raw.reduce((s, r) => s + r.w, 0);
+  const counties = raw
+    .map(({ f, w }) => {
+      const tickets = Math.max(3, Math.round((inState * w) / totalW));
+      const avg = between(64, 86) * (f.id === m.homeCounty ? 0.95 : 1.04);
+      const zipDefs = m.zips[f.id] ?? [];
+      // Named ZIPs take most of the county; the rest is "other ZIPs".
+      const zipW = zipDefs.map((_, i) => between(0.6, 1.0) / Math.pow(i + 1, 0.55));
+      const zipShare = zipDefs.length ? between(0.72, 0.88) : 0;
+      const zipTotalW = zipW.reduce((s, x) => s + x, 0) || 1;
+      const zips = zipDefs.map(([zip, place], i) => {
+        const t = Math.round((tickets * zipShare * zipW[i]) / zipTotalW);
+        return { zip, place, tickets: t, revenue: Math.round(t * avg * between(0.92, 1.12)), households: Math.round(t / between(2.1, 2.9)) };
+      });
+      return {
+        fips: f.id,
+        county: f.name + " County",
+        tickets,
+        revenue: Math.round(tickets * avg),
+        households: Math.round(tickets / between(2.2, 2.8)),
+        zips: zips.sort((a, b) => b.tickets - a.tickets),
+      };
+    })
+    .sort((a, b) => b.tickets - a.tickets);
+
+  const inStateTickets = counties.reduce((s, c) => s + c.tickets, 0);
+  const outTotal = m.seasonTickets * m.outOfStateShare;
+  const shareSum = m.states.reduce((s, [, x]) => s + x, 0);
+  const states = [
+    { abbr: geo.abbr, home: true, tickets: inStateTickets, revenue: counties.reduce((s, c) => s + c.revenue, 0) },
+    ...m.states.map(([abbr, share]) => {
+      const t = Math.round((outTotal * share * between(0.85, 1.15)) / shareSum);
+      return { abbr, tickets: t, revenue: Math.round(t * between(80, 104)) };
+    }),
+  ];
+
+  write(`markets/${m.id}.json`, {
+    id: m.id,
+    label: m.label,
+    venueName: m.venueName,
+    stateFips: m.stateFips,
+    stateName: geo.state,
+    homeCounty: m.homeCounty,
+    seasonLabel: "Season to date",
+    extents: m.extents,
+    note: "County is derived from the purchaser's ZIP code; it is not a field in the ticketing system. ZIPs that cross county lines count toward their main county.",
+    counties,
+    states: states.sort((a, b) => b.tickets - a.tickets),
+  });
+}

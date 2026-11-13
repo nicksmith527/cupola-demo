@@ -87,6 +87,21 @@ Segment level only. No customer names or IDs.
 }
 ```
 
+With a market selected, `getGeography()` returns `{ market }` instead:
+
+```js
+{
+  market: {
+    id, label, venueName, stateFips, stateName, homeCounty, seasonLabel, note,
+    extents: [{ id, label, counties: fips[] | "all" }],          // map zoom levels
+    counties: [{ fips, county, tickets, revenue, households,
+                 zips: [{ zip, place, tickets, revenue, households }] }],
+    states: [{ abbr, home?, tickets, revenue }],
+    shapes: { region, states }                                     // pre-projected SVG paths from data/geo/
+  }
+}
+```
+
 ## `getCallCenter()`
 
 ```js

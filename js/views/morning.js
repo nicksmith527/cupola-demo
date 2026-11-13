@@ -1,4 +1,4 @@
-// Morning snapshot: headline numbers, a seat map you can step through
+// Snapshot: headline numbers, a seat map you can step through
 // (tonight first, then upcoming shows across every hall), and how the next
 // several performances are selling.
 
@@ -73,14 +73,19 @@ function seatSvg(layout, hall) {
     ${labels}${dots}</svg>`;
 }
 
+// The heading follows the clock, so the page reads right at any hour.
 function greeting() {
   const h = new Date().getHours();
-  return h < 12 ? "Good morning" : h < 17 ? "Good afternoon" : "Good evening";
+  if (h < 5) return { hi: "Working late", line: "here's how the day wrapped up: sales, the house and the phones." };
+  if (h < 12) return { hi: "Good morning", line: "where sales, tonight's house and the phones stand this morning." };
+  if (h < 17) return { hi: "Good afternoon", line: "where sales, tonight's house and the phones stand right now." };
+  if (h < 22) return { hi: "Good evening", line: "where sales, tonight's house and the phones stand right now." };
+  return { hi: "Good evening", line: "here's how the day wrapped up: sales, tonight's house and the phones." };
 }
 
 export default {
   id: "morning",
-  label: "Morning snapshot",
+  label: "Snapshot",
   mount(root, source) {
     let data = source.getMorning();
     const t = data.tonight;
@@ -89,8 +94,8 @@ export default {
     root.innerHTML = `
       <div class="view-head">
         <div>
-          <h1>${greeting()}</h1>
-          <p>${shortDate(new Date())} · where sales, tonight's house and the phones stand right now.</p>
+          <h1>${greeting().hi}</h1>
+          <p>${shortDate(new Date())} · ${greeting().line}</p>
         </div>
       </div>
       <section class="grid kpis">

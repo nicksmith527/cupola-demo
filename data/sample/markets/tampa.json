@@ -1,0 +1,988 @@
+{
+  "id": "tampa",
+  "label": "Tampa Bay",
+  "venueName": "Gulf Coast Performing Arts Center",
+  "stateFips": "12",
+  "stateName": "Florida",
+  "homeCounty": "12057",
+  "seasonLabel": "Season to date",
+  "extents": [
+    {
+      "id": "region",
+      "label": "Gulf Coast",
+      "counties": [
+        "12017",
+        "12053",
+        "12101",
+        "12103",
+        "12057",
+        "12081",
+        "12115",
+        "12015",
+        "12071",
+        "12105"
+      ]
+    },
+    {
+      "id": "state",
+      "label": "Florida",
+      "counties": "all"
+    }
+  ],
+  "note": "County is derived from the purchaser's ZIP code; it is not a field in the ticketing system. ZIPs that cross county lines count toward their main county.",
+  "counties": [
+    {
+      "fips": "12057",
+      "county": "Hillsborough County",
+      "tickets": 68456,
+      "revenue": 4238738,
+      "households": 29428,
+      "zips": [
+        {
+          "zip": "33606",
+          "place": "Hyde Park",
+          "tickets": 12786,
+          "revenue": 825700,
+          "households": 4559
+        },
+        {
+          "zip": "33629",
+          "place": "South Tampa",
+          "tickets": 9175,
+          "revenue": 614672,
+          "households": 3294
+        },
+        {
+          "zip": "33602",
+          "place": "Downtown Tampa",
+          "tickets": 6454,
+          "revenue": 443264,
+          "households": 2529
+        },
+        {
+          "zip": "33609",
+          "place": "Westshore",
+          "tickets": 4815,
+          "revenue": 304787,
+          "households": 2069
+        },
+        {
+          "zip": "33626",
+          "place": "Westchase",
+          "tickets": 4361,
+          "revenue": 270587,
+          "households": 1853
+        },
+        {
+          "zip": "33647",
+          "place": "New Tampa",
+          "tickets": 4276,
+          "revenue": 255255,
+          "households": 1819
+        },
+        {
+          "zip": "33611",
+          "place": "Ballast Point",
+          "tickets": 4205,
+          "revenue": 246923,
+          "households": 1697
+        },
+        {
+          "zip": "33511",
+          "place": "Brandon",
+          "tickets": 4164,
+          "revenue": 237492,
+          "households": 1812
+        },
+        {
+          "zip": "33618",
+          "place": "Carrollwood",
+          "tickets": 3310,
+          "revenue": 216770,
+          "households": 1197
+        }
+      ]
+    },
+    {
+      "fips": "12103",
+      "county": "Pinellas County",
+      "tickets": 14968,
+      "revenue": 1315194,
+      "households": 5837,
+      "zips": [
+        {
+          "zip": "33701",
+          "place": "Downtown St. Petersburg",
+          "tickets": 3874,
+          "revenue": 354104,
+          "households": 1712
+        },
+        {
+          "zip": "33704",
+          "place": "Old Northeast",
+          "tickets": 2340,
+          "revenue": 197206,
+          "households": 888
+        },
+        {
+          "zip": "34698",
+          "place": "Dunedin",
+          "tickets": 2187,
+          "revenue": 207461,
+          "households": 864
+        },
+        {
+          "zip": "34683",
+          "place": "Palm Harbor",
+          "tickets": 1636,
+          "revenue": 151921,
+          "households": 734
+        },
+        {
+          "zip": "33756",
+          "place": "Clearwater",
+          "tickets": 1622,
+          "revenue": 139534,
+          "households": 629
+        },
+        {
+          "zip": "33707",
+          "place": "Gulfport / West St. Pete",
+          "tickets": 1185,
+          "revenue": 109835,
+          "households": 411
+        }
+      ]
+    },
+    {
+      "fips": "12101",
+      "county": "Pasco County",
+      "tickets": 10615,
+      "revenue": 865251,
+      "households": 4559,
+      "zips": [
+        {
+          "zip": "33544",
+          "place": "Wesley Chapel",
+          "tickets": 3014,
+          "revenue": 230827,
+          "households": 1278
+        },
+        {
+          "zip": "34655",
+          "place": "Trinity",
+          "tickets": 2085,
+          "revenue": 169573,
+          "households": 803
+        },
+        {
+          "zip": "33541",
+          "place": "Zephyrhills",
+          "tickets": 1958,
+          "revenue": 177875,
+          "households": 686
+        },
+        {
+          "zip": "34638",
+          "place": "Land O' Lakes",
+          "tickets": 1644,
+          "revenue": 131057,
+          "households": 781
+        }
+      ]
+    },
+    {
+      "fips": "12081",
+      "county": "Manatee County",
+      "tickets": 9751,
+      "revenue": 726898,
+      "households": 4092,
+      "zips": [
+        {
+          "zip": "34202",
+          "place": "Lakewood Ranch",
+          "tickets": 2980,
+          "revenue": 228208,
+          "households": 1287
+        },
+        {
+          "zip": "34205",
+          "place": "Bradenton",
+          "tickets": 2034,
+          "revenue": 149539,
+          "households": 869
+        },
+        {
+          "zip": "34209",
+          "place": "West Bradenton",
+          "tickets": 2016,
+          "revenue": 146164,
+          "households": 726
+        }
+      ]
+    },
+    {
+      "fips": "12105",
+      "county": "Polk County",
+      "tickets": 7290,
+      "revenue": 488498,
+      "households": 2926,
+      "zips": [
+        {
+          "zip": "33803",
+          "place": "Lakeland",
+          "tickets": 2675,
+          "revenue": 184196,
+          "households": 1199
+        },
+        {
+          "zip": "33813",
+          "place": "South Lakeland",
+          "tickets": 1986,
+          "revenue": 148906,
+          "households": 730
+        },
+        {
+          "zip": "33880",
+          "place": "Winter Haven",
+          "tickets": 1592,
+          "revenue": 111280,
+          "households": 595
+        }
+      ]
+    },
+    {
+      "fips": "12115",
+      "county": "Sarasota County",
+      "tickets": 6668,
+      "revenue": 575317,
+      "households": 2927,
+      "zips": [
+        {
+          "zip": "34236",
+          "place": "Downtown Sarasota",
+          "tickets": 2087,
+          "revenue": 177830,
+          "households": 782
+        },
+        {
+          "zip": "34238",
+          "place": "Sarasota",
+          "tickets": 1563,
+          "revenue": 126634,
+          "households": 615
+        },
+        {
+          "zip": "34242",
+          "place": "Siesta Key",
+          "tickets": 1124,
+          "revenue": 104827,
+          "households": 413
+        },
+        {
+          "zip": "34285",
+          "place": "Venice",
+          "tickets": 1032,
+          "revenue": 91631,
+          "households": 390
+        }
+      ]
+    },
+    {
+      "fips": "12119",
+      "county": "Sumter County",
+      "tickets": 4487,
+      "revenue": 384688,
+      "households": 1747,
+      "zips": [
+        {
+          "zip": "32162",
+          "place": "The Villages",
+          "tickets": 3616,
+          "revenue": 291911,
+          "households": 1652
+        }
+      ]
+    },
+    {
+      "fips": "12071",
+      "county": "Lee County",
+      "tickets": 4236,
+      "revenue": 313193,
+      "households": 1689,
+      "zips": [
+        {
+          "zip": "33901",
+          "place": "Fort Myers",
+          "tickets": 2308,
+          "revenue": 157715,
+          "households": 888
+        },
+        {
+          "zip": "33908",
+          "place": "Fort Myers",
+          "tickets": 1265,
+          "revenue": 95109,
+          "households": 570
+        }
+      ]
+    },
+    {
+      "fips": "12095",
+      "county": "Orange County",
+      "tickets": 3943,
+      "revenue": 314770,
+      "households": 1516,
+      "zips": [
+        {
+          "zip": "32801",
+          "place": "Downtown Orlando",
+          "tickets": 1596,
+          "revenue": 142133,
+          "households": 595
+        },
+        {
+          "zip": "32803",
+          "place": "Orlando",
+          "tickets": 1509,
+          "revenue": 114530,
+          "households": 601
+        }
+      ]
+    },
+    {
+      "fips": "12021",
+      "county": "Collier County",
+      "tickets": 1862,
+      "revenue": 142205,
+      "households": 693,
+      "zips": []
+    },
+    {
+      "fips": "12099",
+      "county": "Palm Beach County",
+      "tickets": 1841,
+      "revenue": 139877,
+      "households": 671,
+      "zips": []
+    },
+    {
+      "fips": "12053",
+      "county": "Hernando County",
+      "tickets": 1651,
+      "revenue": 124555,
+      "households": 704,
+      "zips": [
+        {
+          "zip": "34609",
+          "place": "Spring Hill",
+          "tickets": 642,
+          "revenue": 51034,
+          "households": 229
+        },
+        {
+          "zip": "34606",
+          "place": "Spring Hill",
+          "tickets": 393,
+          "revenue": 28114,
+          "households": 185
+        },
+        {
+          "zip": "34601",
+          "place": "Brooksville",
+          "tickets": 244,
+          "revenue": 17813,
+          "households": 100
+        }
+      ]
+    },
+    {
+      "fips": "12031",
+      "county": "Duval County",
+      "tickets": 1449,
+      "revenue": 124509,
+      "households": 617,
+      "zips": []
+    },
+    {
+      "fips": "12049",
+      "county": "Hardee County",
+      "tickets": 1405,
+      "revenue": 96063,
+      "households": 552,
+      "zips": []
+    },
+    {
+      "fips": "12011",
+      "county": "Broward County",
+      "tickets": 1243,
+      "revenue": 98697,
+      "households": 562,
+      "zips": []
+    },
+    {
+      "fips": "12027",
+      "county": "DeSoto County",
+      "tickets": 1211,
+      "revenue": 97504,
+      "households": 439,
+      "zips": []
+    },
+    {
+      "fips": "12017",
+      "county": "Citrus County",
+      "tickets": 1042,
+      "revenue": 77075,
+      "households": 437,
+      "zips": [
+        {
+          "zip": "34465",
+          "place": "Beverly Hills",
+          "tickets": 571,
+          "revenue": 39220,
+          "households": 241
+        },
+        {
+          "zip": "34446",
+          "place": "Homosassa",
+          "tickets": 336,
+          "revenue": 23797,
+          "households": 128
+        }
+      ]
+    },
+    {
+      "fips": "12055",
+      "county": "Highlands County",
+      "tickets": 1031,
+      "revenue": 87683,
+      "households": 401,
+      "zips": []
+    },
+    {
+      "fips": "12015",
+      "county": "Charlotte County",
+      "tickets": 1017,
+      "revenue": 72130,
+      "households": 443,
+      "zips": [
+        {
+          "zip": "33950",
+          "place": "Punta Gorda",
+          "tickets": 457,
+          "revenue": 31344,
+          "households": 167
+        },
+        {
+          "zip": "33948",
+          "place": "Port Charlotte",
+          "tickets": 277,
+          "revenue": 19292,
+          "households": 122
+        }
+      ]
+    },
+    {
+      "fips": "12086",
+      "county": "Miami-Dade County",
+      "tickets": 975,
+      "revenue": 84638,
+      "households": 407,
+      "zips": []
+    },
+    {
+      "fips": "12069",
+      "county": "Lake County",
+      "tickets": 948,
+      "revenue": 80420,
+      "households": 422,
+      "zips": []
+    },
+    {
+      "fips": "12083",
+      "county": "Marion County",
+      "tickets": 821,
+      "revenue": 60620,
+      "households": 308,
+      "zips": []
+    },
+    {
+      "fips": "12097",
+      "county": "Osceola County",
+      "tickets": 811,
+      "revenue": 54158,
+      "households": 343,
+      "zips": []
+    },
+    {
+      "fips": "12043",
+      "county": "Glades County",
+      "tickets": 787,
+      "revenue": 65835,
+      "households": 284,
+      "zips": []
+    },
+    {
+      "fips": "12093",
+      "county": "Okeechobee County",
+      "tickets": 776,
+      "revenue": 65358,
+      "households": 311,
+      "zips": []
+    },
+    {
+      "fips": "12117",
+      "county": "Seminole County",
+      "tickets": 721,
+      "revenue": 51553,
+      "households": 296,
+      "zips": []
+    },
+    {
+      "fips": "12009",
+      "county": "Brevard County",
+      "tickets": 700,
+      "revenue": 51594,
+      "households": 314,
+      "zips": []
+    },
+    {
+      "fips": "12127",
+      "county": "Volusia County",
+      "tickets": 605,
+      "revenue": 49407,
+      "households": 269,
+      "zips": []
+    },
+    {
+      "fips": "12061",
+      "county": "Indian River County",
+      "tickets": 564,
+      "revenue": 37593,
+      "households": 243,
+      "zips": []
+    },
+    {
+      "fips": "12035",
+      "county": "Flagler County",
+      "tickets": 546,
+      "revenue": 43824,
+      "households": 242,
+      "zips": []
+    },
+    {
+      "fips": "12075",
+      "county": "Levy County",
+      "tickets": 543,
+      "revenue": 40474,
+      "households": 200,
+      "zips": []
+    },
+    {
+      "fips": "12001",
+      "county": "Alachua County",
+      "tickets": 536,
+      "revenue": 45767,
+      "households": 241,
+      "zips": []
+    },
+    {
+      "fips": "12041",
+      "county": "Gilchrist County",
+      "tickets": 523,
+      "revenue": 45352,
+      "households": 203,
+      "zips": []
+    },
+    {
+      "fips": "12085",
+      "county": "Martin County",
+      "tickets": 482,
+      "revenue": 39971,
+      "households": 209,
+      "zips": []
+    },
+    {
+      "fips": "12107",
+      "county": "Putnam County",
+      "tickets": 476,
+      "revenue": 41623,
+      "households": 206,
+      "zips": []
+    },
+    {
+      "fips": "12111",
+      "county": "St. Lucie County",
+      "tickets": 427,
+      "revenue": 37914,
+      "households": 182,
+      "zips": []
+    },
+    {
+      "fips": "12051",
+      "county": "Hendry County",
+      "tickets": 424,
+      "revenue": 34412,
+      "households": 184,
+      "zips": []
+    },
+    {
+      "fips": "12125",
+      "county": "Union County",
+      "tickets": 415,
+      "revenue": 29234,
+      "households": 160,
+      "zips": []
+    },
+    {
+      "fips": "12007",
+      "county": "Bradford County",
+      "tickets": 409,
+      "revenue": 30305,
+      "households": 185,
+      "zips": []
+    },
+    {
+      "fips": "12109",
+      "county": "St. Johns County",
+      "tickets": 380,
+      "revenue": 28412,
+      "households": 140,
+      "zips": []
+    },
+    {
+      "fips": "12029",
+      "county": "Dixie County",
+      "tickets": 368,
+      "revenue": 29867,
+      "households": 137,
+      "zips": []
+    },
+    {
+      "fips": "12019",
+      "county": "Clay County",
+      "tickets": 360,
+      "revenue": 29783,
+      "households": 132,
+      "zips": []
+    },
+    {
+      "fips": "12121",
+      "county": "Suwannee County",
+      "tickets": 316,
+      "revenue": 21705,
+      "households": 142,
+      "zips": []
+    },
+    {
+      "fips": "12067",
+      "county": "Lafayette County",
+      "tickets": 263,
+      "revenue": 21010,
+      "households": 99,
+      "zips": []
+    },
+    {
+      "fips": "12123",
+      "county": "Taylor County",
+      "tickets": 261,
+      "revenue": 19727,
+      "households": 103,
+      "zips": []
+    },
+    {
+      "fips": "12023",
+      "county": "Columbia County",
+      "tickets": 256,
+      "revenue": 19022,
+      "households": 98,
+      "zips": []
+    },
+    {
+      "fips": "12003",
+      "county": "Baker County",
+      "tickets": 235,
+      "revenue": 20167,
+      "households": 85,
+      "zips": []
+    },
+    {
+      "fips": "12089",
+      "county": "Nassau County",
+      "tickets": 229,
+      "revenue": 20406,
+      "households": 98,
+      "zips": []
+    },
+    {
+      "fips": "12079",
+      "county": "Madison County",
+      "tickets": 229,
+      "revenue": 15323,
+      "households": 95,
+      "zips": []
+    },
+    {
+      "fips": "12087",
+      "county": "Monroe County",
+      "tickets": 222,
+      "revenue": 17899,
+      "households": 81,
+      "zips": []
+    },
+    {
+      "fips": "12047",
+      "county": "Hamilton County",
+      "tickets": 220,
+      "revenue": 17261,
+      "households": 80,
+      "zips": []
+    },
+    {
+      "fips": "12065",
+      "county": "Jefferson County",
+      "tickets": 199,
+      "revenue": 16860,
+      "households": 76,
+      "zips": []
+    },
+    {
+      "fips": "12037",
+      "county": "Franklin County",
+      "tickets": 194,
+      "revenue": 15467,
+      "households": 79,
+      "zips": []
+    },
+    {
+      "fips": "12077",
+      "county": "Liberty County",
+      "tickets": 166,
+      "revenue": 12170,
+      "households": 66,
+      "zips": []
+    },
+    {
+      "fips": "12129",
+      "county": "Wakulla County",
+      "tickets": 161,
+      "revenue": 12399,
+      "households": 65,
+      "zips": []
+    },
+    {
+      "fips": "12073",
+      "county": "Leon County",
+      "tickets": 159,
+      "revenue": 11549,
+      "households": 68,
+      "zips": []
+    },
+    {
+      "fips": "12039",
+      "county": "Gadsden County",
+      "tickets": 135,
+      "revenue": 9433,
+      "households": 56,
+      "zips": []
+    },
+    {
+      "fips": "12045",
+      "county": "Gulf County",
+      "tickets": 134,
+      "revenue": 11303,
+      "households": 54,
+      "zips": []
+    },
+    {
+      "fips": "12005",
+      "county": "Bay County",
+      "tickets": 107,
+      "revenue": 9226,
+      "households": 49,
+      "zips": []
+    },
+    {
+      "fips": "12133",
+      "county": "Washington County",
+      "tickets": 98,
+      "revenue": 6706,
+      "households": 41,
+      "zips": []
+    },
+    {
+      "fips": "12113",
+      "county": "Santa Rosa County",
+      "tickets": 86,
+      "revenue": 6636,
+      "households": 33,
+      "zips": []
+    },
+    {
+      "fips": "12063",
+      "county": "Jackson County",
+      "tickets": 85,
+      "revenue": 5719,
+      "households": 35,
+      "zips": []
+    },
+    {
+      "fips": "12013",
+      "county": "Calhoun County",
+      "tickets": 79,
+      "revenue": 6125,
+      "households": 34,
+      "zips": []
+    },
+    {
+      "fips": "12091",
+      "county": "Okaloosa County",
+      "tickets": 64,
+      "revenue": 4780,
+      "households": 28,
+      "zips": []
+    },
+    {
+      "fips": "12059",
+      "county": "Holmes County",
+      "tickets": 59,
+      "revenue": 4532,
+      "households": 25,
+      "zips": []
+    },
+    {
+      "fips": "12033",
+      "county": "Escambia County",
+      "tickets": 50,
+      "revenue": 3393,
+      "households": 22,
+      "zips": []
+    },
+    {
+      "fips": "12131",
+      "county": "Walton County",
+      "tickets": 48,
+      "revenue": 3350,
+      "households": 21,
+      "zips": []
+    }
+  ],
+  "states": [
+    {
+      "abbr": "FL",
+      "home": true,
+      "tickets": 161818,
+      "revenue": 11673127
+    },
+    {
+      "abbr": "GA",
+      "tickets": 3414,
+      "revenue": 350518
+    },
+    {
+      "abbr": "NY",
+      "tickets": 2461,
+      "revenue": 253630
+    },
+    {
+      "abbr": "OH",
+      "tickets": 1979,
+      "revenue": 203945
+    },
+    {
+      "abbr": "PA",
+      "tickets": 1692,
+      "revenue": 140212
+    },
+    {
+      "abbr": "NJ",
+      "tickets": 1661,
+      "revenue": 162366
+    },
+    {
+      "abbr": "MI",
+      "tickets": 1569,
+      "revenue": 142811
+    },
+    {
+      "abbr": "MA",
+      "tickets": 1315,
+      "revenue": 111409
+    },
+    {
+      "abbr": "IL",
+      "tickets": 1261,
+      "revenue": 115434
+    },
+    {
+      "abbr": "TX",
+      "tickets": 1234,
+      "revenue": 103959
+    },
+    {
+      "abbr": "NC",
+      "tickets": 1231,
+      "revenue": 106021
+    },
+    {
+      "abbr": "AL",
+      "tickets": 988,
+      "revenue": 80828
+    },
+    {
+      "abbr": "IN",
+      "tickets": 840,
+      "revenue": 85990
+    },
+    {
+      "abbr": "CA",
+      "tickets": 701,
+      "revenue": 72579
+    },
+    {
+      "abbr": "TN",
+      "tickets": 688,
+      "revenue": 68680
+    },
+    {
+      "abbr": "VA",
+      "tickets": 639,
+      "revenue": 55787
+    },
+    {
+      "abbr": "MD",
+      "tickets": 508,
+      "revenue": 50696
+    },
+    {
+      "abbr": "CT",
+      "tickets": 478,
+      "revenue": 47846
+    },
+    {
+      "abbr": "SC",
+      "tickets": 477,
+      "revenue": 39233
+    },
+    {
+      "abbr": "WI",
+      "tickets": 467,
+      "revenue": 39036
+    },
+    {
+      "abbr": "MN",
+      "tickets": 455,
+      "revenue": 43688
+    },
+    {
+      "abbr": "KY",
+      "tickets": 250,
+      "revenue": 24297
+    },
+    {
+      "abbr": "CO",
+      "tickets": 233,
+      "revenue": 23009
+    }
+  ]
+}

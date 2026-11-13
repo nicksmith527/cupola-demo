@@ -10,9 +10,10 @@
 import { config } from "../config.js";
 
 const DATA_DIR = new URL("../../data/sample/", import.meta.url);
+const GEO_DIR = new URL("../../data/geo/", import.meta.url);
 
-async function load(name) {
-  const res = await fetch(new URL(name, DATA_DIR));
+async function load(name, base = DATA_DIR) {
+  const res = await fetch(new URL(name, base));
   if (!res.ok) throw new Error(`Could not load ${name} (${res.status})`);
   return res.json();
 }
@@ -52,6 +53,18 @@ export class SampleSource {
     this.geography = geography;
     this.callcenter = callcenter;
 
+    // Optional market (?market=tampa): real counties and ZIPs plus map shapes.
+    const marketId = new URLSearchParams(location.search).get("market");
+    this.market = null;
+    if (marketId && config.markets.some((m) => m.id === marketId)) {
+      this.market = await load(`markets/${marketId}.json`);
+      const [region, states] = await Promise.all([
+        load(`state-${this.market.stateFips}.json`, GEO_DIR),
+        load("states.json", GEO_DIR),
+      ]);
+      this.market.shapes = { region, states };
+    }
+
     this.rand = mulberry32(7);
     this.tickCount = 0;
     this.asOf = new Date();
@@ -66,7 +79,8 @@ export class SampleSource {
 
   meta() {
     return {
-      venueName: this.venue.name,
+      venueName: this.market?.venueName ?? this.venue.name,
+      marketId: this.market?.id ?? "",
       asOf: this.asOf,
       tick: this.tickCount,
       synthetic: true,
@@ -199,8 +213,10 @@ export class SampleSource {
     return this.rfm;
   }
 
+  // With a market: { market } (real geography, map shapes). Without: the
+  // fictional-county version, drawn without a map.
   getGeography() {
-    return this.geography;
+    return this.market ? { market: this.market } : this.geography;
   }
 
   getCallCenter() {

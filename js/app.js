@@ -65,6 +65,16 @@ async function start() {
     return;
   }
   $("venue-name").textContent = source.meta().venueName;
+  // Market switcher: reloads with ?market=… so each market has its own link.
+  const picker = $("market");
+  picker.innerHTML = config.markets.map((m) => `<option value="${m.id}">${m.label}</option>`).join("");
+  picker.value = source.meta().marketId;
+  picker.addEventListener("change", () => {
+    const url = new URL(location.href);
+    if (picker.value) url.searchParams.set("market", picker.value);
+    else url.searchParams.delete("market");
+    location.href = url.toString();
+  });
   $("footer").textContent =
     `${config.brand} demo · all names and numbers are synthetic · ` +
     `real deployments refresh ${config.realWorldCadenceLabel}; this demo refreshes every ${config.demoRefreshSeconds}s`;
