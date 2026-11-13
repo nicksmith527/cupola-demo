@@ -362,3 +362,16 @@ html[data-skin="gulf"] .hd-sys { border: 0; box-shadow: 0 6px 18px -14px rgba(29
 .hd-person.un > i { background: #fdf1d8; color: #7a5200; }
 .hd-person.un em { color: #8a5a00; font-weight: 650; }
 .hd-toggles { display: flex; gap: 14px; flex-wrap: wrap; }
+
+/* Show pop-up: trend projection */
+.sd-trend { display: grid; grid-template-columns: 200px minmax(0, 1fr); gap: 16px; align-items: center; }
+.sd-proj { display: flex; flex-direction: column; gap: 10px; }
+.sd-proj > div { display: flex; flex-direction: column; }
+.sd-proj span { font-size: 11.5px; color: var(--text-muted); }
+.sd-proj b { font-size: 20px; font-weight: 650; font-variant-numeric: tabular-nums; }
+.sd-proj em { font-style: normal; font-size: 11.5px; color: var(--text-secondary); }
+.sd-proj em.up { color: var(--good, #0f7a0f); } .sd-proj em.down { color: var(--critical, #d03b3b); }
+@media (max-width: 700px) {
+  .sd-trend { grid-template-columns: minmax(0, 1fr); }
+  .sd-proj { display: grid; grid-template-columns: 1fr 1fr; }
+}

@@ -61,6 +61,67 @@ function bars(days, expectedPerDay) {
   return `<svg class="pr-chart" viewBox="0 0 ${W} ${H}" role="img" aria-label="Tickets per day, last 15 days">${g}</svg>`;
 }
 
+// Trend projection to show day. Not a promise: the recent daily rate,
+// stepped up for the usual late ramp (the final weeks sell faster), with a
+// range from the slower and faster of the last two weeks. Capped at the
+// seats still available.
+export function projection(p, days) {
+  const D = Math.max(0, p.daysOut);
+  const avail = Math.max(0, p.capacity - p.sold - (p.comps || 0) - (p.holds || 0));
+  const last7 = days.slice(-7).reduce((a, d) => a + d.tickets, 0) / 7;
+  const prior7 = days.slice(1, 8).reduce((a, d) => a + d.tickets, 0) / 7;
+  const mid = (last7 * 2 + prior7) / 3;
+  const ramp = (d) => 1 + 1.6 * Math.exp(-d / 6); // last week runs ~2.5x
+  const path = (rate, k) => {
+    const pts = [];
+    let cum = p.sold;
+    for (let d = D; d >= 0; d--) {
+      if (d < D) cum = Math.min(p.sold + avail, cum + rate * ramp(d) * k);
+      pts.push({ d, v: cum });
+    }
+    if (D === 0) pts.push({ d: -0.01, v: Math.min(p.sold + avail, p.sold + avail * 0.25 * k) }); // tonight: walk-up
+    return pts;
+  };
+  const mk = path(mid, 1), lo = path(Math.min(last7, prior7), 0.85), hi = path(Math.max(last7, prior7), 1.15);
+  const fin = (x) => Math.round(x.at(-1).v);
+  const soldOut = mk.find((x) => x.v >= p.sold + avail - 0.5 && avail > 0);
+  return { D, avail, mid, mk, lo, hi, final: fin(mk), low: fin(lo), high: fin(hi), soldOutDay: soldOut ? soldOut.d : null };
+}
+
+function trendChart(p, days, f, today) {
+  const W = 620, H = 200, M = { l: 44, r: 12, t: 14, b: 26 };
+  // Past 15 days of cumulative sales, ending at today's total.
+  let cum = p.sold;
+  const past = [];
+  for (let i = days.length - 1; i >= 0; i--) { past.unshift({ x: -(days.length - 1 - i) - 1, v: cum }); cum -= days[i].tickets; }
+  past.unshift({ x: -days.length - 1, v: cum });
+  past.push({ x: 0, v: p.sold });
+  const xMin = -days.length - 1, xMax = Math.max(1, f.D);
+  const yMin = Math.max(0, Math.min(...past.map((q) => q.v)) * 0.9);
+  const yMax = p.capacity * 1.03;
+  const X = (x) => M.l + ((x - xMin) / (xMax - xMin)) * (W - M.l - M.r);
+  const Y = (v) => H - M.b - ((v - yMin) / (yMax - yMin)) * (H - M.t - M.b);
+  const line = (pts) => pts.map((q, i) => `${i ? "L" : "M"}${X(q.x).toFixed(1)},${Y(q.v).toFixed(1)}`).join("");
+  const fx = (arr) => arr.map((q) => ({ x: f.D === 0 ? (q.d < 0 ? 1 : 0) : f.D - q.d, v: q.v }));
+  const lo = fx(f.lo), hi = fx(f.hi), mk = fx(f.mk);
+  const band = `${line(hi)}L${[...lo].reverse().map((q) => `${X(q.x).toFixed(1)},${Y(q.v).toFixed(1)}`).join("L")}Z`;
+  let g = "";
+  for (let i = 0; i <= 3; i++) {
+    const v = yMin + ((yMax - yMin) / 3) * i;
+    g += `<line x1="${M.l}" x2="${W - M.r}" y1="${Y(v)}" y2="${Y(v)}" stroke="var(--grid, #eee)"/><text x="${M.l - 6}" y="${Y(v) + 4}" text-anchor="end" class="pr-ax">${int(v)}</text>`;
+  }
+  g += `<line x1="${M.l}" x2="${W - M.r}" y1="${Y(p.capacity)}" y2="${Y(p.capacity)}" stroke="var(--text-muted)" stroke-dasharray="2 3"/><text x="${M.l + 4}" y="${Y(p.capacity) - 4}" class="pr-ax">capacity ${int(p.capacity)}</text>`;
+  g += `<line x1="${X(0)}" x2="${X(0)}" y1="${M.t}" y2="${H - M.b}" stroke="var(--border)" stroke-width="2"/>`;
+  g += `<text x="${X(xMin)}" y="${H - 8}" class="pr-ax">15 days ago</text>${X(xMax) - X(0) < 70 ? `<text x="${X(0) - 6}" y="${M.t + 10}" text-anchor="end" class="pr-ax">today</text>` : `<text x="${X(0)}" y="${H - 8}" text-anchor="middle" class="pr-ax">today</text>`}<text x="${X(xMax)}" y="${H - 8}" text-anchor="end" class="pr-ax">${f.D === 0 ? "curtain" : "show day"}</text>`;
+  g += `<path d="${band}" fill="color-mix(in srgb, var(--accent, #1c5cab) 14%, transparent)" stroke="none"/>`;
+  g += `<path d="${line(mk)}" fill="none" stroke="var(--accent, #1c5cab)" stroke-width="2.2" stroke-dasharray="6 5"/>`;
+  g += `<path d="${line(past)}" fill="none" stroke="var(--accent, #1c5cab)" stroke-width="2.6" stroke-linejoin="round"/>`;
+  g += `<circle cx="${X(0)}" cy="${Y(p.sold)}" r="4.5" fill="var(--accent, #1c5cab)"/>`;
+  const end = mk.at(-1);
+  g += `<circle cx="${X(end.x)}" cy="${Y(end.v)}" r="4" fill="var(--surface-1)" stroke="var(--accent, #1c5cab)" stroke-width="2"/>`;
+  return `<svg class="pr-chart" viewBox="0 0 ${W} ${H}" role="img" aria-label="Sales so far and projected to show day">${g}</svg>`;
+}
+
 export function openShowDetail(p, { today = new Date(), dailyHref = "#/daily" } = {}) {
   const days = last15(p, today);
   const r = rng(hash(p.id + "mix"));
@@ -82,6 +143,8 @@ export function openShowDetail(p, { today = new Date(), dailyHref = "#/daily" } 
   ];
   const mixSum = mix.reduce((a, m) => a + m[1], 0);
   const goalShare = (p.sold * p.avgPrice) / p.revenueGoal;
+  const f = projection(p, days);
+  const finRev = f.final * p.avgPrice;
   const pace = p.status === "risk" ? ["risk", "At risk"] : p.status === "behind" ? ["behind", "Behind"] : vs >= 0 ? ["ahead", "On pace"] : ["behind", "Slowing"];
 
   const wrap = document.createElement("div");
@@ -102,6 +165,18 @@ export function openShowDetail(p, { today = new Date(), dailyHref = "#/daily" } 
           <div><span>Still available</span><b>${int(Math.max(0, left))}</b><span class="pr-vs">${p.daysOut > 0 ? `${int(perDayNeeded)}/day to sell out` : "tonight"}</span></div>
         </div>
         <div class="pr-card"><h3>Tickets per day, last 15 days <span class="pr-note">darker = Fri–Sun · best day ${best.date.toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" })} (${int(best.tickets)})</span></h3>${bars(days, exp14 / 14)}</div>
+        <div class="pr-card"><h3>Where it's trending <span class="pr-note">solid = sold so far · dashed = projected · shaded = likely range</span></h3>
+          <div class="sd-trend">
+            <div class="sd-proj">
+              <div><span>Projected finish</span><b>${int(f.final)}</b><em>${pct(f.final / p.capacity)} of capacity</em></div>
+              <div><span>Likely range</span><b>${int(f.low)}–${int(f.high)}</b><em>${pct(f.low / p.capacity)}–${pct(f.high / p.capacity)}</em></div>
+              <div><span>Projected revenue</span><b>${money(finRev)}</b><em class="${finRev >= p.revenueGoal ? "up" : "down"}">${pct(finRev / p.revenueGoal)} of ${money(p.revenueGoal)} goal</em></div>
+              <div><span>${f.soldOutDay !== null && f.D > 0 ? "Sells out" : "Seats left at curtain"}</span><b>${f.soldOutDay !== null && f.D > 0 ? (f.soldOutDay === 0 ? "show day" : `~${f.soldOutDay} days before`) : int(Math.max(0, p.sold + f.avail - f.final))}</b><em>${f.soldOutDay !== null && f.D > 0 ? "every seat on sale, at this pace" : "at the projected pace"}</em></div>
+            </div>
+            ${trendChart(p, days, f, today)}
+          </div>
+          <p class="pr-muted" style="margin:8px 0 0">A trend, not a promise: the last two weeks' daily pace (weighted toward the last 7 days), stepped up for the usual late ramp before a show, capped at the seats still available. Marketing pushes, reviews and weather can move it either way.</p>
+        </div>
         <div class="pr-cols">
           <div class="pr-card"><h3>How it's selling</h3>
             ${mix.map(([k, v]) => `<div class="pr-bar"><div class="pr-bar-top"><span>${k}</span><b>${pct(v / mixSum)}</b></div><div class="pr-track"><i style="width:${(v / mixSum) * 100}%"></i></div></div>`).join("")}
@@ -111,6 +186,7 @@ export function openShowDetail(p, { today = new Date(), dailyHref = "#/daily" } 
             <ul class="sd-notes">
               <li>${vs >= 0.05 ? `Selling ${Math.round(vs * 100)}% faster than expected over the last two weeks.` : vs <= -0.05 ? `Selling ${Math.round(-vs * 100)}% slower than expected over the last two weeks; a targeted email to past ${esc((p.genre || "").toLowerCase())} buyers usually moves this.` : "Selling about as expected over the last two weeks."}</li>
               <li>${share >= 0.9 ? "Close to sold out: consider releasing holds or adding a performance." : p.daysOut > 0 ? `Needs about ${int(perDayNeeded)} tickets a day to sell out; the last 7 days averaged ${int(recent7 / 7)}.` : "Plays tonight."}</li>
+              <li>${f.final >= p.capacity * 0.97 ? "On this trend it sells out; worth holding back discounts." : f.final / p.capacity < 0.75 ? `On this trend it finishes near ${pct(f.final / p.capacity)}; the gap to 85% is about ${int(Math.max(0, p.capacity * 0.85 - f.final))} tickets.` : `On this trend it finishes near ${pct(f.final / p.capacity)} of capacity.`}</li>
               <li>${int(p.comps || 0)} comps and ${int(p.holds || 0)} house holds on this performance.</li>
             </ul>
           </div>
