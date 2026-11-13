@@ -4,152 +4,152 @@
     {
       "r": 1,
       "f": 1,
-      "households": 1692,
-      "avgSpend": 121
+      "households": 1634,
+      "avgSpend": 131
     },
     {
       "r": 1,
       "f": 2,
-      "households": 1089,
-      "avgSpend": 171
+      "households": 1524,
+      "avgSpend": 167
     },
     {
       "r": 1,
       "f": 3,
-      "households": 660,
-      "avgSpend": 222
+      "households": 989,
+      "avgSpend": 234
     },
     {
       "r": 1,
       "f": 4,
-      "households": 530,
-      "avgSpend": 284
-    },
-    {
-      "r": 1,
-      "f": 5,
-      "households": 392,
-      "avgSpend": 324
-    },
-    {
-      "r": 2,
-      "f": 1,
-      "households": 2284,
-      "avgSpend": 142
-    },
-    {
-      "r": 2,
-      "f": 2,
-      "households": 1212,
-      "avgSpend": 200
-    },
-    {
-      "r": 2,
-      "f": 3,
-      "households": 1205,
-      "avgSpend": 243
-    },
-    {
-      "r": 2,
-      "f": 4,
-      "households": 528,
-      "avgSpend": 299
-    },
-    {
-      "r": 2,
-      "f": 5,
-      "households": 527,
-      "avgSpend": 334
-    },
-    {
-      "r": 3,
-      "f": 1,
-      "households": 2881,
-      "avgSpend": 156
-    },
-    {
-      "r": 3,
-      "f": 2,
-      "households": 1426,
-      "avgSpend": 208
-    },
-    {
-      "r": 3,
-      "f": 3,
-      "households": 969,
-      "avgSpend": 243
-    },
-    {
-      "r": 3,
-      "f": 4,
-      "households": 805,
-      "avgSpend": 312
-    },
-    {
-      "r": 3,
-      "f": 5,
-      "households": 523,
-      "avgSpend": 333
-    },
-    {
-      "r": 4,
-      "f": 1,
-      "households": 2631,
-      "avgSpend": 163
-    },
-    {
-      "r": 4,
-      "f": 2,
-      "households": 2080,
-      "avgSpend": 220
-    },
-    {
-      "r": 4,
-      "f": 3,
-      "households": 1113,
+      "households": 619,
       "avgSpend": 274
     },
     {
+      "r": 1,
+      "f": 5,
+      "households": 312,
+      "avgSpend": 327
+    },
+    {
+      "r": 2,
+      "f": 1,
+      "households": 2528,
+      "avgSpend": 144
+    },
+    {
+      "r": 2,
+      "f": 2,
+      "households": 1862,
+      "avgSpend": 192
+    },
+    {
+      "r": 2,
+      "f": 3,
+      "households": 1064,
+      "avgSpend": 236
+    },
+    {
+      "r": 2,
+      "f": 4,
+      "households": 627,
+      "avgSpend": 285
+    },
+    {
+      "r": 2,
+      "f": 5,
+      "households": 507,
+      "avgSpend": 342
+    },
+    {
+      "r": 3,
+      "f": 1,
+      "households": 1919,
+      "avgSpend": 152
+    },
+    {
+      "r": 3,
+      "f": 2,
+      "households": 1567,
+      "avgSpend": 209
+    },
+    {
+      "r": 3,
+      "f": 3,
+      "households": 1138,
+      "avgSpend": 242
+    },
+    {
+      "r": 3,
+      "f": 4,
+      "households": 600,
+      "avgSpend": 304
+    },
+    {
+      "r": 3,
+      "f": 5,
+      "households": 432,
+      "avgSpend": 347
+    },
+    {
+      "r": 4,
+      "f": 1,
+      "households": 2223,
+      "avgSpend": 160
+    },
+    {
+      "r": 4,
+      "f": 2,
+      "households": 1507,
+      "avgSpend": 215
+    },
+    {
+      "r": 4,
+      "f": 3,
+      "households": 1435,
+      "avgSpend": 262
+    },
+    {
       "r": 4,
       "f": 4,
-      "households": 753,
-      "avgSpend": 303
+      "households": 840,
+      "avgSpend": 308
     },
     {
       "r": 4,
       "f": 5,
-      "households": 546,
-      "avgSpend": 362
+      "households": 625,
+      "avgSpend": 366
     },
     {
       "r": 5,
       "f": 1,
-      "households": 3860,
-      "avgSpend": 176
+      "households": 3543,
+      "avgSpend": 177
     },
     {
       "r": 5,
       "f": 2,
-      "households": 2362,
-      "avgSpend": 227
+      "households": 2284,
+      "avgSpend": 225
     },
     {
       "r": 5,
       "f": 3,
-      "households": 1814,
-      "avgSpend": 293
+      "households": 1545,
+      "avgSpend": 267
     },
     {
       "r": 5,
       "f": 4,
-      "households": 1032,
-      "avgSpend": 315
+      "households": 884,
+      "avgSpend": 322
     },
     {
       "r": 5,
       "f": 5,
-      "households": 703,
-      "avgSpend": 382
+      "households": 518,
+      "avgSpend": 361
     }
   ],
   "segments": [
@@ -157,49 +157,49 @@
       "name": "Champions",
       "description": "Bought recently and often",
       "action": "Subscription and donor ask",
-      "households": 3034,
-      "revenue": 1019437,
-      "avgSpend": 336
+      "households": 2867,
+      "revenue": 959116,
+      "avgSpend": 335
     },
     {
       "name": "Loyal",
       "description": "Steady repeat buyers",
       "action": "Early access and upgrades",
-      "households": 5224,
-      "revenue": 1497250,
-      "avgSpend": 287
+      "households": 5150,
+      "revenue": 1396185,
+      "avgSpend": 271
     },
     {
       "name": "Promising",
       "description": "Recent, but only once or twice",
       "action": "Second-show offer",
-      "households": 10933,
-      "revenue": 2101987,
-      "avgSpend": 192
+      "households": 9557,
+      "revenue": 1820696,
+      "avgSpend": 191
     },
     {
       "name": "Needs attention",
       "description": "Used to come often, slowing down",
       "action": "Win-back with a favorite genre",
-      "households": 3842,
-      "revenue": 1050753,
-      "avgSpend": 273
+      "households": 4118,
+      "revenue": 1106249,
+      "avgSpend": 269
     },
     {
       "name": "Hibernating",
       "description": "Long ago and rarely",
       "action": "Low-cost reminders only",
-      "households": 6277,
-      "revenue": 957679,
-      "avgSpend": 153
+      "households": 7548,
+      "revenue": 1190098,
+      "avgSpend": 158
     },
     {
       "name": "Middle",
       "description": "Everyone else",
       "action": "Standard season marketing",
-      "households": 4307,
-      "revenue": 746044,
-      "avgSpend": 173
+      "households": 3486,
+      "revenue": 619191,
+      "avgSpend": 178
     }
   ]
 }

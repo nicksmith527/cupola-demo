@@ -7,6 +7,8 @@
 //      sales and reveals another hour of call-center activity, the way a
 //      scheduled refresh would.
 
+import { config } from "../config.js";
+
 const DATA_DIR = new URL("../../data/sample/", import.meta.url);
 
 async function load(name) {
@@ -86,6 +88,7 @@ export class SampleSource {
       const n = Math.min(open, Math.round(this.rand() * 14 * heat));
       p.sold += n;
       p.soldSinceLast += n;
+      p.sold14 += n;
       batch += n;
       revenue += n * p.avgPrice;
     }
@@ -146,25 +149,38 @@ export class SampleSource {
   // Daily sales report: a short recap of the last few days, then every
   // performance from today forward, each scored against similar shows.
   getDailyReport() {
-    const T = { behind: 0.9, atRisk: 0.8, crossingFrom: 84, crossingTo: 98 };
+    const R = config.flagRules;
     const recap = this.performances
       .filter((p) => p.daysOut < 0)
       .sort((a, b) => a.daysOut - b.daysOut)
       .map((p) => this.withDate(p));
+    const sev = { on: 0, behind: 1, risk: 2 };
     const upcoming = this.performances
       .filter((p) => p.daysOut >= 0)
       .map((p) => {
         const pace = p.sold / Math.max(1, p.benchmarkSold);
-        const status = pace < T.atRisk ? "risk" : pace < T.behind ? "behind" : "on";
-        const crossing = p.daysOut >= T.crossingFrom && p.daysOut <= T.crossingTo && pace < T.behind;
-        return { ...this.withDate(p), pace, status, crossing, revenue: p.sold * p.avgPrice };
+        const recentRatio = p.expected14 > 0 ? p.sold14 / p.expected14 : 1;
+        // Each enabled rule can add a reason; the worst one sets the status.
+        const reasons = [];
+        if (R.pace.enabled) {
+          const level = pace < R.pace.atRiskBelow ? "risk" : pace < R.pace.behindBelow ? "behind" : "on";
+          if (level !== "on") reasons.push({ rule: "pace", level, ratio: pace });
+        }
+        if (R.recentSales.enabled && p.expected14 >= R.recentSales.minExpected) {
+          const r = R.recentSales;
+          const level = recentRatio < r.atRiskBelow ? "risk" : recentRatio < r.behindBelow ? "behind" : "on";
+          if (level !== "on") reasons.push({ rule: "recent", level, ratio: recentRatio });
+        }
+        const status = reasons.reduce((w, r) => (sev[r.level] > sev[w] ? r.level : w), "on");
+        const crossing =
+          R.crossing.enabled && status !== "on" && p.daysOut >= R.crossing.fromDays && p.daysOut <= R.crossing.toDays;
+        return { ...this.withDate(p), pace, recentRatio, reasons, status, crossing, revenue: p.sold * p.avgPrice };
       })
       .sort((a, b) => a.daysOut - b.daysOut);
-    const rank = { risk: 0, behind: 1, on: 2 };
     const watch = upcoming
-      .filter((p) => p.status !== "on" || p.crossing)
-      .sort((a, b) => rank[a.status] - rank[b.status] || a.pace - b.pace || a.daysOut - b.daysOut);
-    return { thresholds: T, recap, upcoming, watch, asOf: this.asOf };
+      .filter((p) => p.status !== "on")
+      .sort((a, b) => sev[b.status] - sev[a.status] || a.pace - b.pace || a.daysOut - b.daysOut);
+    return { rules: R, recap, upcoming, watch, asOf: this.asOf };
   }
 
   getPacing() {

@@ -23,12 +23,23 @@ const weeksOut = (d) =>
   d === 0 ? "today" : d === 1 ? "tomorrow" : d < 7 ? `${d} days` : d < 14 ? "1 wk out" : `${Math.floor(d / 7)} wks out`;
 const signedPct = (x) => (x >= 0 ? "+" : "−") + Math.abs(x * 100).toFixed(0) + "%";
 
+// Status label: the worst level any enabled rule produced.
 function chip(p) {
-  const diff = p.pace - 1;
-  if (p.status === "risk") return `<span class="chip risk"><i></i>At risk ${signedPct(diff)}</span>`;
-  if (p.status === "behind") return `<span class="chip behind"><i></i>Behind ${signedPct(diff)}</span>`;
-  if (diff > 0.05) return `<span class="chip ahead"><i></i>Ahead ${signedPct(diff)}</span>`;
+  if (p.status === "risk") return `<span class="chip risk"><i></i>At risk</span>`;
+  if (p.status === "behind") return `<span class="chip behind"><i></i>Behind</span>`;
+  if (p.pace > 1.05) return `<span class="chip ahead"><i></i>Ahead ${signedPct(p.pace - 1)}</span>`;
   return `<span class="chip on"><i></i>On pace</span>`;
+}
+
+// Plain-language reasons, so every flag shows why it fired.
+function why(p) {
+  return p.reasons
+    .map((r) =>
+      r.rule === "pace"
+        ? `Pace ${signedPct(r.ratio - 1)} vs similar shows`
+        : `Last 14 days ${signedPct(r.ratio - 1)} vs expected`
+    )
+    .join(" · ");
 }
 
 function weekLabel(date, today) {
@@ -67,10 +78,11 @@ export default {
         <div class="card-head">
           <div>
             <h2>Needs attention</h2>
-            <p class="sub">Selling behind similar shows at the same point, or crossing the 12-week mark while behind. Select one to find it in the report.</p>
+            <p class="sub">Every show in the season that trips a flag rule, worst first. Select one to find it in the report.</p>
           </div>
         </div>
         <div id="watch"></div>
+        <div class="rules" id="rules"></div>
       </div>
 
       <div class="card report-card">
@@ -125,6 +137,7 @@ export default {
           const cap = g.perfs.reduce((s, p) => s + p.capacity, 0);
           const bench = g.perfs.reduce((s, p) => s + p.benchmarkSold, 0);
           const gap = bench - sold;
+          const gapText = gap > 0 ? `${int(gap)} behind similar shows` : `${int(-gap)} ahead of similar shows`;
           const dates = first === last ? shortDate(first.date) : `${shortDate(first.date)} – ${shortDate(last.date)}`;
           const crossing = g.perfs.some((p) => p.crossing);
           return `<button type="button" class="watch-row" data-id="${first.id}">
@@ -132,9 +145,10 @@ export default {
             <div class="w-main">
               <div class="name">${esc(g.title)}</div>
               <div class="meta">${dates} · ${esc(first.hall.name)} · ${g.perfs.length} perf${g.perfs.length > 1 ? "s" : ""}</div>
+              <div class="why">${why(g.worst)}</div>
             </div>
             <div class="w-when">${weeksOut(first.daysOut)}${crossing ? `<span class="chip cross" title="Entering the 12-week window while behind pace">⏱ Crossing 12 wks</span>` : ""}</div>
-            <div class="w-nums">${int(sold)} / ${int(cap)} sold<br><span class="meta">${int(gap)} behind similar shows</span></div>
+            <div class="w-nums">${int(sold)} / ${int(cap)} sold<br><span class="meta">${gapText}</span></div>
           </button>`;
         })
         .join("");
@@ -144,7 +158,7 @@ export default {
     const head = `<div class="r-row r-head" role="row">
       <div role="columnheader">Date</div><div role="columnheader">Performance</div>
       <div role="columnheader">Sold</div><div role="columnheader" class="r">Last 24 hrs</div>
-      <div role="columnheader" class="r">Revenue</div><div role="columnheader">Pace vs similar shows</div></div>`;
+      <div role="columnheader" class="r">Revenue</div><div role="columnheader">Status</div></div>`;
 
     function rowHtml(p, opts = {}) {
       const share = p.sold / p.capacity;
@@ -157,7 +171,9 @@ export default {
         ? `<span class="meta" title="Attendance from scans; still settling">${int(p.scanned)} attended</span>`
         : `<span class="${opts.bumped ? "bump" : ""}">${p.soldSinceLast ? "+" + int(p.soldSinceLast) : "—"}</span>`;
       const rev = `${moneyK(p.sold * p.avgPrice)}<div class="meta">${pct(goalShare)} of goal</div>`;
-      const paceCell = past ? `<span class="pill">Settling</span>` : chip(p) + (p.crossing ? ` <span class="chip cross">⏱ 12 wks</span>` : "");
+      const paceCell = past
+        ? `<span class="pill">Settling</span>`
+        : chip(p) + (p.crossing ? ` <span class="chip cross">⏱ 12 wks</span>` : "") + (p.reasons.length ? `<div class="why">${why(p)}</div>` : "");
       return `<div class="r-row ${past ? "past" : ""} ${p.status && p.status !== "on" ? "flagged" : ""}" role="row" data-id="${p.id}" ${opts.style || ""}>
         <div class="c-date" role="cell">${when}</div>
         <div class="c-show" role="cell"><div class="name">${esc(p.title)}</div><div class="meta">${esc(p.hall.name)} · ${esc(p.genre)}</div></div>
@@ -171,7 +187,7 @@ export default {
     function report({ animate = false, bumped = new Set() } = {}) {
       const h = HORIZONS.find((x) => x.id === horizon);
       let rows = d.upcoming.filter((p, i) => h.test(p, i));
-      if (flaggedOnly) rows = d.upcoming.filter((p) => p.status !== "on" || p.crossing);
+      if (flaggedOnly) rows = d.upcoming.filter((p) => p.status !== "on");
       let html = head;
       if (!flaggedOnly) {
         html += `<div class="r-section">Recap · last ${d.recap.length} performances <span class="pill">Settling, not final</span></div>`;
@@ -193,7 +209,7 @@ export default {
       box.innerHTML = html;
       if (animate) growBars(box);
       const hidden = d.upcoming.length - rows.length;
-      const hiddenFlagged = d.upcoming.filter((p) => !rows.includes(p) && (p.status !== "on" || p.crossing)).length;
+      const hiddenFlagged = d.upcoming.filter((p) => !rows.includes(p) && p.status !== "on").length;
       root.querySelector("#report-foot").innerHTML = hidden > 0
         ? `Showing ${rows.length} of ${d.upcoming.length} upcoming performances.` +
           (hiddenFlagged ? ` ${hiddenFlagged} flagged performance${hiddenFlagged > 1 ? "s are" : " is"} further out and pinned in Needs attention.` : "") +
@@ -246,9 +262,23 @@ export default {
         ["Sold now", int(p.sold)],
         [`Similar shows at ${p.daysOut} days out`, int(p.benchmarkSold)],
         ["Pace", signedPct(p.pace - 1)],
+        ["Sold, last 14 days", int(p.sold14)],
+        ["Similar shows, same 14 days", int(p.expected14)],
       ]));
     });
     root.querySelector("#report").addEventListener("pointerleave", hideTip);
+
+    // Show which rules are on, so the flags are never a black box.
+    const R = d.rules;
+    const pctOf = (x) => Math.round(x * 100) + "%";
+    root.querySelector("#rules").innerHTML =
+      `<b>Flag rules</b> (set per venue): ` +
+      [
+        R.pace.enabled && `sold to date below ${pctOf(R.pace.behindBelow)} of similar shows (at risk below ${pctOf(R.pace.atRiskBelow)})`,
+        R.recentSales.enabled && `last ${R.recentSales.days} days' sales below ${pctOf(R.recentSales.behindBelow)} of expected (at risk below ${pctOf(R.recentSales.atRiskBelow)})`,
+        R.crossing.enabled && `⏱ tag when a flagged show is ${R.crossing.fromDays / 7}–${R.crossing.toDays / 7} weeks out`,
+        `media plan check coming next`,
+      ].filter(Boolean).join(" · ");
 
     tiles(false);
     watch();

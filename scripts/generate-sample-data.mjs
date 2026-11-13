@@ -114,10 +114,10 @@ const titles = [
   { title: "Kinetic Dance Collective", genre: "Dance", hall: "main", price: 54, perfs: 2, start: 19, pace: 0.71 },
   { title: "The Last Lighthouse (a new play)", genre: "Play", hall: "studio", price: 42, perfs: 4, start: 21 },
   { title: "Holiday Pops Spectacular", genre: "Concert", hall: "main", price: 72, perfs: 3, start: 25, pace: 1.12 },
-  { title: "The Lantern Keepers", genre: "Broadway", hall: "main", price: 92, perfs: 8, start: 34, pace: 0.94 },
+  { title: "The Lantern Keepers", genre: "Broadway", hall: "main", price: 92, perfs: 8, start: 34, pace: 0.94, recent: 0.64 },
   // Further out in the season
   { title: "Winter Jazz Weekend", genre: "Concert", hall: "recital", price: 48, perfs: 2, start: 48 },
-  { title: "Swan Lake", genre: "Dance", hall: "main", price: 76, perfs: 4, start: 58, pace: 1.06 },
+  { title: "Swan Lake", genre: "Dance", hall: "main", price: 76, perfs: 4, start: 58, pace: 1.06, recent: 0.7 },
   { title: "Ghost Stories by Candlelight", genre: "Play", hall: "studio", price: 36, perfs: 3, start: 66, pace: 0.68 },
   { title: "The Fifth Avenue Follies", genre: "Broadway", hall: "main", price: 84, perfs: 6, start: 72 },
   { title: "Mariachi Sol de Jalisco", genre: "Concert", hall: "main", price: 56, perfs: 1, start: 81, pace: 1.18 },
@@ -152,6 +152,13 @@ for (const t of titles) {
     // Roughly one day's worth of sales at this point in the curve.
     const dayRate = cap * typical * (shape(x) - shape(Math.max(0, x - 1 / onSaleDays))) * pace;
     const soldSinceLast = daysOut < 0 ? 0 : Math.max(0, Math.round(dayRate * between(0.5, 1.7)));
+    // Last 14 days: what similar shows usually sell over the two weeks leading
+    // up to this point, and what this show actually sold. `recent` < 1 means
+    // sales have slowed lately, even if the show is still on pace overall.
+    const x14 = Math.max(0, x - 14 / onSaleDays);
+    const expected14 = Math.round(cap * typical * (shape(x) - shape(x14)));
+    const recent = t.recent ?? pace * between(0.88, 1.12);
+    const sold14 = daysOut < 0 ? 0 : Math.round(expected14 * recent);
     const avgPrice = round(t.price * between(0.9, 1.12), 2);
     const perf = {
       id: "P" + String(id++).padStart(3, "0"),
@@ -169,6 +176,8 @@ for (const t of titles) {
       onSaleDays,
       benchmarkSold: benchmark,
       soldSinceLast,
+      sold14,
+      expected14,
     };
     // Past performances carry a (still settling) attendance count.
     if (daysOut < 0) perf.scanned = Math.round((sold + comps) * between(0.86, 0.95));

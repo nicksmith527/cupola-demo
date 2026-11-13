@@ -4,91 +4,91 @@
   "hours": [
     {
       "hour": 9,
-      "offered": 58,
-      "answered": 53,
+      "offered": 60,
+      "answered": 55,
       "abandoned": 5,
-      "avgWaitSec": 37,
-      "avgHandleSec": 238
+      "avgWaitSec": 45,
+      "avgHandleSec": 188
     },
     {
       "hour": 10,
-      "offered": 100,
-      "answered": 96,
-      "abandoned": 4,
-      "avgWaitSec": 70,
+      "offered": 119,
+      "answered": 111,
+      "abandoned": 8,
+      "avgWaitSec": 54,
       "avgHandleSec": 203
     },
     {
       "hour": 11,
-      "offered": 136,
-      "answered": 123,
+      "offered": 119,
+      "answered": 106,
       "abandoned": 13,
-      "avgWaitSec": 49,
-      "avgHandleSec": 199
-    },
-    {
-      "hour": 12,
-      "offered": 89,
-      "answered": 83,
-      "abandoned": 6,
       "avgWaitSec": 52,
       "avgHandleSec": 251
     },
     {
+      "hour": 12,
+      "offered": 105,
+      "answered": 99,
+      "abandoned": 6,
+      "avgWaitSec": 63,
+      "avgHandleSec": 223
+    },
+    {
       "hour": 13,
-      "offered": 73,
-      "answered": 70,
-      "abandoned": 3,
-      "avgWaitSec": 43,
-      "avgHandleSec": 221
+      "offered": 77,
+      "answered": 71,
+      "abandoned": 6,
+      "avgWaitSec": 44,
+      "avgHandleSec": 198
     },
     {
       "hour": 14,
-      "offered": 101,
-      "answered": 95,
-      "abandoned": 6,
-      "avgWaitSec": 51,
-      "avgHandleSec": 227
+      "offered": 97,
+      "answered": 93,
+      "abandoned": 4,
+      "avgWaitSec": 58,
+      "avgHandleSec": 201
     },
     {
       "hour": 15,
-      "offered": 116,
-      "answered": 108,
-      "abandoned": 8,
-      "avgWaitSec": 71,
-      "avgHandleSec": 254
+      "offered": 101,
+      "answered": 88,
+      "abandoned": 13,
+      "avgWaitSec": 72,
+      "avgHandleSec": 253
     },
     {
       "hour": 16,
-      "offered": 84,
-      "answered": 79,
-      "abandoned": 5,
-      "avgWaitSec": 48,
-      "avgHandleSec": 227
+      "offered": 78,
+      "answered": 74,
+      "abandoned": 4,
+      "avgWaitSec": 44,
+      "avgHandleSec": 202
     },
     {
       "hour": 17,
-      "offered": 64,
-      "answered": 58,
-      "abandoned": 6,
-      "avgWaitSec": 31,
-      "avgHandleSec": 203
+      "offered": 60,
+      "answered": 56,
+      "abandoned": 4,
+      "avgWaitSec": 32,
+      "avgHandleSec": 176
     },
     {
       "hour": 18,
-      "offered": 32,
-      "answered": 29,
-      "abandoned": 3,
-      "avgWaitSec": 29,
-      "avgHandleSec": 208
+      "offered": 34,
+      "answered": 30,
+      "abandoned": 4,
+      "avgWaitSec": 31,
+      "avgHandleSec": 242
     },
     {
       "hour": 19,
-      "offered": 24,
-      "answered": 22,
+      "offered": 22,
+      "answered": 20,
       "abandoned": 2,
-      "avgWaitSec": 21,
-      "avgHandleSec": 181
+      "avgWaitSec": 26,
+      "avgHandleSec": 222
     }
   ],
   "topReasons": [

@@ -9,7 +9,7 @@ An interactive, animated demo of Cupola venue analytics dashboards. It's plain H
 | View | What it shows |
 |---|---|
 | **Morning snapshot** | Today's sales and revenue, a seat map you can page through (tonight, then upcoming shows in three different halls) filling in seat by seat, and how the next shows are selling |
-| **Daily sales** | A short recap of the last few days (marked as settling), then today forward: the next 30 rows by default, or 14 days, 30 days, or the whole season. Any show selling behind similar shows is pinned in **Needs attention** however far out it is, along with shows crossing the 12-week mark while behind. |
+| **Daily sales** | A short recap of the last few days (marked as settling), then today forward: the next 30 rows by default, or 14 days, 30 days, or the whole season. Any show that trips a flag rule is pinned in **Needs attention** however far out it is, with the reason shown (pace vs. similar shows, last-14-day sales vs. expected), and flagged shows crossing the 12-week mark are tagged. The rules and thresholds live in `flagRules` in `js/config.js`. |
 | **Return engagement** | A returning title's sales pace laid over its two previous visits, lined up by days before opening |
 | **Audience (RFM)** | Households scored on recency and frequency, with segments and suggested next actions. No names. |
 | **County & ZIP** | Tickets and revenue by county (derived from ZIP), drilling into the ZIPs behind each county |

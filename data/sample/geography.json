@@ -4,174 +4,174 @@
   "counties": [
     {
       "county": "Harbor County",
-      "tickets": 21542,
-      "revenue": 1512803,
+      "tickets": 23660,
+      "revenue": 1539614,
       "zips": [
         {
-          "zip": "00115",
-          "tickets": 4909,
-          "revenue": 340906,
-          "households": 1779
+          "zip": "00190",
+          "tickets": 4906,
+          "revenue": 305521,
+          "households": 1768
         },
         {
-          "zip": "00157",
-          "tickets": 3497,
-          "revenue": 219879,
-          "households": 1575
+          "zip": "00114",
+          "tickets": 4049,
+          "revenue": 267043,
+          "households": 1763
         },
         {
-          "zip": "00186",
-          "tickets": 3393,
-          "revenue": 242922,
-          "households": 1347
+          "zip": "00163",
+          "tickets": 3988,
+          "revenue": 246242,
+          "households": 1558
         },
         {
-          "zip": "00164",
-          "tickets": 3386,
-          "revenue": 243746,
-          "households": 1400
+          "zip": "00178",
+          "tickets": 3760,
+          "revenue": 259588,
+          "households": 1612
         },
         {
-          "zip": "00167",
-          "tickets": 2715,
-          "revenue": 179278,
-          "households": 1072
+          "zip": "00193",
+          "tickets": 3077,
+          "revenue": 178520,
+          "households": 1397
         },
         {
-          "zip": "00165",
-          "tickets": 2293,
-          "revenue": 181453,
-          "households": 1012
+          "zip": "00135",
+          "tickets": 2358,
+          "revenue": 160507,
+          "households": 893
         },
         {
-          "zip": "00179",
-          "tickets": 1349,
-          "revenue": 104619,
-          "households": 533
+          "zip": "00129",
+          "tickets": 1522,
+          "revenue": 122193,
+          "households": 546
         }
       ]
     },
     {
       "county": "Cedar County",
-      "tickets": 8684,
-      "revenue": 579545,
+      "tickets": 11139,
+      "revenue": 755104,
       "zips": [
         {
-          "zip": "00255",
-          "tickets": 3024,
-          "revenue": 220708,
-          "households": 1134
+          "zip": "00225",
+          "tickets": 3220,
+          "revenue": 196946,
+          "households": 1248
         },
         {
-          "zip": "00227",
-          "tickets": 2069,
-          "revenue": 120157,
-          "households": 806
+          "zip": "00243",
+          "tickets": 3192,
+          "revenue": 261371,
+          "households": 1372
         },
         {
-          "zip": "00246",
-          "tickets": 1478,
-          "revenue": 97650,
-          "households": 572
+          "zip": "00277",
+          "tickets": 2142,
+          "revenue": 139511,
+          "households": 987
         },
         {
-          "zip": "00255",
-          "tickets": 1126,
-          "revenue": 67564,
-          "households": 501
+          "zip": "00290",
+          "tickets": 1531,
+          "revenue": 92736,
+          "households": 708
         },
         {
-          "zip": "00247",
-          "tickets": 987,
-          "revenue": 73466,
-          "households": 413
+          "zip": "00239",
+          "tickets": 1054,
+          "revenue": 64540,
+          "households": 440
         }
       ]
     },
     {
       "county": "Marlow County",
-      "tickets": 6507,
-      "revenue": 449874,
+      "tickets": 6533,
+      "revenue": 473130,
       "zips": [
         {
-          "zip": "00337",
-          "tickets": 2167,
-          "revenue": 159016,
-          "households": 936
+          "zip": "00393",
+          "tickets": 1971,
+          "revenue": 130729,
+          "households": 854
         },
         {
-          "zip": "00339",
-          "tickets": 2128,
-          "revenue": 150775,
-          "households": 831
+          "zip": "00361",
+          "tickets": 1854,
+          "revenue": 140597,
+          "households": 776
         },
         {
-          "zip": "00320",
-          "tickets": 1561,
-          "revenue": 100696,
-          "households": 669
+          "zip": "00366",
+          "tickets": 1626,
+          "revenue": 118113,
+          "households": 766
         },
         {
-          "zip": "00314",
-          "tickets": 651,
-          "revenue": 39387,
-          "households": 247
+          "zip": "00366",
+          "tickets": 1082,
+          "revenue": 83691,
+          "households": 408
         }
       ]
     },
     {
       "county": "Kestrel County",
-      "tickets": 3693,
-      "revenue": 266561,
+      "tickets": 3393,
+      "revenue": 218139,
       "zips": [
         {
-          "zip": "00440",
-          "tickets": 1577,
-          "revenue": 107572,
-          "households": 627
+          "zip": "00447",
+          "tickets": 1252,
+          "revenue": 88188,
+          "households": 491
         },
         {
-          "zip": "00469",
-          "tickets": 776,
-          "revenue": 62034,
-          "households": 285
+          "zip": "00443",
+          "tickets": 878,
+          "revenue": 54360,
+          "households": 315
         },
         {
-          "zip": "00435",
-          "tickets": 687,
-          "revenue": 45827,
-          "households": 299
+          "zip": "00433",
+          "tickets": 742,
+          "revenue": 44322,
+          "households": 280
         },
         {
-          "zip": "00496",
-          "tickets": 653,
-          "revenue": 51128,
-          "households": 307
+          "zip": "00421",
+          "tickets": 521,
+          "revenue": 31269,
+          "households": 222
         }
       ]
     },
     {
       "county": "Ashford County",
-      "tickets": 2024,
-      "revenue": 140310,
+      "tickets": 1592,
+      "revenue": 112911,
       "zips": [
         {
-          "zip": "00597",
-          "tickets": 910,
-          "revenue": 71416,
-          "households": 331
+          "zip": "00549",
+          "tickets": 571,
+          "revenue": 35193,
+          "households": 208
         },
         {
-          "zip": "00579",
-          "tickets": 841,
-          "revenue": 50771,
-          "households": 374
+          "zip": "00582",
+          "tickets": 534,
+          "revenue": 40471,
+          "households": 219
         },
         {
-          "zip": "00523",
-          "tickets": 273,
-          "revenue": 18123,
-          "households": 123
+          "zip": "00532",
+          "tickets": 487,
+          "revenue": 37247,
+          "households": 213
         }
       ]
     },

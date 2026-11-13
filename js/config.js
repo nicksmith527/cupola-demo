@@ -13,4 +13,16 @@ export const config = {
   // a day by default). The demo speeds that up so you can watch it happen.
   demoRefreshSeconds: 45,
   realWorldCadenceLabel: "4x daily",
+
+  // What counts as "in trouble" on the Daily sales report. Each venue sets its
+  // own rules; turn one off with enabled: false or adjust its thresholds.
+  flagRules: {
+    // Sold to date vs. what similar shows (same genre) had sold by this many days out.
+    pace: { enabled: true, behindBelow: 0.9, atRiskBelow: 0.8 },
+    // Sales over the last 14 days vs. what similar shows usually sell in that window.
+    recentSales: { enabled: true, days: 14, behindBelow: 0.75, atRiskBelow: 0.6, minExpected: 25 },
+    // Shows entering the 12-week window while already flagged.
+    crossing: { enabled: true, fromDays: 84, toDays: 98 },
+    // Planned: media plan check (behind, with no marketing scheduled or no lift after it ran).
+  },
 };
