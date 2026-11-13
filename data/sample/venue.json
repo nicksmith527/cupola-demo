@@ -1,0 +1,69 @@
+{
+  "name": "Riverside Performing Arts Center",
+  "shortName": "Riverside PAC",
+  "halls": [
+    {
+      "id": "main",
+      "name": "Main Hall",
+      "sections": [
+        {
+          "name": "Orchestra",
+          "rows": 26,
+          "seatsPerRow": 40,
+          "curve": 0.022
+        },
+        {
+          "name": "Mezzanine",
+          "rows": 10,
+          "seatsPerRow": 44,
+          "curve": 0.022
+        },
+        {
+          "name": "Balcony",
+          "rows": 13,
+          "seatsPerRow": 40,
+          "curve": 0.022
+        }
+      ],
+      "capacity": 2000
+    },
+    {
+      "id": "recital",
+      "name": "Recital Hall",
+      "sections": [
+        {
+          "name": "Orchestra",
+          "rows": 14,
+          "seatsPerRow": 26,
+          "curve": 0.06
+        },
+        {
+          "name": "Rear Orchestra",
+          "rows": 6,
+          "seatsPerRow": 32,
+          "curve": 0.04
+        },
+        {
+          "name": "Loge",
+          "rows": 4,
+          "seatsPerRow": 36,
+          "curve": 0.03
+        }
+      ],
+      "capacity": 700
+    },
+    {
+      "id": "studio",
+      "name": "Studio Theater",
+      "sections": [
+        {
+          "name": "Floor",
+          "rows": 15,
+          "seatsPerRow": 20,
+          "curve": 0
+        }
+      ],
+      "capacity": 300
+    }
+  ]
+}

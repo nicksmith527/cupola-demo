@@ -1,0 +1,1345 @@
+{
+  "title": "The Lantern Keepers",
+  "genre": "Broadway",
+  "hallId": "main",
+  "performances": 8,
+  "runCapacity": 16000,
+  "onSaleDays": 120,
+  "current": {
+    "label": "This visit",
+    "daysOut": 34,
+    "curve": [
+      {
+        "daysOut": 120,
+        "sold": 0
+      },
+      {
+        "daysOut": 119,
+        "sold": 292
+      },
+      {
+        "daysOut": 118,
+        "sold": 448
+      },
+      {
+        "daysOut": 117,
+        "sold": 555
+      },
+      {
+        "daysOut": 116,
+        "sold": 660
+      },
+      {
+        "daysOut": 115,
+        "sold": 719
+      },
+      {
+        "daysOut": 114,
+        "sold": 787
+      },
+      {
+        "daysOut": 113,
+        "sold": 850
+      },
+      {
+        "daysOut": 112,
+        "sold": 937
+      },
+      {
+        "daysOut": 111,
+        "sold": 1018
+      },
+      {
+        "daysOut": 110,
+        "sold": 1054
+      },
+      {
+        "daysOut": 109,
+        "sold": 1116
+      },
+      {
+        "daysOut": 108,
+        "sold": 1153
+      },
+      {
+        "daysOut": 107,
+        "sold": 1249
+      },
+      {
+        "daysOut": 106,
+        "sold": 1284
+      },
+      {
+        "daysOut": 105,
+        "sold": 1314
+      },
+      {
+        "daysOut": 104,
+        "sold": 1403
+      },
+      {
+        "daysOut": 103,
+        "sold": 1439
+      },
+      {
+        "daysOut": 102,
+        "sold": 1479
+      },
+      {
+        "daysOut": 101,
+        "sold": 1494
+      },
+      {
+        "daysOut": 100,
+        "sold": 1561
+      },
+      {
+        "daysOut": 99,
+        "sold": 1651
+      },
+      {
+        "daysOut": 98,
+        "sold": 1651
+      },
+      {
+        "daysOut": 97,
+        "sold": 1718
+      },
+      {
+        "daysOut": 96,
+        "sold": 1815
+      },
+      {
+        "daysOut": 95,
+        "sold": 1815
+      },
+      {
+        "daysOut": 94,
+        "sold": 1908
+      },
+      {
+        "daysOut": 93,
+        "sold": 1961
+      },
+      {
+        "daysOut": 92,
+        "sold": 1961
+      },
+      {
+        "daysOut": 91,
+        "sold": 1961
+      },
+      {
+        "daysOut": 90,
+        "sold": 2095
+      },
+      {
+        "daysOut": 89,
+        "sold": 2131
+      },
+      {
+        "daysOut": 88,
+        "sold": 2162
+      },
+      {
+        "daysOut": 87,
+        "sold": 2195
+      },
+      {
+        "daysOut": 86,
+        "sold": 2200
+      },
+      {
+        "daysOut": 85,
+        "sold": 2273
+      },
+      {
+        "daysOut": 84,
+        "sold": 2307
+      },
+      {
+        "daysOut": 83,
+        "sold": 2431
+      },
+      {
+        "daysOut": 82,
+        "sold": 2431
+      },
+      {
+        "daysOut": 81,
+        "sold": 2431
+      },
+      {
+        "daysOut": 80,
+        "sold": 2585
+      },
+      {
+        "daysOut": 79,
+        "sold": 2645
+      },
+      {
+        "daysOut": 78,
+        "sold": 2645
+      },
+      {
+        "daysOut": 77,
+        "sold": 2645
+      },
+      {
+        "daysOut": 76,
+        "sold": 2728
+      },
+      {
+        "daysOut": 75,
+        "sold": 2814
+      },
+      {
+        "daysOut": 74,
+        "sold": 2865
+      },
+      {
+        "daysOut": 73,
+        "sold": 2872
+      },
+      {
+        "daysOut": 72,
+        "sold": 2929
+      },
+      {
+        "daysOut": 71,
+        "sold": 3011
+      },
+      {
+        "daysOut": 70,
+        "sold": 3032
+      },
+      {
+        "daysOut": 69,
+        "sold": 3154
+      },
+      {
+        "daysOut": 68,
+        "sold": 3154
+      },
+      {
+        "daysOut": 67,
+        "sold": 3279
+      },
+      {
+        "daysOut": 66,
+        "sold": 3326
+      },
+      {
+        "daysOut": 65,
+        "sold": 3475
+      },
+      {
+        "daysOut": 64,
+        "sold": 3616
+      },
+      {
+        "daysOut": 63,
+        "sold": 3679
+      },
+      {
+        "daysOut": 62,
+        "sold": 3735
+      },
+      {
+        "daysOut": 61,
+        "sold": 3735
+      },
+      {
+        "daysOut": 60,
+        "sold": 3822
+      },
+      {
+        "daysOut": 59,
+        "sold": 3888
+      },
+      {
+        "daysOut": 58,
+        "sold": 3896
+      },
+      {
+        "daysOut": 57,
+        "sold": 4108
+      },
+      {
+        "daysOut": 56,
+        "sold": 4108
+      },
+      {
+        "daysOut": 55,
+        "sold": 4245
+      },
+      {
+        "daysOut": 54,
+        "sold": 4245
+      },
+      {
+        "daysOut": 53,
+        "sold": 4490
+      },
+      {
+        "daysOut": 52,
+        "sold": 4490
+      },
+      {
+        "daysOut": 51,
+        "sold": 4672
+      },
+      {
+        "daysOut": 50,
+        "sold": 4672
+      },
+      {
+        "daysOut": 49,
+        "sold": 4847
+      },
+      {
+        "daysOut": 48,
+        "sold": 4893
+      },
+      {
+        "daysOut": 47,
+        "sold": 5087
+      },
+      {
+        "daysOut": 46,
+        "sold": 5087
+      },
+      {
+        "daysOut": 45,
+        "sold": 5273
+      },
+      {
+        "daysOut": 44,
+        "sold": 5439
+      },
+      {
+        "daysOut": 43,
+        "sold": 5439
+      },
+      {
+        "daysOut": 42,
+        "sold": 5439
+      },
+      {
+        "daysOut": 41,
+        "sold": 5804
+      },
+      {
+        "daysOut": 40,
+        "sold": 5804
+      },
+      {
+        "daysOut": 39,
+        "sold": 5972
+      },
+      {
+        "daysOut": 38,
+        "sold": 6030
+      },
+      {
+        "daysOut": 37,
+        "sold": 6078
+      },
+      {
+        "daysOut": 36,
+        "sold": 6407
+      },
+      {
+        "daysOut": 35,
+        "sold": 6416
+      },
+      {
+        "daysOut": 34,
+        "sold": 6647
+      }
+    ],
+    "projectedFinal": 13440
+  },
+  "priorVisits": [
+    {
+      "label": "Visit 3 yrs ago",
+      "yearsAgo": 3,
+      "curve": [
+        {
+          "daysOut": 120,
+          "sold": 0
+        },
+        {
+          "daysOut": 119,
+          "sold": 336
+        },
+        {
+          "daysOut": 118,
+          "sold": 497
+        },
+        {
+          "daysOut": 117,
+          "sold": 612
+        },
+        {
+          "daysOut": 116,
+          "sold": 722
+        },
+        {
+          "daysOut": 115,
+          "sold": 840
+        },
+        {
+          "daysOut": 114,
+          "sold": 905
+        },
+        {
+          "daysOut": 113,
+          "sold": 971
+        },
+        {
+          "daysOut": 112,
+          "sold": 1101
+        },
+        {
+          "daysOut": 111,
+          "sold": 1142
+        },
+        {
+          "daysOut": 110,
+          "sold": 1193
+        },
+        {
+          "daysOut": 109,
+          "sold": 1269
+        },
+        {
+          "daysOut": 108,
+          "sold": 1387
+        },
+        {
+          "daysOut": 107,
+          "sold": 1387
+        },
+        {
+          "daysOut": 106,
+          "sold": 1460
+        },
+        {
+          "daysOut": 105,
+          "sold": 1522
+        },
+        {
+          "daysOut": 104,
+          "sold": 1598
+        },
+        {
+          "daysOut": 103,
+          "sold": 1685
+        },
+        {
+          "daysOut": 102,
+          "sold": 1710
+        },
+        {
+          "daysOut": 101,
+          "sold": 1722
+        },
+        {
+          "daysOut": 100,
+          "sold": 1773
+        },
+        {
+          "daysOut": 99,
+          "sold": 1892
+        },
+        {
+          "daysOut": 98,
+          "sold": 1960
+        },
+        {
+          "daysOut": 97,
+          "sold": 1960
+        },
+        {
+          "daysOut": 96,
+          "sold": 2064
+        },
+        {
+          "daysOut": 95,
+          "sold": 2067
+        },
+        {
+          "daysOut": 94,
+          "sold": 2118
+        },
+        {
+          "daysOut": 93,
+          "sold": 2204
+        },
+        {
+          "daysOut": 92,
+          "sold": 2227
+        },
+        {
+          "daysOut": 91,
+          "sold": 2227
+        },
+        {
+          "daysOut": 90,
+          "sold": 2283
+        },
+        {
+          "daysOut": 89,
+          "sold": 2387
+        },
+        {
+          "daysOut": 88,
+          "sold": 2412
+        },
+        {
+          "daysOut": 87,
+          "sold": 2569
+        },
+        {
+          "daysOut": 86,
+          "sold": 2569
+        },
+        {
+          "daysOut": 85,
+          "sold": 2662
+        },
+        {
+          "daysOut": 84,
+          "sold": 2726
+        },
+        {
+          "daysOut": 83,
+          "sold": 2760
+        },
+        {
+          "daysOut": 82,
+          "sold": 2832
+        },
+        {
+          "daysOut": 81,
+          "sold": 2832
+        },
+        {
+          "daysOut": 80,
+          "sold": 2980
+        },
+        {
+          "daysOut": 79,
+          "sold": 2980
+        },
+        {
+          "daysOut": 78,
+          "sold": 3041
+        },
+        {
+          "daysOut": 77,
+          "sold": 3041
+        },
+        {
+          "daysOut": 76,
+          "sold": 3107
+        },
+        {
+          "daysOut": 75,
+          "sold": 3144
+        },
+        {
+          "daysOut": 74,
+          "sold": 3328
+        },
+        {
+          "daysOut": 73,
+          "sold": 3386
+        },
+        {
+          "daysOut": 72,
+          "sold": 3386
+        },
+        {
+          "daysOut": 71,
+          "sold": 3501
+        },
+        {
+          "daysOut": 70,
+          "sold": 3593
+        },
+        {
+          "daysOut": 69,
+          "sold": 3593
+        },
+        {
+          "daysOut": 68,
+          "sold": 3622
+        },
+        {
+          "daysOut": 67,
+          "sold": 3821
+        },
+        {
+          "daysOut": 66,
+          "sold": 3954
+        },
+        {
+          "daysOut": 65,
+          "sold": 3954
+        },
+        {
+          "daysOut": 64,
+          "sold": 4012
+        },
+        {
+          "daysOut": 63,
+          "sold": 4113
+        },
+        {
+          "daysOut": 62,
+          "sold": 4113
+        },
+        {
+          "daysOut": 61,
+          "sold": 4282
+        },
+        {
+          "daysOut": 60,
+          "sold": 4306
+        },
+        {
+          "daysOut": 59,
+          "sold": 4341
+        },
+        {
+          "daysOut": 58,
+          "sold": 4542
+        },
+        {
+          "daysOut": 57,
+          "sold": 4542
+        },
+        {
+          "daysOut": 56,
+          "sold": 4661
+        },
+        {
+          "daysOut": 55,
+          "sold": 4779
+        },
+        {
+          "daysOut": 54,
+          "sold": 5061
+        },
+        {
+          "daysOut": 53,
+          "sold": 5061
+        },
+        {
+          "daysOut": 52,
+          "sold": 5124
+        },
+        {
+          "daysOut": 51,
+          "sold": 5124
+        },
+        {
+          "daysOut": 50,
+          "sold": 5493
+        },
+        {
+          "daysOut": 49,
+          "sold": 5493
+        },
+        {
+          "daysOut": 48,
+          "sold": 5556
+        },
+        {
+          "daysOut": 47,
+          "sold": 5587
+        },
+        {
+          "daysOut": 46,
+          "sold": 5870
+        },
+        {
+          "daysOut": 45,
+          "sold": 5883
+        },
+        {
+          "daysOut": 44,
+          "sold": 6218
+        },
+        {
+          "daysOut": 43,
+          "sold": 6218
+        },
+        {
+          "daysOut": 42,
+          "sold": 6481
+        },
+        {
+          "daysOut": 41,
+          "sold": 6481
+        },
+        {
+          "daysOut": 40,
+          "sold": 6666
+        },
+        {
+          "daysOut": 39,
+          "sold": 6666
+        },
+        {
+          "daysOut": 38,
+          "sold": 7029
+        },
+        {
+          "daysOut": 37,
+          "sold": 7156
+        },
+        {
+          "daysOut": 36,
+          "sold": 7282
+        },
+        {
+          "daysOut": 35,
+          "sold": 7282
+        },
+        {
+          "daysOut": 34,
+          "sold": 7495
+        },
+        {
+          "daysOut": 33,
+          "sold": 7666
+        },
+        {
+          "daysOut": 32,
+          "sold": 7916
+        },
+        {
+          "daysOut": 31,
+          "sold": 7922
+        },
+        {
+          "daysOut": 30,
+          "sold": 8011
+        },
+        {
+          "daysOut": 29,
+          "sold": 8138
+        },
+        {
+          "daysOut": 28,
+          "sold": 8342
+        },
+        {
+          "daysOut": 27,
+          "sold": 8654
+        },
+        {
+          "daysOut": 26,
+          "sold": 8900
+        },
+        {
+          "daysOut": 25,
+          "sold": 9036
+        },
+        {
+          "daysOut": 24,
+          "sold": 9226
+        },
+        {
+          "daysOut": 23,
+          "sold": 9240
+        },
+        {
+          "daysOut": 22,
+          "sold": 9299
+        },
+        {
+          "daysOut": 21,
+          "sold": 9466
+        },
+        {
+          "daysOut": 20,
+          "sold": 10141
+        },
+        {
+          "daysOut": 19,
+          "sold": 10342
+        },
+        {
+          "daysOut": 18,
+          "sold": 10342
+        },
+        {
+          "daysOut": 17,
+          "sold": 10809
+        },
+        {
+          "daysOut": 16,
+          "sold": 10849
+        },
+        {
+          "daysOut": 15,
+          "sold": 10849
+        },
+        {
+          "daysOut": 14,
+          "sold": 11036
+        },
+        {
+          "daysOut": 13,
+          "sold": 11143
+        },
+        {
+          "daysOut": 12,
+          "sold": 11856
+        },
+        {
+          "daysOut": 11,
+          "sold": 11856
+        },
+        {
+          "daysOut": 10,
+          "sold": 12413
+        },
+        {
+          "daysOut": 9,
+          "sold": 12413
+        },
+        {
+          "daysOut": 8,
+          "sold": 12833
+        },
+        {
+          "daysOut": 7,
+          "sold": 13321
+        },
+        {
+          "daysOut": 6,
+          "sold": 13321
+        },
+        {
+          "daysOut": 5,
+          "sold": 13321
+        },
+        {
+          "daysOut": 4,
+          "sold": 13566
+        },
+        {
+          "daysOut": 3,
+          "sold": 13861
+        },
+        {
+          "daysOut": 2,
+          "sold": 14107
+        },
+        {
+          "daysOut": 1,
+          "sold": 14682
+        },
+        {
+          "daysOut": 0,
+          "sold": 14682
+        }
+      ]
+    },
+    {
+      "label": "Visit 7 yrs ago",
+      "yearsAgo": 7,
+      "curve": [
+        {
+          "daysOut": 120,
+          "sold": 0
+        },
+        {
+          "daysOut": 119,
+          "sold": 268
+        },
+        {
+          "daysOut": 118,
+          "sold": 390
+        },
+        {
+          "daysOut": 117,
+          "sold": 484
+        },
+        {
+          "daysOut": 116,
+          "sold": 573
+        },
+        {
+          "daysOut": 115,
+          "sold": 642
+        },
+        {
+          "daysOut": 114,
+          "sold": 720
+        },
+        {
+          "daysOut": 113,
+          "sold": 775
+        },
+        {
+          "daysOut": 112,
+          "sold": 798
+        },
+        {
+          "daysOut": 111,
+          "sold": 857
+        },
+        {
+          "daysOut": 110,
+          "sold": 936
+        },
+        {
+          "daysOut": 109,
+          "sold": 967
+        },
+        {
+          "daysOut": 108,
+          "sold": 1055
+        },
+        {
+          "daysOut": 107,
+          "sold": 1055
+        },
+        {
+          "daysOut": 106,
+          "sold": 1150
+        },
+        {
+          "daysOut": 105,
+          "sold": 1180
+        },
+        {
+          "daysOut": 104,
+          "sold": 1229
+        },
+        {
+          "daysOut": 103,
+          "sold": 1252
+        },
+        {
+          "daysOut": 102,
+          "sold": 1286
+        },
+        {
+          "daysOut": 101,
+          "sold": 1326
+        },
+        {
+          "daysOut": 100,
+          "sold": 1352
+        },
+        {
+          "daysOut": 99,
+          "sold": 1450
+        },
+        {
+          "daysOut": 98,
+          "sold": 1458
+        },
+        {
+          "daysOut": 97,
+          "sold": 1536
+        },
+        {
+          "daysOut": 96,
+          "sold": 1549
+        },
+        {
+          "daysOut": 95,
+          "sold": 1589
+        },
+        {
+          "daysOut": 94,
+          "sold": 1666
+        },
+        {
+          "daysOut": 93,
+          "sold": 1708
+        },
+        {
+          "daysOut": 92,
+          "sold": 1708
+        },
+        {
+          "daysOut": 91,
+          "sold": 1751
+        },
+        {
+          "daysOut": 90,
+          "sold": 1781
+        },
+        {
+          "daysOut": 89,
+          "sold": 1875
+        },
+        {
+          "daysOut": 88,
+          "sold": 1875
+        },
+        {
+          "daysOut": 87,
+          "sold": 1928
+        },
+        {
+          "daysOut": 86,
+          "sold": 1928
+        },
+        {
+          "daysOut": 85,
+          "sold": 2046
+        },
+        {
+          "daysOut": 84,
+          "sold": 2075
+        },
+        {
+          "daysOut": 83,
+          "sold": 2075
+        },
+        {
+          "daysOut": 82,
+          "sold": 2189
+        },
+        {
+          "daysOut": 81,
+          "sold": 2189
+        },
+        {
+          "daysOut": 80,
+          "sold": 2189
+        },
+        {
+          "daysOut": 79,
+          "sold": 2248
+        },
+        {
+          "daysOut": 78,
+          "sold": 2331
+        },
+        {
+          "daysOut": 77,
+          "sold": 2368
+        },
+        {
+          "daysOut": 76,
+          "sold": 2370
+        },
+        {
+          "daysOut": 75,
+          "sold": 2453
+        },
+        {
+          "daysOut": 74,
+          "sold": 2453
+        },
+        {
+          "daysOut": 73,
+          "sold": 2537
+        },
+        {
+          "daysOut": 72,
+          "sold": 2615
+        },
+        {
+          "daysOut": 71,
+          "sold": 2623
+        },
+        {
+          "daysOut": 70,
+          "sold": 2739
+        },
+        {
+          "daysOut": 69,
+          "sold": 2794
+        },
+        {
+          "daysOut": 68,
+          "sold": 2802
+        },
+        {
+          "daysOut": 67,
+          "sold": 2933
+        },
+        {
+          "daysOut": 66,
+          "sold": 2945
+        },
+        {
+          "daysOut": 65,
+          "sold": 3060
+        },
+        {
+          "daysOut": 64,
+          "sold": 3086
+        },
+        {
+          "daysOut": 63,
+          "sold": 3086
+        },
+        {
+          "daysOut": 62,
+          "sold": 3140
+        },
+        {
+          "daysOut": 61,
+          "sold": 3329
+        },
+        {
+          "daysOut": 60,
+          "sold": 3329
+        },
+        {
+          "daysOut": 59,
+          "sold": 3332
+        },
+        {
+          "daysOut": 58,
+          "sold": 3457
+        },
+        {
+          "daysOut": 57,
+          "sold": 3639
+        },
+        {
+          "daysOut": 56,
+          "sold": 3659
+        },
+        {
+          "daysOut": 55,
+          "sold": 3659
+        },
+        {
+          "daysOut": 54,
+          "sold": 3767
+        },
+        {
+          "daysOut": 53,
+          "sold": 3794
+        },
+        {
+          "daysOut": 52,
+          "sold": 4017
+        },
+        {
+          "daysOut": 51,
+          "sold": 4017
+        },
+        {
+          "daysOut": 50,
+          "sold": 4110
+        },
+        {
+          "daysOut": 49,
+          "sold": 4110
+        },
+        {
+          "daysOut": 48,
+          "sold": 4159
+        },
+        {
+          "daysOut": 47,
+          "sold": 4237
+        },
+        {
+          "daysOut": 46,
+          "sold": 4348
+        },
+        {
+          "daysOut": 45,
+          "sold": 4428
+        },
+        {
+          "daysOut": 44,
+          "sold": 4587
+        },
+        {
+          "daysOut": 43,
+          "sold": 4649
+        },
+        {
+          "daysOut": 42,
+          "sold": 4691
+        },
+        {
+          "daysOut": 41,
+          "sold": 5047
+        },
+        {
+          "daysOut": 40,
+          "sold": 5124
+        },
+        {
+          "daysOut": 39,
+          "sold": 5124
+        },
+        {
+          "daysOut": 38,
+          "sold": 5292
+        },
+        {
+          "daysOut": 37,
+          "sold": 5292
+        },
+        {
+          "daysOut": 36,
+          "sold": 5365
+        },
+        {
+          "daysOut": 35,
+          "sold": 5483
+        },
+        {
+          "daysOut": 34,
+          "sold": 5539
+        },
+        {
+          "daysOut": 33,
+          "sold": 5886
+        },
+        {
+          "daysOut": 32,
+          "sold": 5921
+        },
+        {
+          "daysOut": 31,
+          "sold": 5921
+        },
+        {
+          "daysOut": 30,
+          "sold": 6099
+        },
+        {
+          "daysOut": 29,
+          "sold": 6354
+        },
+        {
+          "daysOut": 28,
+          "sold": 6409
+        },
+        {
+          "daysOut": 27,
+          "sold": 6412
+        },
+        {
+          "daysOut": 26,
+          "sold": 6704
+        },
+        {
+          "daysOut": 25,
+          "sold": 6919
+        },
+        {
+          "daysOut": 24,
+          "sold": 7173
+        },
+        {
+          "daysOut": 23,
+          "sold": 7173
+        },
+        {
+          "daysOut": 22,
+          "sold": 7173
+        },
+        {
+          "daysOut": 21,
+          "sold": 7557
+        },
+        {
+          "daysOut": 20,
+          "sold": 7608
+        },
+        {
+          "daysOut": 19,
+          "sold": 7868
+        },
+        {
+          "daysOut": 18,
+          "sold": 8017
+        },
+        {
+          "daysOut": 17,
+          "sold": 8127
+        },
+        {
+          "daysOut": 16,
+          "sold": 8370
+        },
+        {
+          "daysOut": 15,
+          "sold": 8370
+        },
+        {
+          "daysOut": 14,
+          "sold": 8596
+        },
+        {
+          "daysOut": 13,
+          "sold": 8596
+        },
+        {
+          "daysOut": 12,
+          "sold": 8811
+        },
+        {
+          "daysOut": 11,
+          "sold": 9252
+        },
+        {
+          "daysOut": 10,
+          "sold": 9252
+        },
+        {
+          "daysOut": 9,
+          "sold": 9451
+        },
+        {
+          "daysOut": 8,
+          "sold": 9504
+        },
+        {
+          "daysOut": 7,
+          "sold": 9892
+        },
+        {
+          "daysOut": 6,
+          "sold": 10116
+        },
+        {
+          "daysOut": 5,
+          "sold": 10498
+        },
+        {
+          "daysOut": 4,
+          "sold": 10737
+        },
+        {
+          "daysOut": 3,
+          "sold": 10926
+        },
+        {
+          "daysOut": 2,
+          "sold": 11125
+        },
+        {
+          "daysOut": 1,
+          "sold": 11125
+        },
+        {
+          "daysOut": 0,
+          "sold": 11125
+        }
+      ]
+    }
+  ]
+}

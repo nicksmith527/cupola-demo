@@ -1,0 +1,120 @@
+{
+  "serviceLevelTargetSec": 60,
+  "agentsScheduled": 9,
+  "hours": [
+    {
+      "hour": 9,
+      "offered": 70,
+      "answered": 66,
+      "abandoned": 4,
+      "avgWaitSec": 41,
+      "avgHandleSec": 232
+    },
+    {
+      "hour": 10,
+      "offered": 116,
+      "answered": 109,
+      "abandoned": 7,
+      "avgWaitSec": 50,
+      "avgHandleSec": 218
+    },
+    {
+      "hour": 11,
+      "offered": 107,
+      "answered": 99,
+      "abandoned": 8,
+      "avgWaitSec": 63,
+      "avgHandleSec": 255
+    },
+    {
+      "hour": 12,
+      "offered": 102,
+      "answered": 97,
+      "abandoned": 5,
+      "avgWaitSec": 61,
+      "avgHandleSec": 259
+    },
+    {
+      "hour": 13,
+      "offered": 76,
+      "answered": 71,
+      "abandoned": 5,
+      "avgWaitSec": 53,
+      "avgHandleSec": 243
+    },
+    {
+      "hour": 14,
+      "offered": 84,
+      "answered": 78,
+      "abandoned": 6,
+      "avgWaitSec": 63,
+      "avgHandleSec": 230
+    },
+    {
+      "hour": 15,
+      "offered": 124,
+      "answered": 109,
+      "abandoned": 15,
+      "avgWaitSec": 57,
+      "avgHandleSec": 206
+    },
+    {
+      "hour": 16,
+      "offered": 85,
+      "answered": 76,
+      "abandoned": 9,
+      "avgWaitSec": 53,
+      "avgHandleSec": 189
+    },
+    {
+      "hour": 17,
+      "offered": 54,
+      "answered": 48,
+      "abandoned": 6,
+      "avgWaitSec": 44,
+      "avgHandleSec": 244
+    },
+    {
+      "hour": 18,
+      "offered": 35,
+      "answered": 32,
+      "abandoned": 3,
+      "avgWaitSec": 31,
+      "avgHandleSec": 191
+    },
+    {
+      "hour": 19,
+      "offered": 21,
+      "answered": 19,
+      "abandoned": 2,
+      "avgWaitSec": 24,
+      "avgHandleSec": 239
+    }
+  ],
+  "topReasons": [
+    {
+      "reason": "Buy tickets",
+      "share": 0.41
+    },
+    {
+      "reason": "Exchange / reschedule",
+      "share": 0.19
+    },
+    {
+      "reason": "Parking & directions",
+      "share": 0.13
+    },
+    {
+      "reason": "Accessibility services",
+      "share": 0.09
+    },
+    {
+      "reason": "Membership / donations",
+      "share": 0.08
+    },
+    {
+      "reason": "Other",
+      "share": 0.1
+    }
+  ]
+}

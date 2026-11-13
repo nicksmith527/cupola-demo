@@ -1,0 +1,205 @@
+{
+  "asOfWindowMonths": 36,
+  "grid": [
+    {
+      "r": 1,
+      "f": 1,
+      "households": 2336,
+      "avgSpend": 126
+    },
+    {
+      "r": 1,
+      "f": 2,
+      "households": 1203,
+      "avgSpend": 163
+    },
+    {
+      "r": 1,
+      "f": 3,
+      "households": 986,
+      "avgSpend": 237
+    },
+    {
+      "r": 1,
+      "f": 4,
+      "households": 585,
+      "avgSpend": 273
+    },
+    {
+      "r": 1,
+      "f": 5,
+      "households": 488,
+      "avgSpend": 314
+    },
+    {
+      "r": 2,
+      "f": 1,
+      "households": 1788,
+      "avgSpend": 129
+    },
+    {
+      "r": 2,
+      "f": 2,
+      "households": 1409,
+      "avgSpend": 178
+    },
+    {
+      "r": 2,
+      "f": 3,
+      "households": 828,
+      "avgSpend": 249
+    },
+    {
+      "r": 2,
+      "f": 4,
+      "households": 526,
+      "avgSpend": 294
+    },
+    {
+      "r": 2,
+      "f": 5,
+      "households": 569,
+      "avgSpend": 327
+    },
+    {
+      "r": 3,
+      "f": 1,
+      "households": 2725,
+      "avgSpend": 167
+    },
+    {
+      "r": 3,
+      "f": 2,
+      "households": 1694,
+      "avgSpend": 195
+    },
+    {
+      "r": 3,
+      "f": 3,
+      "households": 1139,
+      "avgSpend": 255
+    },
+    {
+      "r": 3,
+      "f": 4,
+      "households": 808,
+      "avgSpend": 284
+    },
+    {
+      "r": 3,
+      "f": 5,
+      "households": 422,
+      "avgSpend": 348
+    },
+    {
+      "r": 4,
+      "f": 1,
+      "households": 2286,
+      "avgSpend": 175
+    },
+    {
+      "r": 4,
+      "f": 2,
+      "households": 2350,
+      "avgSpend": 222
+    },
+    {
+      "r": 4,
+      "f": 3,
+      "households": 1581,
+      "avgSpend": 277
+    },
+    {
+      "r": 4,
+      "f": 4,
+      "households": 1095,
+      "avgSpend": 320
+    },
+    {
+      "r": 4,
+      "f": 5,
+      "households": 603,
+      "avgSpend": 361
+    },
+    {
+      "r": 5,
+      "f": 1,
+      "households": 3372,
+      "avgSpend": 182
+    },
+    {
+      "r": 5,
+      "f": 2,
+      "households": 2518,
+      "avgSpend": 240
+    },
+    {
+      "r": 5,
+      "f": 3,
+      "households": 1294,
+      "avgSpend": 284
+    },
+    {
+      "r": 5,
+      "f": 4,
+      "households": 940,
+      "avgSpend": 315
+    },
+    {
+      "r": 5,
+      "f": 5,
+      "households": 687,
+      "avgSpend": 363
+    }
+  ],
+  "segments": [
+    {
+      "name": "Champions",
+      "description": "Bought recently and often",
+      "action": "Subscription and donor ask",
+      "households": 3325,
+      "revenue": 1113564,
+      "avgSpend": 335
+    },
+    {
+      "name": "Loyal",
+      "description": "Steady repeat buyers",
+      "action": "Early access and upgrades",
+      "households": 5244,
+      "revenue": 1472206,
+      "avgSpend": 281
+    },
+    {
+      "name": "Promising",
+      "description": "Recent, but only once or twice",
+      "action": "Second-show offer",
+      "households": 10526,
+      "revenue": 2139774,
+      "avgSpend": 203
+    },
+    {
+      "name": "Needs attention",
+      "description": "Used to come often, slowing down",
+      "action": "Win-back with a favorite genre",
+      "households": 3982,
+      "revenue": 1093498,
+      "avgSpend": 275
+    },
+    {
+      "name": "Hibernating",
+      "description": "Long ago and rarely",
+      "action": "Low-cost reminders only",
+      "households": 6736,
+      "revenue": 971879,
+      "avgSpend": 144
+    },
+    {
+      "name": "Middle",
+      "description": "Everyone else",
+      "action": "Standard season marketing",
+      "households": 4419,
+      "revenue": 785405,
+      "avgSpend": 178
+    }
+  ]
+}
